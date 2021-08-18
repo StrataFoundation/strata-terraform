@@ -40,7 +40,7 @@ resource "aws_ecs_task_definition" "task" {
   container_definitions = jsonencode([
     {
       name = var.name
-      image = "554418307194.dkr.ecr.us-east-2.amazonaws.com/wumbo-data-pipelines:1.0.9"
+      image = "554418307194.dkr.ecr.us-east-2.amazonaws.com/wumbo-data-pipelines:1.0.10"
       cpu = var.cpu
       memory = var.memory
       essential = true

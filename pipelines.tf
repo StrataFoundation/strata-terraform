@@ -201,7 +201,7 @@ module "wum_locked_leaderboard" {
   cluster = aws_ecs_cluster.wumbo.id
   log_group = aws_cloudwatch_log_group.wumbo_logs.name
   name = "${var.env}-wum-locked-leaderboard"
-  cpu = 350
+  cpu = 200
   memory = 512
   desired_count = 1  
   environment = [
@@ -224,6 +224,46 @@ module "wum_locked_leaderboard" {
     }, {
       name = "KAFKA_GROUP_ID"
       value = "wum-locked-leaderboard"
+    }, {
+      name = "REDIS_HOST"
+      value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}"
+    }, {
+      name = "REDIS_PORT"
+      value = "6379"
+    }
+  ]
+}
+
+module "top_tokens_leaderboard" {
+  source = "./modules/data_pipeline"
+  region = var.aws_region
+  command = "dist/lib/leaderboard/index.js"
+  cluster = aws_ecs_cluster.wumbo.id
+  log_group = aws_cloudwatch_log_group.wumbo_logs.name
+  name = "${var.env}-top-tokens-leaderboard"
+  cpu = 200
+  memory = 512
+  desired_count = 1  
+  environment = [
+    {
+      name = "PLUGIN"
+      value = "TOP_TOKENS"
+    },
+    {
+      name = "KAFKA_BOOTSTRAP_SERVERS"
+      value = aws_msk_cluster.kafka.bootstrap_brokers_tls
+    }, {
+      name = "KAFKA_SSL_ENABLED"
+      value = "true"
+    }, {
+      name = "KAFKA_INPUT_TOPIC"
+      value = "json.solana.token_bonding_supply"
+    }, {
+      name = "KAFKA_OFFSET_RESET"
+      value = "earliest"
+    }, {
+      name = "KAFKA_GROUP_ID"
+      value = "top-tokens-leaderboard"
     }, {
       name = "REDIS_HOST"
       value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}"
