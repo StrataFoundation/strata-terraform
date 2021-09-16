@@ -68,15 +68,23 @@ variable "s3_block_prefix" {
 }
 
 variable "token_bonding_program_id" {
-  default = "4K8fnycnTESeyad4DqfXPF8TbkuyscPK4EjAwY35emyW"
+  default = "CJMw4wALbZJswJCxLsYUj2ExGCaEgMAp8JSGjodbxAF4"
 }
 
 variable "wumbo_program_id" {
-  default = "AiYPQudWgXerJ1BdKfH5HkEamnPXSHAfPK2ThhKFkkDw"
+  default = "Bn6owcizWtLgeKcVyXVgUgTvbLezCVz9Q7oPdZu5bC1H"
 }
 
 variable "solana_url" {
   default = "https://wumbo.devnet.rpcpool.com/"
+}
+
+variable "nft_verifier_tld" {
+  type = string
+}
+
+variable "nft_verifier_service_account" {
+  type = string
 }
 
 variable "zone_id" {

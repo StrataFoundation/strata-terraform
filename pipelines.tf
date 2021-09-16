@@ -149,11 +149,11 @@ module "event_transformer" {
       name = "KAFKA_GROUP_ID"
       value = "solana-event-transformer"
     }, {
-      name = "TOKEN_BONDING_PROGRAM_ID"
-      value = var.token_bonding_program_id
-    }, {
-      name = "WUMBO_PROGRAM_ID"
-      value = var.wumbo_program_id
+      name = "ANCHOR_IDLS"
+      value = join(",", [
+        var.token_bonding_program_id,
+        var.wumbo_program_id
+      ])
     }
   ]
 }

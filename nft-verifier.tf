@@ -1,8 +1,8 @@
-module "wumbo_api" {
+module "nft_verifier" {
   source = "./modules/service_with_lb"
   internal = false
-  name = "${var.env}-wumbo-api"
-  path = "${var.env}-api.teamwumbo.com"
+  name = "${var.env}-nft-verifier"
+  path = "${var.env}-nft-verifier.teamwumbo.com"
   cluster = aws_ecs_cluster.wumbo.id
   zone_id = var.zone_id
   lb_security_groups = [data.aws_security_group.default.id, aws_security_group.allow_http_https_inbound.id]
@@ -15,14 +15,17 @@ module "wumbo_api" {
   region = var.aws_region
   log_group = aws_cloudwatch_log_group.wumbo_logs.name
   desired_count = 1
-  image = "554418307194.dkr.ecr.us-east-2.amazonaws.com/wumbo-api:1.0.6"
+  image = "554418307194.dkr.ecr.us-east-2.amazonaws.com/nft-verifier:1.0.0"
   environment = [
     {
-      name = "REDIS_HOST"
-      value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}"
+      name = "SOLANA_URL"
+      value = var.solana_url
     }, {
-      name = "REDIS_PORT"
-      value = "6379"
+      name = "NAME_TLD"
+      value = var.nft_verifier_tld
+    }, {
+      name = "SERVICE_ACCOUNT",
+      value = var.nft_verifier_service_account
     }
   ]
 }
