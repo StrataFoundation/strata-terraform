@@ -35,12 +35,16 @@ variable "desired_count" {
   type = number
 }
 
+variable "image" {
+  type = string
+}
+
 resource "aws_ecs_task_definition" "task" {
   family = var.name
   container_definitions = jsonencode([
     {
       name = var.name
-      image = "554418307194.dkr.ecr.us-east-2.amazonaws.com/wumbo-data-pipelines:1.0.10"
+      image = ""
       cpu = var.cpu
       memory = var.memory
       essential = true

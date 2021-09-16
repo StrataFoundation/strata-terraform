@@ -79,6 +79,28 @@ variable "solana_url" {
   default = "https://wumbo.devnet.rpcpool.com/"
 }
 
+variable "data_pipeline_image" {
+  type = string
+}
+
+variable "nft_verifier_image" {
+  type = string
+}
+
+variable "nft_verifier_count" {
+  type = number
+  default = 1
+}
+
+variable "wumbo_api_image" {
+  type = string
+}
+
+variable "wumbo_api_count" {
+  type = number
+  default = 1
+}
+
 variable "nft_verifier_tld" {
   type = string
 }

@@ -14,8 +14,8 @@ module "wumbo_api" {
   memory = 512
   region = var.aws_region
   log_group = aws_cloudwatch_log_group.wumbo_logs.name
-  desired_count = 1
-  image = "554418307194.dkr.ecr.us-east-2.amazonaws.com/wumbo-api:1.0.6"
+  desired_count = var.wumbo_api_count
+  image = 
   environment = [
     {
       name = "REDIS_HOST"

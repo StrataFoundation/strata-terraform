@@ -14,8 +14,8 @@ module "nft_verifier" {
   memory = 512
   region = var.aws_region
   log_group = aws_cloudwatch_log_group.wumbo_logs.name
-  desired_count = 1
-  image = "554418307194.dkr.ecr.us-east-2.amazonaws.com/nft-verifier:1.0.0"
+  desired_count = var.nft_verifier_count
+  image = var.nft_verifier_image
   environment = [
     {
       name = "SOLANA_URL"

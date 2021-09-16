@@ -61,6 +61,7 @@ resource "aws_iam_access_key" "block_ro" {
 
 module "block_uploader" {
   source = "./modules/data_pipeline"
+  image = var.data_pipeline_image
   region = var.aws_region
   command = "dist/lib/kafka-s3-block-uploader.js"
   cluster = aws_ecs_cluster.wumbo.id
@@ -99,6 +100,7 @@ module "block_uploader" {
       name = "ACCOUNTS"
       value = join(",", [
         "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "namesLPneVptA9Z5rqUDD9tMTWEJwofgaYwp8cawRkX",
         var.token_bonding_program_id,
         var.wumbo_program_id
       ])
@@ -108,6 +110,7 @@ module "block_uploader" {
 
 module "event_transformer" {
   source = "./modules/data_pipeline"
+  image = var.data_pipeline_image
   region = var.aws_region
   command = "dist/lib/event-transformer/index.js"
   cluster = aws_ecs_cluster.wumbo.id
@@ -160,6 +163,7 @@ module "event_transformer" {
 
 module "account_leaderboard" {
   source = "./modules/data_pipeline"
+  image = var.data_pipeline_image
   region = var.aws_region
   command = "dist/lib/leaderboard/index.js"
   cluster = aws_ecs_cluster.wumbo.id
@@ -196,6 +200,7 @@ module "account_leaderboard" {
 
 module "wum_locked_leaderboard" {
   source = "./modules/data_pipeline"
+  image = var.data_pipeline_image
   region = var.aws_region
   command = "dist/lib/leaderboard/index.js"
   cluster = aws_ecs_cluster.wumbo.id
@@ -236,6 +241,7 @@ module "wum_locked_leaderboard" {
 
 module "top_tokens_leaderboard" {
   source = "./modules/data_pipeline"
+  image = var.data_pipeline_image
   region = var.aws_region
   command = "dist/lib/leaderboard/index.js"
   cluster = aws_ecs_cluster.wumbo.id
