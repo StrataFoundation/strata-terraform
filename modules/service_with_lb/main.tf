@@ -91,7 +91,7 @@ resource "aws_lb_target_group" "api" {
     interval            = 30
     path                = var.health_path
     port                = 8080
-    protocol            = "http"
+    protocol            = "HTTP"
     unhealthy_threshold = 2
   }
 
