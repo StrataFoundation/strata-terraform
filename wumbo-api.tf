@@ -1,5 +1,6 @@
 module "wumbo_api" {
   source = "./modules/service_with_lb"
+  image = var.wumbo_api_image
   internal = false
   name = "${var.env}-wumbo-api"
   path = "${var.env}-api.teamwumbo.com"
@@ -15,7 +16,6 @@ module "wumbo_api" {
   region = var.aws_region
   log_group = aws_cloudwatch_log_group.wumbo_logs.name
   desired_count = var.wumbo_api_count
-  image = 
   environment = [
     {
       name = "REDIS_HOST"
