@@ -182,7 +182,7 @@ module "account_leaderboard" {
       value = "true"
     }, {
       name = "KAFKA_INPUT_TOPIC"
-      value = "json.solana.bonding_token_account_balance_changes"
+      value = "json.solana.wumbo_users_wum_locked_by_account"
     }, {
       name = "KAFKA_OFFSET_RESET"
       value = "earliest"
@@ -223,7 +223,7 @@ module "wum_locked_leaderboard" {
       value = "true"
     }, {
       name = "KAFKA_INPUT_TOPIC"
-      value = "json.solana.total_wum_locked"
+      value = "json.solana.wumbo_users_total_wum_locked"
     }, {
       name = "KAFKA_OFFSET_RESET"
       value = "earliest"
