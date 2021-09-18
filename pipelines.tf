@@ -100,6 +100,7 @@ module "block_uploader" {
       name = "ACCOUNTS"
       value = join(",", [
         "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL",
         "namesLPneVptA9Z5rqUDD9tMTWEJwofgaYwp8cawRkX",
         var.token_bonding_program_id,
         var.wumbo_program_id

@@ -10,8 +10,8 @@ module "ksql" {
   subnets = module.vpc.public_subnets
   vpc_id = module.vpc.vpc_id
   certificate_arn = aws_acm_certificate.team_wumbo.arn
-  cpu = 256
-  memory = 512
+  cpu = 512
+  memory = 1028
   health_path = "/info"
   region = var.aws_region
   log_group = aws_cloudwatch_log_group.wumbo_logs.name
