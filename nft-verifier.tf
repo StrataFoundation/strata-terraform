@@ -26,6 +26,9 @@ module "nft_verifier" {
     }, {
       name = "SERVICE_ACCOUNT",
       value = var.nft_verifier_service_account
+    }, {
+      name = "MISMATCH_THRESHOLD",
+      value = var.nft_verifier_mismatch_threshold
     }
   ]
 }

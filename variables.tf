@@ -92,6 +92,11 @@ variable "nft_verifier_count" {
   default = 1
 }
 
+variable "nft_verifier_mismatch_threshold" {
+  type = string
+  default = "20"
+}
+
 variable "wumbo_api_image" {
   type = string
 }
@@ -122,5 +127,4 @@ variable "ksqldb_count" {
 variable "cluster_max_size" { 
   type = number
   default = 3
-  
 }
