@@ -8,7 +8,7 @@ module "ksql" {
   lb_security_groups = [data.aws_security_group.default.id, aws_security_group.allow_http_https_inbound.id]
   service_security_groups =  [data.aws_security_group.default.id, module.web_server_sg.security_group_id]
   lb_subnets = module.vpc.public_subnets
-  subnets = module.vpc.private_subnets
+  subnets = module.vpc.public_subnets // TODO: This should work with private subnets, but for some reason fails when internal = true
   vpc_id = module.vpc.vpc_id
   certificate_arn = aws_acm_certificate.team_wumbo.arn
   cpu = 512
