@@ -38,7 +38,7 @@ module "vpn" {
   vpn_name = "${var.env}-wumbo-vpn"
   ovpn_users = var.ovpn_users
   vpc_id = module.vpc.vpc_id
-  subnet_id = module.vpc.private_subnets[0]
+  subnet_id = module.vpc.public_subnets[0]
   security_groups = [data.aws_security_group.default.id]
 }
 
