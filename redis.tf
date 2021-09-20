@@ -13,5 +13,5 @@ resource "aws_elasticache_cluster" "redis" {
 
 resource "aws_elasticache_subnet_group" "subnet_group" {
   name       = "${var.env}-wumbo-redis-subnet-group"
-  subnet_ids = module.vpc.public_subnets
+  subnet_ids = module.vpc.private_subnets
 }
