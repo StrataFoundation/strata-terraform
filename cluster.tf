@@ -47,7 +47,7 @@ resource "aws_autoscaling_group" "cluster_asg" {
   force_delete = true
   placement_group = aws_placement_group.placement_group.id
   launch_configuration = aws_launch_configuration.main.id
-  vpc_zone_identifier = module.vpc.private_subnets
+  vpc_zone_identifier = module.vpc.public_subnets
   timeouts {
     delete = "15m"
   }
