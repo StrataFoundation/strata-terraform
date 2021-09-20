@@ -67,4 +67,15 @@ resource "aws_ecs_service" "service" {
   cluster = var.cluster
   task_definition = aws_ecs_task_definition.task.arn
   desired_count = var.desired_count
+
+  lifecycle {
+    ignore_changes = [
+      desired_count,
+      health_check_grace_period_seconds,
+      capacity_provider_strategy,
+      deployment_circuit_breaker,
+      deployment_controller,
+      propagate_tags
+    ]
+  }
 }

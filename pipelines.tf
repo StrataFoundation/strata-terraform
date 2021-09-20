@@ -280,3 +280,44 @@ module "top_tokens_leaderboard" {
     }
   ]
 }
+
+module "total_wum_locked" {
+  source = "./modules/data_pipeline"
+  image = var.data_pipeline_image
+  region = var.aws_region
+  command = "dist/lib/leaderboard/index.js"
+  cluster = aws_ecs_cluster.wumbo.id
+  log_group = aws_cloudwatch_log_group.wumbo_logs.name
+  name = "${var.env}-total-wum-locked"
+  cpu = 100
+  memory = 256
+  desired_count = 1  
+  environment = [
+    {
+      name = "PLUGIN"
+      value = "TOTAL_WUM_LOCKED"
+    },
+    {
+      name = "KAFKA_BOOTSTRAP_SERVERS"
+      value = aws_msk_cluster.kafka.bootstrap_brokers_tls
+    }, {
+      name = "KAFKA_SSL_ENABLED"
+      value = "true"
+    }, {
+      name = "KAFKA_INPUT_TOPIC"
+      value = "json.solana.global_total_wum_locked"
+    }, {
+      name = "KAFKA_OFFSET_RESET"
+      value = "earliest"
+    }, {
+      name = "KAFKA_GROUP_ID"
+      value = "total-wum-locked"
+    }, {
+      name = "REDIS_HOST"
+      value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}"
+    }, {
+      name = "REDIS_PORT"
+      value = "6379"
+    }
+  ]
+}
