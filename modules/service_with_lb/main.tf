@@ -206,4 +206,16 @@ resource "aws_ecs_service" "service" {
     subnets = var.subnets
     assign_public_ip = false
   }
+
+  propagate_tags = "NONE"
+
+  lifecycle {
+    ignore_changes = [
+      desired_count,
+      health_check_grace_period_seconds,
+      capacity_provider_strategy,
+      deployment_circuit_breaker,
+      deployment_controller
+    ]
+  }
 }
