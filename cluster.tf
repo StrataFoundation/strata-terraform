@@ -14,7 +14,7 @@ resource "aws_ecs_cluster" "wumbo" {
   ]
 
   name = "${var.env}-wumbo-cluster"
-  capacity_providers = [aws_ecs_capacity_provider.cluster_cap_provider.name]
+  capacity_providers = [aws_ecs_capacity_provider.cluster_cap_provider.name, aws_ecs_capacity_provider.cluster_cap_provider_private.name]
   default_capacity_provider_strategy {
     capacity_provider = aws_ecs_capacity_provider.cluster_cap_provider.name
     weight = 100
@@ -58,6 +58,29 @@ resource "aws_autoscaling_group" "cluster_asg" {
         propagate_at_launch = true
   }
 }
+
+resource "aws_autoscaling_group" "cluster_asg_private" {
+  name = "${var.env}-wumbo-asg-private"
+
+  max_size = var.cluster_max_size
+  min_size = "1"
+  health_check_grace_period = 300
+  health_check_type = "ELB"
+  force_delete = true
+  placement_group = aws_placement_group.placement_group.id
+  launch_configuration = aws_launch_configuration.main.id
+  vpc_zone_identifier = module.vpc.private_subnets
+  timeouts {
+    delete = "15m"
+  }
+
+  tag {
+        key                 = "AmazonECSManaged"
+        value = ""
+        propagate_at_launch = true
+  }
+}
+
 
 data "aws_ami" "ecs_ami" {
   most_recent = true
@@ -157,6 +180,19 @@ resource "aws_ecs_capacity_provider" "cluster_cap_provider" {
       minimum_scaling_step_size = 1
       status                    = "ENABLED"
       target_capacity           = 2
+    }
+  }
+}
+
+resource "aws_ecs_capacity_provider" "cluster_cap_provider_private" {
+  name = "${var.env}-wumbo-cap-provider-private"
+  auto_scaling_group_provider {
+    auto_scaling_group_arn = aws_autoscaling_group.cluster_asg_private.arn
+    managed_scaling {
+      maximum_scaling_step_size = 2
+      minimum_scaling_step_size = 1
+      status                    = "ENABLED"
+      target_capacity           = 1
     }
   }
 }
