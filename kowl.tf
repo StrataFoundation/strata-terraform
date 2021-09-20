@@ -9,6 +9,7 @@ module "kowl" {
   zone_id = var.zone_id
   lb_security_groups = [data.aws_security_group.default.id, aws_security_group.allow_http_https_inbound.id]
   service_security_groups =  [data.aws_security_group.default.id, module.web_server_sg.security_group_id]
+  lb_subnets = module.vpc.public_subnets
   subnets = module.vpc.private_subnets
   vpc_id = module.vpc.vpc_id
   certificate_arn = aws_acm_certificate.team_wumbo.arn

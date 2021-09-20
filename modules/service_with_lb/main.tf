@@ -6,6 +6,10 @@ variable "service_security_groups" {
   type = list(string)
 }
 
+variable "lb_subnets" {
+  type = list(string)
+}
+
 variable "subnets" {
   type = list(string)
 }
@@ -76,7 +80,7 @@ resource "aws_lb" "api" {
   load_balancer_type = "application"
   name               = "${var.name}-alb"
   security_groups    = var.lb_security_groups
-  subnets            = var.subnets
+  subnets            = var.lb_subnets
 }
 
 resource "aws_lb_target_group" "api" {
