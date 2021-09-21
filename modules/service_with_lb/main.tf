@@ -205,6 +205,11 @@ resource "aws_ecs_service" "service" {
     container_port = 8080
   }
 
+  ordered_placement_strategy {
+    type = "binpack"
+    field = "cpu"
+  }
+
   network_configuration {
     security_groups = var.service_security_groups
     subnets = var.subnets

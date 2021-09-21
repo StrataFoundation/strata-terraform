@@ -68,6 +68,11 @@ resource "aws_ecs_service" "service" {
   task_definition = aws_ecs_task_definition.task.arn
   desired_count = var.desired_count
 
+  ordered_placement_strategy {
+    type = "binpack"
+    field = "cpu"
+  }
+
   lifecycle {
     ignore_changes = [
       desired_count,
