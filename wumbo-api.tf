@@ -47,7 +47,7 @@ module "wumbo_api" {
       value = var.twitter_access_token_secret
     }, {
       name = "SOLANA_URL",
-      value = var.solana
+      value = var.solana_url
     }, {
       name = "TWITTER_TLD",
       value = var.twitter_tld
