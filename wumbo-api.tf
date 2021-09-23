@@ -53,7 +53,7 @@ module "wumbo_api" {
       value = var.twitter_tld
     }, {
       name = "TWITTER_SERVICE_ACCOUNT",
-      name = var.twitter_service_account
+      value = var.twitter_service_account
     }
   ]
 }
