@@ -84,11 +84,11 @@ variable "block_uploader_cpu" {
 }
 
 variable "token_bonding_program_id" {
-  default = "CJMw4wALbZJswJCxLsYUj2ExGCaEgMAp8JSGjodbxAF4"
+  default = "TBondz6ZwSM5fs4v2GpnVBMuwoncPkFLFR9S422ghhN"
 }
 
 variable "wumbo_program_id" {
-  default = "Bn6owcizWtLgeKcVyXVgUgTvbLezCVz9Q7oPdZu5bC1H"
+  default = "WumbodN8t7wcDPCY2nGszs4x6HRtL5mJcTR519Qr6m7"
 }
 
 variable "solana_url" {
@@ -128,6 +128,43 @@ variable "nft_verifier_tld" {
 
 variable "nft_verifier_service_account" {
   type = string
+}
+
+variable "twitter_tld" {
+  type = string
+}
+
+variable "twitter_service_account" {
+  type = string
+}
+
+variable "twitter_api_key" {
+  type = string
+}
+
+variable "twitter_secret" {
+  type = string
+}
+
+variable "twitter_access_token_key" {
+  type = string
+}
+
+variable "twitter_access_token_secret" {
+  type = string
+}
+
+variable "auth0_client_id" {
+  type = string
+}
+
+variable "auth0_client_secret" {
+  type = string
+}
+
+variable "auth0_domain" {
+  type = string
+  default = "wumbo.us.auth0.com"
 }
 
 variable "zone_id" {

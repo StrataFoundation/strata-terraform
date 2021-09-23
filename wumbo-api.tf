@@ -24,6 +24,36 @@ module "wumbo_api" {
     }, {
       name = "REDIS_PORT"
       value = "6379"
+    }, {
+      name = "AUTH0_CLIENT_ID",
+      value = var.auth0_client_id
+    }, {
+      name = "AUTH0_CLIENT_SECRET",
+      value = var.auth0_client_secret
+    }, {
+      name = "AUTH0_DOMAIN",
+      value = var.auth0_domain
+    }, {
+      name = "TWITTER_KEY",
+      value = var.twitter_api_key
+    }, {
+      name = "TWITTER_SECRET",
+      value = var.twitter_secret
+    }, {
+      name = "TWITTER_ACCESS_TOKEN_KEY",
+      value = var.twitter_access_token_key
+    }, {
+      name = "TWITTER_ACCESS_TOKEN_SECRET",
+      value = var.twitter_access_token_secret
+    }, {
+      name = "SOLANA_URL",
+      value = var.solana
+    }, {
+      name = "TWITTER_TLD",
+      value = var.twitter_tld
+    }, {
+      name = "TWITTER_SERVICE_ACCOUNT",
+      name = var.twitter_service_account
     }
   ]
 }
