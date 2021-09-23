@@ -75,6 +75,14 @@ variable "s3_block_prefix" {
   default = "blocks"
 }
 
+variable "block_uploader_memory" {
+  default = 512
+}
+
+variable "block_uploader_cpu" {
+  default = 350
+}
+
 variable "token_bonding_program_id" {
   default = "CJMw4wALbZJswJCxLsYUj2ExGCaEgMAp8JSGjodbxAF4"
 }

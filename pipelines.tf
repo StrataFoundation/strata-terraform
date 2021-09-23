@@ -67,8 +67,8 @@ module "block_uploader" {
   cluster = aws_ecs_cluster.wumbo.id
   log_group = aws_cloudwatch_log_group.wumbo_logs.name
   name = "${var.env}-block-retriever"
-  cpu = 350
-  memory = 512
+  cpu = var.block_uploader_cpu
+  memory = var.block_uploader_memory
   desired_count = 1  
   environment = [
     {
