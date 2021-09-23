@@ -41,6 +41,14 @@ variable "num_kafka_nodes" {
   default = 3
 }
 
+variable "kafka_ebs_size" {
+  default = 100
+}
+
+variable "kafka_instance_type" {
+  default = "kafka.t3.small"
+}
+
 variable "instance_type" {
   default = "m5.large"
 }
