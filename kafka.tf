@@ -21,8 +21,8 @@ resource "aws_msk_cluster" "kafka" {
   kafka_version   = "2.6.2"
 
   broker_node_group_info {
-    instance_type   = variables.kafka_instance_type
-    ebs_volume_size = variables.kafka_ebs_size
+    instance_type   = var.kafka_instance_type
+    ebs_volume_size = var.kafka_ebs_size
     client_subnets = module.vpc.private_subnets
     security_groups = [data.aws_security_group.default.id]
   }
