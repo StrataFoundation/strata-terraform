@@ -83,6 +83,9 @@ module "slot_identifier" {
     }, {
       name = "KAFKA_TOPIC"
       value = "json.solana.slots"
+    }, {
+      name = "NUM_PARTITIONS",
+      value = var.block_uploader_count
     }
   ]
 }
