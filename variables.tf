@@ -76,7 +76,7 @@ variable "s3_block_prefix" {
 }
 
 variable "block_uploader_memory" {
-  default = 512
+  default = 1028
 }
 
 variable "block_uploader_cpu" {
