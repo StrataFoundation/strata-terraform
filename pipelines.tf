@@ -85,7 +85,7 @@ module "slot_identifier" {
       value = "json.solana.slots"
     }, {
       name = "NUM_PARTITIONS",
-      value = 6
+      value = var.slots_num_partitions
     }
   ]
 }

@@ -96,6 +96,10 @@ variable "block_uploader_count" {
   default = 1
 }
 
+variable "slots_num_partitions" {
+  default = 8
+}
+
 variable "solana_url" {
   default = "https://wumbo.devnet.rpcpool.com/"
 }
