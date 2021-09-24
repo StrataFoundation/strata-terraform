@@ -129,6 +129,9 @@ module "block_uploader" {
       name = "KAFKA_SSL_ENABLED"
       value = "true"
     }, {
+      name = "KAFKA_INPUT_TOPIC",
+      value = "json.solana.blocks"
+    }, {
       name = "KAFKA_TOPIC"
       value = "json.solana.blocks"
     }, {
