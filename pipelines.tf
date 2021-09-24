@@ -59,6 +59,34 @@ resource "aws_iam_access_key" "block_ro" {
   user = aws_iam_user.block_ro.name
 }
 
+module "slot_identifier" {
+  source = "./modules/data_pipeline"
+  image = var.data_pipeline_image
+  region = var.aws_region
+  command = "dist/lib/kafka-s3-slot-identifier.js"
+  cluster = aws_ecs_cluster.wumbo.id
+  log_group = aws_cloudwatch_log_group.wumbo_logs.name
+  name = "${var.env}-slot-identifier"
+  cpu = 100
+  memory = 300
+  desired_count = 1  
+  environment = [
+    {
+      name = "SOLANA_URL"
+      value = var.solana_url
+    }, {
+      name = "KAFKA_BOOTSTRAP_SERVERS"
+      value = aws_msk_cluster.kafka.bootstrap_brokers_tls
+    }, {
+      name = "KAFKA_SSL_ENABLED"
+      value = "true"
+    }, {
+      name = "KAFKA_TOPIC"
+      value = "json.solana.slots"
+    }
+  ]
+}
+
 module "block_uploader" {
   source = "./modules/data_pipeline"
   image = var.data_pipeline_image
@@ -69,13 +97,17 @@ module "block_uploader" {
   name = "${var.env}-block-retriever"
   cpu = var.block_uploader_cpu
   memory = var.block_uploader_memory
-  desired_count = 1  
+  desired_count = 3
   environment = [
     {
       name = "S3_ACCESS_KEY_ID"
       value = aws_iam_access_key.block_rw.id
     },
-    { 
+    {
+      name = "KAFKA_GROUP_ID",
+      value = "kafka-s3-block-uploader"
+    },
+    {
       name = "S3_SECRET_ACCESS_KEY"
       value = aws_iam_access_key.block_rw.secret
     }, {
