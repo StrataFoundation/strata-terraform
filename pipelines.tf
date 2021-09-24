@@ -160,6 +160,10 @@ module "event_transformer" {
   desired_count = 1  
   environment = [
     {
+      name = "SOLANA_URL",
+      value = var.solana_url
+    },
+    {
       name = "S3_ACCESS_KEY_ID"
       value = aws_iam_access_key.block_ro.id
     },
