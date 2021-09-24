@@ -91,6 +91,11 @@ variable "wumbo_program_id" {
   default = "WumbodN8t7wcDPCY2nGszs4x6HRtL5mJcTR519Qr6m7"
 }
 
+variable "block_uploader_count" {
+  type = number
+  default = 1
+}
+
 variable "solana_url" {
   default = "https://wumbo.devnet.rpcpool.com/"
 }
