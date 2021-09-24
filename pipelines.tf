@@ -130,7 +130,7 @@ module "block_uploader" {
       value = "true"
     }, {
       name = "KAFKA_INPUT_TOPIC",
-      value = "json.solana.blocks"
+      value = "json.solana.slots"
     }, {
       name = "KAFKA_TOPIC"
       value = "json.solana.blocks"
