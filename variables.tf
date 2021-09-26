@@ -191,7 +191,7 @@ variable "ksqldb_memory" {
 }
 
 variable "ksqldb_cpu" {
-  type = 512
+  default = 512
 }
 
 variable "cluster_max_size" { 
