@@ -186,6 +186,14 @@ variable "ksqldb_count" {
   default = 2
 }
 
+variable "ksqldb_memory" {
+  default = 1028
+}
+
+variable "ksqldb_cpu" {
+  type = 512
+}
+
 variable "cluster_max_size" { 
   type = number
   default = 3
