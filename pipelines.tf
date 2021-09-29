@@ -224,7 +224,7 @@ module "account_leaderboard" {
       value = "true"
     }, {
       name = "KAFKA_INPUT_TOPIC"
-      value = "json.solana.wumbo_users_wum_locked_by_account_table"
+      value = "json.solana.wumbo_users_wum_net_worth_by_account_table"
     }, {
       name = "KAFKA_OFFSET_RESET"
       value = "earliest"
@@ -241,21 +241,21 @@ module "account_leaderboard" {
   ]
 }
 
-module "wum_locked_leaderboard" {
+module "wum_net_worth_leaderboard" {
   source = "./modules/data_pipeline"
   image = var.data_pipeline_image
   region = var.aws_region
   command = "dist/lib/leaderboard/index.js"
   cluster = aws_ecs_cluster.wumbo.id
   log_group = aws_cloudwatch_log_group.wumbo_logs.name
-  name = "${var.env}-wum-locked-leaderboard"
+  name = "${var.env}-wum-net-worth-leaderboard"
   cpu = 200
   memory = 512
   desired_count = 1  
   environment = [
     {
       name = "PLUGIN"
-      value = "WUM_LOCKED"
+      value = "WUM_NET_WORTH"
     },
     {
       name = "KAFKA_BOOTSTRAP_SERVERS"
@@ -265,13 +265,13 @@ module "wum_locked_leaderboard" {
       value = "true"
     }, {
       name = "KAFKA_INPUT_TOPIC"
-      value = "json.solana.wumbo_users_total_wum_locked"
+      value = "json.solana.wumbo_users_total_wum_net_worth"
     }, {
       name = "KAFKA_OFFSET_RESET"
       value = "earliest"
     }, {
       name = "KAFKA_GROUP_ID"
-      value = "wum-locked-leaderboard"
+      value = "wum-net-worth-leaderboard"
     }, {
       name = "REDIS_HOST"
       value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}"
@@ -323,21 +323,21 @@ module "top_tokens_leaderboard" {
   ]
 }
 
-module "total_wum_locked" {
+module "total_wum_net_worth" {
   source = "./modules/data_pipeline"
   image = var.data_pipeline_image
   region = var.aws_region
   command = "dist/lib/leaderboard/index.js"
   cluster = aws_ecs_cluster.wumbo.id
   log_group = aws_cloudwatch_log_group.wumbo_logs.name
-  name = "${var.env}-total-wum-locked"
+  name = "${var.env}-total-wum-net-worth"
   cpu = 100
   memory = 256
   desired_count = 1  
   environment = [
     {
       name = "PLUGIN"
-      value = "TOTAL_WUM_LOCKED"
+      value = "TOTAL_WUM_NET_WORTH"
     },
     {
       name = "KAFKA_BOOTSTRAP_SERVERS"
@@ -347,13 +347,13 @@ module "total_wum_locked" {
       value = "true"
     }, {
       name = "KAFKA_INPUT_TOPIC"
-      value = "json.solana.global_total_wum_locked"
+      value = "json.solana.global_total_wum_net_worth"
     }, {
       name = "KAFKA_OFFSET_RESET"
       value = "earliest"
     }, {
       name = "KAFKA_GROUP_ID"
-      value = "total-wum-locked"
+      value = "total-wum-net-worth"
     }, {
       name = "REDIS_HOST"
       value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}"
