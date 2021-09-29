@@ -271,7 +271,7 @@ module "wum_net_worth_leaderboard" {
       value = "earliest"
     }, {
       name = "KAFKA_GROUP_ID"
-      value = "wum-net-worth-leaderboard"
+      value = "total-wum-net-worth-leaderboard"
     }, {
       name = "REDIS_HOST"
       value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}"
