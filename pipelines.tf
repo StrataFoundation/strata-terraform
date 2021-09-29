@@ -224,7 +224,7 @@ module "account_leaderboard" {
       value = "true"
     }, {
       name = "KAFKA_INPUT_TOPIC"
-      value = "json.solana.wumbo_users_wum_locked_by_account"
+      value = "json.solana.wumbo_users_wum_locked_by_account_table"
     }, {
       name = "KAFKA_OFFSET_RESET"
       value = "earliest"
