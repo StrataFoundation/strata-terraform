@@ -306,7 +306,7 @@ module "top_tokens_leaderboard" {
       value = "true"
     }, {
       name = "KAFKA_INPUT_TOPIC"
-      value = "json.solana.token_bonding_supply"
+      value = "json.solana.wumbo_token_bonding_supply"
     }, {
       name = "KAFKA_OFFSET_RESET"
       value = "earliest"
