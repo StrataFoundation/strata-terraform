@@ -52,10 +52,7 @@ module "kafka_manager" {
   environment = [
     {
       name = "ZK_HOSTS"
-      value = aws_msk_cluster.kafka.zookeeper_connect_string_tls
-    }, {
-      name = "KAFKA_TLS_ENABLED"
-      value = "true"
+      value = aws_msk_cluster.kafka.zookeeper_connect_string
     }
   ]
 }
