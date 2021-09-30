@@ -8,6 +8,7 @@ variable "service_security_groups" {
 
 variable "command" {
   type = list(string)
+  default = []
 }
 
 variable "lb_subnets" {
