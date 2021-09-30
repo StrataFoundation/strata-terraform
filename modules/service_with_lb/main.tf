@@ -10,6 +10,10 @@ variable "lb_subnets" {
   type = list(string)
 }
 
+variable "container_port" {
+  default = 8080
+}
+
 variable "subnets" {
   type = list(string)
 }
@@ -171,7 +175,7 @@ resource "aws_ecs_task_definition" "task" {
       name = var.name
       portMappings = [
         {
-          containerPort = 8080
+          containerPort = var.container_port
           hostPort = 8080
           protocol = "tcp"
         }

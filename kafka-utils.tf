@@ -33,6 +33,7 @@ module "kowl" {
 module "kafka_manager" {
   source = "./modules/service_with_lb"
   internal = true
+  container_port = 9000
   name = "${var.env}-kafka-manager"
   path = "${var.env}-kafka-manager.teamwumbo.com"
   cluster = aws_ecs_cluster.wumbo.id
