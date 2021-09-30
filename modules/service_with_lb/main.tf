@@ -6,12 +6,12 @@ variable "service_security_groups" {
   type = list(string)
 }
 
-variable "lb_subnets" {
+variable "command" {
   type = list(string)
 }
 
-variable "container_port" {
-  default = 8080
+variable "lb_subnets" {
+  type = list(string)
 }
 
 variable "subnets" {
@@ -175,7 +175,7 @@ resource "aws_ecs_task_definition" "task" {
       name = var.name
       portMappings = [
         {
-          containerPort = var.container_port
+          containerPort = 8080
           hostPort = 8080
           protocol = "tcp"
         }
@@ -184,6 +184,7 @@ resource "aws_ecs_task_definition" "task" {
       cpu = var.cpu
       memory = var.memory
       essential = true
+      command = var.command
       logConfiguration = {
         logDriver = "awslogs"
         options = {
