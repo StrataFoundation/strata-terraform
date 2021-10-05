@@ -394,6 +394,9 @@ module "trophies" {
     }, {
       name = "SERVICE_ACCOUNT"
       value = var.trophy_service_account
+    }, {
+      name = "SOLANA_URL"
+      value = var.solana_url
     }
   ]
 }
