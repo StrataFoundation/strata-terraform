@@ -372,8 +372,8 @@ module "trophies" {
   cluster = aws_ecs_cluster.wumbo.id
   log_group = aws_cloudwatch_log_group.wumbo_logs.name
   name = "${var.env}-trophies"
-  cpu = 100
-  memory = 256
+  cpu = 256
+  memory = 512
   desired_count = 1  
   environment = [
     {
