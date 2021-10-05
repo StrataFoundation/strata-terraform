@@ -135,6 +135,10 @@ variable "nft_verifier_tld" {
   type = string
 }
 
+variable "trophy_service_account" {
+  type = string
+}
+
 variable "nft_verifier_service_account" {
   type = string
 }

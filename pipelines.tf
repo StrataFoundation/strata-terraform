@@ -363,3 +363,37 @@ module "total_wum_net_worth" {
     }
   ]
 }
+
+module "trophies" {
+  source = "./modules/data_pipeline"
+  image = var.data_pipeline_image
+  region = var.aws_region
+  command = "dist/lib/trophies/index.js"
+  cluster = aws_ecs_cluster.wumbo.id
+  log_group = aws_cloudwatch_log_group.wumbo_logs.name
+  name = "${var.env}-trophies"
+  cpu = 100
+  memory = 256
+  desired_count = 1  
+  environment = [
+    {
+      name = "KAFKA_BOOTSTRAP_SERVERS"
+      value = aws_msk_cluster.kafka.bootstrap_brokers_tls
+    }, {
+      name = "KAFKA_SSL_ENABLED"
+      value = "true"
+    }, {
+      name = "KAFKA_INPUT_TOPIC"
+      value = "json.solana.trophies"
+    }, {
+      name = "KAFKA_OFFSET_RESET"
+      value = "earliest"
+    }, {
+      name = "KAFKA_GROUP_ID"
+      value = "trophies"
+    }, {
+      name = "SERVICE_ACCOUNT"
+      value = var.trophy_service_account
+    }
+  ]
+}
