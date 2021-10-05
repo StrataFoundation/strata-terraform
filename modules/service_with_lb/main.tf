@@ -96,12 +96,12 @@ resource "aws_lb_target_group" "api" {
   vpc_id      = var.vpc_id
 
   health_check {
-    healthy_threshold   = 1
+    healthy_threshold   = 2
     interval            = 60
     path                = var.health_path
     port                = 8080
     protocol            = "HTTP"
-    unhealthy_threshold = 5
+    unhealthy_threshold = 6
   }
 
   lifecycle {
