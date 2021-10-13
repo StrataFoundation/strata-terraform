@@ -172,11 +172,12 @@ resource "null_resource" "openvpn_bootstrap" {
       "curl -O ${var.openvpn_install_script_location}",
       "chmod +x openvpn-install.sh",
       <<EOT
-      sudo AUTO_INSTALL=y \
-           APPROVE_IP=${aws_instance.openvpn.public_ip} \
-           ENDPOINT=${aws_instance.openvpn.public_dns} \
-           ./openvpn-install.sh
-      
+      if [[ ! -e /etc/openvpn/server.conf ]]; then
+        sudo AUTO_INSTALL=y \
+            APPROVE_IP=${aws_instance.openvpn.public_ip} \
+            ENDPOINT=${aws_instance.openvpn.public_dns} \
+            ./openvpn-install.sh
+      fi
 EOT
       ,
     ]
