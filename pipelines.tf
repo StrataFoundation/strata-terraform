@@ -164,12 +164,16 @@ module "missed_block_uploader" {
   desired_count = 1
   environment = [
     {
+      name = "KAFKA_OFFSET_RESET"
+      value = "earliest"
+    },
+    {
       name = "S3_ACCESS_KEY_ID"
       value = aws_iam_access_key.block_rw.id
     },
     {
       name = "KAFKA_GROUP_ID",
-      value = "kafka-s3-missed-block-uploader"
+      value = "kafka-s3-missed-block-uploader-1"
     },
     {
       name = "S3_SECRET_ACCESS_KEY"
