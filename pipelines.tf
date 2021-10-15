@@ -191,7 +191,7 @@ module "missed_block_uploader" {
       value = "true"
     }, {
       name = "KAFKA_INPUT_TOPIC",
-      value = "json.solana.missed-slots"
+      value = "json.solana.missed_slots"
     }, {
       name = "KAFKA_TOPIC"
       value = "json.solana.blocks"
