@@ -104,6 +104,10 @@ variable "solana_url" {
   default = "https://wumbo.devnet.rpcpool.com/"
 }
 
+variable "missed_block_solana_url" {
+  default = "https://explorer-api.mainnet-beta.solana.com/"
+}
+
 variable "data_pipeline_image" {
   type = string
 }

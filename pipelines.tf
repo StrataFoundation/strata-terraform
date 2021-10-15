@@ -90,6 +90,16 @@ module "slot_identifier" {
   ]
 }
 
+locals {
+  accounts = join(",", [
+        "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL",
+        "namesLPneVptA9Z5rqUDD9tMTWEJwofgaYwp8cawRkX",
+        var.token_bonding_program_id,
+        var.wumbo_program_id
+      ])
+}
+
 module "block_uploader" {
   source = "./modules/data_pipeline"
   image = var.data_pipeline_image
@@ -97,7 +107,7 @@ module "block_uploader" {
   command = "dist/lib/kafka-s3-block-uploader.js"
   cluster = aws_ecs_cluster.wumbo.id
   log_group = aws_cloudwatch_log_group.wumbo_logs.name
-  name = "${var.env}-block-retriever"
+  name = "${var.env}-block-uploader"
   cpu = var.block_uploader_cpu
   memory = var.block_uploader_memory
   desired_count = var.block_uploader_count
@@ -136,13 +146,58 @@ module "block_uploader" {
       value = "json.solana.blocks"
     }, {
       name = "ACCOUNTS"
-      value = join(",", [
-        "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
-        "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL",
-        "namesLPneVptA9Z5rqUDD9tMTWEJwofgaYwp8cawRkX",
-        var.token_bonding_program_id,
-        var.wumbo_program_id
-      ])
+      value = local.accounts
+    }
+  ]
+}
+
+module "missed_block_uploader" {
+  source = "./modules/data_pipeline"
+  image = var.data_pipeline_image
+  region = var.aws_region
+  command = "dist/lib/kafka-s3-block-uploader.js"
+  cluster = aws_ecs_cluster.wumbo.id
+  log_group = aws_cloudwatch_log_group.wumbo_logs.name
+  name = "${var.env}-missed-block-uploader"
+  cpu = var.block_uploader_cpu
+  memory = var.block_uploader_memory
+  desired_count = 1
+  environment = [
+    {
+      name = "S3_ACCESS_KEY_ID"
+      value = aws_iam_access_key.block_rw.id
+    },
+    {
+      name = "KAFKA_GROUP_ID",
+      value = "kafka-s3-missed-block-uploader"
+    },
+    {
+      name = "S3_SECRET_ACCESS_KEY"
+      value = aws_iam_access_key.block_rw.secret
+    }, {
+      name = "SOLANA_URL"
+      value = var.missed_block_solana_url
+    }, {
+      name = "S3_BUCKET"
+      value = aws_s3_bucket.blocks_bucket.id
+    }, {
+      name = "S3_PREFIX"
+      value = var.s3_block_prefix
+    }, {
+      name = "KAFKA_BOOTSTRAP_SERVERS"
+      value = aws_msk_cluster.kafka.bootstrap_brokers_tls
+    }, {
+      name = "KAFKA_SSL_ENABLED"
+      value = "true"
+    }, {
+      name = "KAFKA_INPUT_TOPIC",
+      value = "json.solana.missed-slots"
+    }, {
+      name = "KAFKA_TOPIC"
+      value = "json.solana.blocks"
+    }, {
+      name = "ACCOUNTS"
+      value = local.accounts
     }
   ]
 }
