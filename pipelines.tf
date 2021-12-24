@@ -1,9 +1,9 @@
 # resource "aws_s3_bucket" "blocks_bucket" {
-#   bucket = "${var.env}-wumbo-solana-blocks"
+#   bucket = "${var.env}-strata-solana-blocks"
 # }
 
 # resource "aws_iam_user_policy" "block_rw" {
-#   name = "${var.env}-wumbo-solana-blocks-rw"
+#   name = "${var.env}-strata-solana-blocks-rw"
 #   user = aws_iam_user.block_rw.name
 #   policy = jsonencode({
 #     Version = "2012-10-17"
@@ -23,7 +23,7 @@
 # }
 
 # resource "aws_iam_user" "block_rw" {
-#   name = "${var.env}-wumbo-solana-blocks-rw"
+#   name = "${var.env}-strata-solana-blocks-rw"
 #   path = "/etl/"
 # }
 
@@ -32,7 +32,7 @@
 # }
 
 # resource "aws_iam_user_policy" "block_ro" {
-#   name = "${var.env}-wumbo-solana-blocks-rw"
+#   name = "${var.env}-strata-solana-blocks-rw"
 #   user = aws_iam_user.block_ro.name
 #   policy = jsonencode({
 #     Version = "2012-10-17"
@@ -51,7 +51,7 @@
 # }
 
 # resource "aws_iam_user" "block_ro" {
-#   name = "${var.env}-wumbo-solana-blocks-ro"
+#   name = "${var.env}-strata-solana-blocks-ro"
 #   path = "/etl/"
 # }
 
@@ -64,8 +64,8 @@
 #   image = var.data_pipeline_image
 #   region = var.aws_region
 #   command = "dist/lib/kafka-s3-slot-identifier.js"
-#   cluster = aws_ecs_cluster.wumbo.id
-#   log_group = aws_cloudwatch_log_group.wumbo_logs.name
+#   cluster = aws_ecs_cluster.strata.id
+#   log_group = aws_cloudwatch_log_group.strata_logs.name
 #   name = "${var.env}-slot-identifier"
 #   cpu = 100
 #   memory = 300
@@ -96,7 +96,7 @@
 #         "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL",
 #         "namesLPneVptA9Z5rqUDD9tMTWEJwofgaYwp8cawRkX",
 #         var.token_bonding_program_id,
-#         var.wumbo_program_id
+#         var.token_collective_program_id
 #       ])
 # }
 
@@ -105,8 +105,8 @@
 #   image = var.data_pipeline_image
 #   region = var.aws_region
 #   command = "dist/lib/kafka-s3-block-uploader.js"
-#   cluster = aws_ecs_cluster.wumbo.id
-#   log_group = aws_cloudwatch_log_group.wumbo_logs.name
+#   cluster = aws_ecs_cluster.strata.id
+#   log_group = aws_cloudwatch_log_group.strata_logs.name
 #   name = "${var.env}-block-uploader"
 #   cpu = var.block_uploader_cpu
 #   memory = var.block_uploader_memory
@@ -156,8 +156,8 @@
 #   image = var.data_pipeline_image
 #   region = var.aws_region
 #   command = "dist/lib/kafka-s3-block-uploader.js"
-#   cluster = aws_ecs_cluster.wumbo.id
-#   log_group = aws_cloudwatch_log_group.wumbo_logs.name
+#   cluster = aws_ecs_cluster.strata.id
+#   log_group = aws_cloudwatch_log_group.strata_logs.name
 #   name = "${var.env}-missed-block-uploader"
 #   cpu = var.block_uploader_cpu
 #   memory = var.block_uploader_memory
@@ -211,8 +211,8 @@
 #   image = var.data_pipeline_image
 #   region = var.aws_region
 #   command = "dist/lib/event-transformer/index.js"
-#   cluster = aws_ecs_cluster.wumbo.id
-#   log_group = aws_cloudwatch_log_group.wumbo_logs.name
+#   cluster = aws_ecs_cluster.strata.id
+#   log_group = aws_cloudwatch_log_group.strata_logs.name
 #   name = "${var.env}-event-transformer"
 #   cpu = 350
 #   memory = 512
@@ -257,7 +257,7 @@
 #       name = "ANCHOR_IDLS"
 #       value = join(",", [
 #         var.token_bonding_program_id,
-#         var.wumbo_program_id
+#         var.token_collective_program_id
 #       ])
 #     }
 #   ]
@@ -268,8 +268,8 @@
 #   image = var.data_pipeline_image
 #   region = var.aws_region
 #   command = "dist/lib/leaderboard/index.js"
-#   cluster = aws_ecs_cluster.wumbo.id
-#   log_group = aws_cloudwatch_log_group.wumbo_logs.name
+#   cluster = aws_ecs_cluster.strata.id
+#   log_group = aws_cloudwatch_log_group.strata_logs.name
 #   name = "${var.env}-account-leaderboard"
 #   cpu = 350
 #   memory = 512
@@ -283,7 +283,7 @@
 #       value = "true"
 #     }, {
 #       name = "KAFKA_INPUT_TOPIC"
-#       value = "json.solana.wumbo_users_wum_net_worth_by_account_table"
+#       value = "json.solana.strata_users_wum_net_worth_by_account_table"
 #     }, {
 #       name = "KAFKA_OFFSET_RESET"
 #       value = "earliest"
@@ -305,8 +305,8 @@
 #   image = var.data_pipeline_image
 #   region = var.aws_region
 #   command = "dist/lib/leaderboard/index.js"
-#   cluster = aws_ecs_cluster.wumbo.id
-#   log_group = aws_cloudwatch_log_group.wumbo_logs.name
+#   cluster = aws_ecs_cluster.strata.id
+#   log_group = aws_cloudwatch_log_group.strata_logs.name
 #   name = "${var.env}-wum-net-worth-leaderboard"
 #   cpu = 200
 #   memory = 512
@@ -324,7 +324,7 @@
 #       value = "true"
 #     }, {
 #       name = "KAFKA_INPUT_TOPIC"
-#       value = "json.solana.wumbo_users_total_wum_net_worth"
+#       value = "json.solana.strata_users_total_wum_net_worth"
 #     }, {
 #       name = "KAFKA_OFFSET_RESET"
 #       value = "earliest"
@@ -346,8 +346,8 @@
 #   image = var.data_pipeline_image
 #   region = var.aws_region
 #   command = "dist/lib/leaderboard/index.js"
-#   cluster = aws_ecs_cluster.wumbo.id
-#   log_group = aws_cloudwatch_log_group.wumbo_logs.name
+#   cluster = aws_ecs_cluster.strata.id
+#   log_group = aws_cloudwatch_log_group.strata_logs.name
 #   name = "${var.env}-top-tokens-leaderboard"
 #   cpu = 200
 #   memory = 512
@@ -365,7 +365,7 @@
 #       value = "true"
 #     }, {
 #       name = "KAFKA_INPUT_TOPIC"
-#       value = "json.solana.wumbo_token_bonding_supply"
+#       value = "json.solana.strata_token_bonding_supply"
 #     }, {
 #       name = "KAFKA_OFFSET_RESET"
 #       value = "earliest"
@@ -387,8 +387,8 @@
 #   image = var.data_pipeline_image
 #   region = var.aws_region
 #   command = "dist/lib/leaderboard/index.js"
-#   cluster = aws_ecs_cluster.wumbo.id
-#   log_group = aws_cloudwatch_log_group.wumbo_logs.name
+#   cluster = aws_ecs_cluster.strata.id
+#   log_group = aws_cloudwatch_log_group.strata_logs.name
 #   name = "${var.env}-total-wum-net-worth"
 #   cpu = 100
 #   memory = 256
@@ -428,8 +428,8 @@
 #   image = var.data_pipeline_image
 #   region = var.aws_region
 #   command = "dist/lib/trophies/index.js"
-#   cluster = aws_ecs_cluster.wumbo.id
-#   log_group = aws_cloudwatch_log_group.wumbo_logs.name
+#   cluster = aws_ecs_cluster.strata.id
+#   log_group = aws_cloudwatch_log_group.strata_logs.name
 #   name = "${var.env}-trophies"
 #   cpu = 256
 #   memory = 512

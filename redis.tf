@@ -1,5 +1,5 @@
 resource "aws_elasticache_cluster" "redis" {
-  cluster_id           = "${var.env}-wumbo-redis"
+  cluster_id           = "${var.env}-strata-redis"
   apply_immediately    = true
   engine               = "redis"
   node_type            = var.redis_instance_type
@@ -12,6 +12,6 @@ resource "aws_elasticache_cluster" "redis" {
 }
 
 resource "aws_elasticache_subnet_group" "subnet_group" {
-  name       = "${var.env}-wumbo-redis-subnet-group"
+  name       = "${var.env}-strata-redis-subnet-group"
   subnet_ids = module.vpc.private_subnets
 }

@@ -1,13 +1,13 @@
-# wumbo-terraform
-Wumbo terraform for AWS infra
+# strata-terraform
+Strata terraform for AWS infra
 
 ## Management
 
-Use https://app.terraform.io/app/wumbo-terraform for deploying.
+Use https://app.terraform.io/app/strata-terraform for deploying.
 
 ## Routes
 
-This will deploy the full wumbo cluster. See wumbo-data-pipelines repo for architecture diagram.
+This will deploy the full strata cluster. See strata-data-pipelines repo for architecture diagram.
 
 | Route | Public Facing? | Description |
 ---------------------
@@ -20,12 +20,12 @@ Note that to connect to the non public facing apps, you'll need to run the VPN
 
 ## How to connect to VPN
 
-Go to https://s3.console.aws.amazon.com/s3/buckets/dev-wumbo-vpn-keys?region=us-east-2&tab=objects.
+Go to https://s3.console.aws.amazon.com/s3/buckets/dev-strata-vpn-keys?region=us-east-2&tab=objects.
 
-Download `wumbo.ovpn`
+Download `strata.ovpn`
 
 Install openvpn with homebrew. Then:
 
 ```
-sudo openvpn --config ~/wumbo.ovpn
+sudo openvpn --config ~/strata.ovpn
 ```

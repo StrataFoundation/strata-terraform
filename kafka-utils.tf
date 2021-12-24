@@ -12,11 +12,11 @@ module "kowl" {
   lb_subnets = module.vpc.public_subnets
   subnets = module.vpc.private_subnets
   vpc_id = module.vpc.vpc_id
-  certificate_arn = aws_acm_certificate.team_wumbo.arn
+  certificate_arn = aws_acm_certificate.main_domain.arn
   cpu = 256
   memory = 512
   region = var.aws_region
-  log_group = aws_cloudwatch_log_group.wumbo_logs.name
+  log_group = aws_cloudwatch_log_group.strata_logs.name
   desired_count = 1
   image = "quay.io/cloudhut/kowl:master"
   environment = [
@@ -43,11 +43,11 @@ module "kafka_manager" {
   lb_subnets = module.vpc.public_subnets
   subnets = module.vpc.private_subnets
   vpc_id = module.vpc.vpc_id
-  certificate_arn = aws_acm_certificate.team_wumbo.arn
+  certificate_arn = aws_acm_certificate.main_domain.arn
   cpu = 256
   memory = 512
   region = var.aws_region
-  log_group = aws_cloudwatch_log_group.wumbo_logs.name
+  log_group = aws_cloudwatch_log_group.strata_logs.name
   desired_count = 1
   image = "hlebalbau/kafka-manager:stable"
   environment = [

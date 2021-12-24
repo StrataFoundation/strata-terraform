@@ -1,19 +1,19 @@
 
-resource "aws_kms_key" "wumbo_logs" {
-  description             = "wumbo logs"
+resource "aws_kms_key" "strata_logs" {
+  description             = "strata logs"
   deletion_window_in_days = 7
 }
 
-resource "aws_cloudwatch_log_group" "wumbo_logs" {
-  name = "${var.env}-wumbo-logs"
+resource "aws_cloudwatch_log_group" "strata_logs" {
+  name = "${var.env}-strata-logs"
 }
 
-resource "aws_ecs_cluster" "wumbo" {
+resource "aws_ecs_cluster" "strata" {
   depends_on = [
     null_resource.iam_wait
   ]
 
-  name = "${var.env}-wumbo-cluster"
+  name = "${var.env}-strata-cluster"
   capacity_providers = [aws_ecs_capacity_provider.cluster_cap_provider.name]
   default_capacity_provider_strategy {
     capacity_provider = aws_ecs_capacity_provider.cluster_cap_provider.name
@@ -22,23 +22,23 @@ resource "aws_ecs_cluster" "wumbo" {
 
   configuration {
     execute_command_configuration {
-      kms_key_id = aws_kms_key.wumbo_logs.arn
+      kms_key_id = aws_kms_key.strata_logs.arn
       logging    = "OVERRIDE"
 
       log_configuration {
         cloud_watch_encryption_enabled = true
-        cloud_watch_log_group_name     = aws_cloudwatch_log_group.wumbo_logs.name
+        cloud_watch_log_group_name     = aws_cloudwatch_log_group.strata_logs.name
       }
     }
   }
 }
 
 resource "aws_placement_group" "placement_group" {
-  name     = "${var.env}-wumbo"
+  name     = "${var.env}-strata"
   strategy = "cluster"
 }
 resource "aws_autoscaling_group" "cluster_asg" {
-  name = "${var.env}-wumbo-asg"
+  name = "${var.env}-strata-asg"
 
   max_size = var.cluster_max_size
   min_size = "1"
@@ -70,7 +70,7 @@ data "aws_ami" "ecs_ami" {
 }
 
 locals {
-  wumbo_keypair_name = "${var.env}-wumbo-cluster-key"
+  strata_keypair_name = "${var.env}-strata-cluster-key"
 }
 
 resource "tls_private_key" "cluster_keypair" {
@@ -79,25 +79,25 @@ resource "tls_private_key" "cluster_keypair" {
 
 
 resource "aws_key_pair" "cluster_keypair" {
-  key_name   = local.wumbo_keypair_name
+  key_name   = local.strata_keypair_name
   public_key = "${tls_private_key.cluster_keypair.public_key_openssh}"
 }
 
 resource "local_file" "cluster_priv" {
   content     = "${tls_private_key.cluster_keypair.private_key_pem}"
-  filename = "${path.module}/keys/${local.wumbo_keypair_name}"
+  filename = "${path.module}/keys/${local.strata_keypair_name}"
   file_permission = "0600"
 }
 
 
 resource "local_file" "cluster_pub" {
   content     = "${tls_private_key.cluster_keypair.public_key_openssh}"
-  filename = "${path.module}/keys/${local.wumbo_keypair_name}.pub"
+  filename = "${path.module}/keys/${local.strata_keypair_name}.pub"
   file_permission = "0600"
 }
 
 resource "aws_s3_bucket" "keys" {
-  bucket = "${var.env}-wumbo-cluster-keys"
+  bucket = "${var.env}-strata-cluster-keys"
   acl = "private"
 }
 
@@ -115,7 +115,7 @@ resource "aws_launch_configuration" "main" {
     null_resource.iam_wait
   ]
 
-  name_prefix = "${var.env}-wumbo-launch-config"
+  name_prefix = "${var.env}-strata-launch-config"
 
   iam_instance_profile = aws_iam_instance_profile.cluster.name
   instance_type = var.instance_type
@@ -137,7 +137,7 @@ resource "aws_launch_configuration" "main" {
   user_data = <<EOF
 #!/bin/bash
 # The cluster this agent should check into.
-echo 'ECS_CLUSTER=${var.env}-wumbo-cluster' >> /etc/ecs/ecs.config
+echo 'ECS_CLUSTER=${var.env}-strata-cluster' >> /etc/ecs/ecs.config
 # Disable privileged containers.
 echo 'ECS_DISABLE_PRIVILEGED=true' >> /etc/ecs/ecs.config
 EOF
@@ -149,7 +149,7 @@ EOF
 }
 
 resource "aws_ecs_capacity_provider" "cluster_cap_provider" {
-  name = "${var.env}-wumbo-cap-provider"
+  name = "${var.env}-strata-cap-provider"
   auto_scaling_group_provider {
     auto_scaling_group_arn = aws_autoscaling_group.cluster_asg.arn
     managed_scaling {

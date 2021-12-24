@@ -18,7 +18,7 @@ variable "cidr_block" {
 
 variable "ovpn_users" { 
   type = list(string)
-  default = ["wumbo"] 
+  default = ["strata"] 
 }
 
 variable "aws_azs" {
@@ -87,8 +87,8 @@ variable "token_bonding_program_id" {
   default = "TBondz6ZwSM5fs4v2GpnVBMuwoncPkFLFR9S422ghhN"
 }
 
-variable "wumbo_program_id" {
-  default = "WumbodN8t7wcDPCY2nGszs4x6HRtL5mJcTR519Qr6m7"
+variable "token_collective_program_id" {
+  default = "TCo1sP6RwuCuyHPHjxgzcrq4dX4BKf9oRQ3aJMcdFry"
 }
 
 variable "block_uploader_count" {
@@ -101,7 +101,7 @@ variable "slots_num_partitions" {
 }
 
 variable "solana_url" {
-  default = "https://wumbo.devnet.rpcpool.com/"
+  default = "https://strata.devnet.rpcpool.com/"
 }
 
 variable "missed_block_solana_url" {
@@ -126,11 +126,11 @@ variable "nft_verifier_mismatch_threshold" {
   default = "20"
 }
 
-variable "wumbo_api_image" {
+variable "strata_api_image" {
   type = string
 }
 
-variable "wumbo_api_count" {
+variable "strata_api_count" {
   type = number
   default = 1
 }
@@ -181,7 +181,7 @@ variable "auth0_client_secret" {
 
 variable "auth0_domain" {
   type = string
-  default = "wumbo.us.auth0.com"
+  default = "strata.us.auth0.com"
 }
 
 variable "zone_id" {

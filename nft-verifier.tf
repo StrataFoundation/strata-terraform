@@ -4,18 +4,18 @@ module "nft_verifier" {
   internal = false
   name = "${var.env}-nft-verifier"
   path = "${var.env}-nft-verifier.teamwumbo.com"
-  cluster = aws_ecs_cluster.wumbo.id
+  cluster = aws_ecs_cluster.strata.id
   zone_id = var.zone_id
   lb_security_groups = [data.aws_security_group.default.id, aws_security_group.allow_http_https_inbound.id]
   service_security_groups =  [data.aws_security_group.default.id, module.web_server_sg.security_group_id]
   lb_subnets = module.vpc.public_subnets
   subnets = module.vpc.private_subnets
   vpc_id = module.vpc.vpc_id
-  certificate_arn = aws_acm_certificate.team_wumbo.arn
+  certificate_arn = aws_acm_certificate.main_domain.arn
   cpu = 512
   memory = 1028
   region = var.aws_region
-  log_group = aws_cloudwatch_log_group.wumbo_logs.name
+  log_group = aws_cloudwatch_log_group.strata_logs.name
   desired_count = var.nft_verifier_count
   environment = [
     {
