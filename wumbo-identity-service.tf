@@ -48,6 +48,9 @@ module "wumbo_identity_service" {
     }, {
       name = "TWITTER_SERVICE_ACCOUNT",
       value = var.twitter_service_account
+    }, {
+      name = "PAYER_SERVICE_ACCOUNT",
+      value = var.payer_service_account
     }
   ]
 }

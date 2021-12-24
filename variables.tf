@@ -164,6 +164,10 @@ variable "twitter_service_account" {
   type = string
 }
 
+variable "payer_service_account" {
+  type = string
+}
+
 variable "twitter_api_key" {
   type = string
 }
