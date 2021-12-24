@@ -5,7 +5,7 @@ module "kowl" {
   internal = true
   name = "${var.env}-kowl"
   path = "${var.env}-kowl.teamwumbo.com"
-  cluster = aws_ecs_cluster.wumbo.id
+  cluster = aws_ecs_cluster.strata.id
   zone_id = var.zone_id
   lb_security_groups = [data.aws_security_group.default.id, aws_security_group.allow_http_https_inbound.id]
   service_security_groups =  [data.aws_security_group.default.id, module.web_server_sg.security_group_id]
@@ -36,7 +36,7 @@ module "kafka_manager" {
   internal = true
   name = "${var.env}-kafka-manager"
   path = "${var.env}-kafka-manager.teamwumbo.com"
-  cluster = aws_ecs_cluster.wumbo.id
+  cluster = aws_ecs_cluster.strata.id
   zone_id = var.zone_id
   lb_security_groups = [data.aws_security_group.default.id, aws_security_group.allow_http_https_inbound.id]
   service_security_groups =  [data.aws_security_group.default.id, module.web_server_sg.security_group_id]
