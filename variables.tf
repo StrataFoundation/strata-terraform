@@ -84,11 +84,11 @@ variable "block_uploader_cpu" {
 }
 
 variable "token_bonding_program_id" {
-  default = "TBondz6ZwSM5fs4v2GpnVBMuwoncPkFLFR9S422ghhN"
+  default = "TBondmkCYxaPCKG4CHYfVTcwQ8on31xnJrPzk8F8WsS"
 }
 
 variable "token_collective_program_id" {
-  default = "TCo1sP6RwuCuyHPHjxgzcrq4dX4BKf9oRQ3aJMcdFry"
+  default = "TCo1sfSr2nCudbeJPykbif64rG9K1JNMGzrtzvPmp3y"
 }
 
 variable "block_uploader_count" {
