@@ -1,4 +1,10 @@
+
+// Legacy... Can't delete it without the dploy failing. Want to keep that data though.
 resource "aws_s3_bucket" "blocks_bucket" {
+  bucket = "${var.env}-wumbo-solana-blocks"
+}
+
+resource "aws_s3_bucket" "strata_blocks_bucket" {
   bucket = "${var.env}-strata-solana-blocks"
 }
 
@@ -11,12 +17,12 @@ resource "aws_iam_user_policy" "block_rw" {
       {
         Effect = "Allow",
         Action = ["s3:ListBucket"],
-        Resource = [aws_s3_bucket.blocks_bucket.arn]
+        Resource = [aws_s3_bucket.strata_blocks_bucket.arn]
       },
       {
         Effect = "Allow"
         Action = ["s3:PutObject", "s3:HeadObject", "s3:GetObject"],
-        Resource = ["${aws_s3_bucket.blocks_bucket.arn}/*"]
+        Resource = ["${aws_s3_bucket.strata_blocks_bucket.arn}/*"]
       }
     ]
   })
@@ -40,11 +46,11 @@ resource "aws_iam_user_policy" "block_ro" {
       {
         Effect = "Allow",
         Action = ["s3:ListBucket"],
-        Resource = [aws_s3_bucket.blocks_bucket.arn]
+        Resource = [aws_s3_bucket.strata_blocks_bucket.arn]
       }, {
         Effect = "Allow"
         Action = ["s3:GetObject","s3:GetObjectVersion"],
-        Resource = ["${aws_s3_bucket.blocks_bucket.arn}/*"]
+        Resource = ["${aws_s3_bucket.strata_blocks_bucket.arn}/*"]
       }
     ]
   })
@@ -128,7 +134,7 @@ module "block_uploader" {
       value = var.solana_url
     }, {
       name = "S3_BUCKET"
-      value = aws_s3_bucket.blocks_bucket.id
+      value = aws_s3_bucket.strata_blocks_bucket.id
     }, {
       name = "S3_PREFIX"
       value = var.s3_block_prefix
@@ -183,7 +189,7 @@ module "missed_block_uploader" {
       value = var.missed_block_solana_url
     }, {
       name = "S3_BUCKET"
-      value = aws_s3_bucket.blocks_bucket.id
+      value = aws_s3_bucket.strata_blocks_bucket.id
     }, {
       name = "S3_PREFIX"
       value = var.s3_block_prefix
@@ -231,7 +237,7 @@ module "event_transformer" {
       value = aws_iam_access_key.block_ro.secret
     }, {
       name = "S3_BUCKET"
-      value = aws_s3_bucket.blocks_bucket.id
+      value = aws_s3_bucket.strata_blocks_bucket.id
     }, {
       name = "S3_PREFIX"
       value = var.s3_block_prefix
