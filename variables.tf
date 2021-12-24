@@ -130,6 +130,15 @@ variable "strata_api_image" {
   type = string
 }
 
+variable "wumbo_identity_service_image" {
+  type = string
+}
+
+variable "wumbo_identity_service_count" {
+  type = number
+  default = 1
+}
+
 variable "strata_api_count" {
   type = number
   default = 1
