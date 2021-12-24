@@ -92,6 +92,9 @@ module "slot_identifier" {
     }, {
       name = "NUM_PARTITIONS",
       value = var.slots_num_partitions
+    }, {
+      name = "START_SLOT",
+      value = "113121356"
     }
   ]
 }
