@@ -292,54 +292,13 @@ module "account_leaderboard" {
       value = "true"
     }, {
       name = "KAFKA_INPUT_TOPIC"
-      value = "json.solana.strata_users_wum_net_worth_by_account_table"
+      value = "json.solana.latest_bonding_token_account_balances"
     }, {
       name = "KAFKA_OFFSET_RESET"
       value = "earliest"
     }, {
       name = "KAFKA_GROUP_ID"
       value = "account-leaderboard"
-    }, {
-      name = "REDIS_HOST"
-      value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}"
-    }, {
-      name = "REDIS_PORT"
-      value = "6379"
-    }
-  ]
-}
-
-module "wum_net_worth_leaderboard" {
-  source = "./modules/data_pipeline"
-  image = var.data_pipeline_image
-  region = var.aws_region
-  command = "dist/lib/leaderboard/index.js"
-  cluster = aws_ecs_cluster.strata.id
-  log_group = aws_cloudwatch_log_group.strata_logs.name
-  name = "${var.env}-wum-net-worth-leaderboard"
-  cpu = 200
-  memory = 512
-  desired_count = 1  
-  environment = [
-    {
-      name = "PLUGIN"
-      value = "WUM_NET_WORTH"
-    },
-    {
-      name = "KAFKA_BOOTSTRAP_SERVERS"
-      value = aws_msk_cluster.kafka.bootstrap_brokers_tls
-    }, {
-      name = "KAFKA_SSL_ENABLED"
-      value = "true"
-    }, {
-      name = "KAFKA_INPUT_TOPIC"
-      value = "json.solana.strata_users_total_wum_net_worth"
-    }, {
-      name = "KAFKA_OFFSET_RESET"
-      value = "earliest"
-    }, {
-      name = "KAFKA_GROUP_ID"
-      value = "total-wum-net-worth-leaderboard"
     }, {
       name = "REDIS_HOST"
       value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}"
@@ -374,54 +333,13 @@ module "top_tokens_leaderboard" {
       value = "true"
     }, {
       name = "KAFKA_INPUT_TOPIC"
-      value = "json.solana.strata_token_bonding_supply"
+      value = "json.solana.latest_reserve_token_account_balances"
     }, {
       name = "KAFKA_OFFSET_RESET"
       value = "earliest"
     }, {
       name = "KAFKA_GROUP_ID"
       value = "top-token-leaderboard"
-    }, {
-      name = "REDIS_HOST"
-      value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}"
-    }, {
-      name = "REDIS_PORT"
-      value = "6379"
-    }
-  ]
-}
-
-module "total_wum_net_worth" {
-  source = "./modules/data_pipeline"
-  image = var.data_pipeline_image
-  region = var.aws_region
-  command = "dist/lib/leaderboard/index.js"
-  cluster = aws_ecs_cluster.strata.id
-  log_group = aws_cloudwatch_log_group.strata_logs.name
-  name = "${var.env}-total-wum-net-worth"
-  cpu = 100
-  memory = 256
-  desired_count = 1  
-  environment = [
-    {
-      name = "PLUGIN"
-      value = "TOTAL_WUM_NET_WORTH"
-    },
-    {
-      name = "KAFKA_BOOTSTRAP_SERVERS"
-      value = aws_msk_cluster.kafka.bootstrap_brokers_tls
-    }, {
-      name = "KAFKA_SSL_ENABLED"
-      value = "true"
-    }, {
-      name = "KAFKA_INPUT_TOPIC"
-      value = "json.solana.global_total_wum_net_worth"
-    }, {
-      name = "KAFKA_OFFSET_RESET"
-      value = "earliest"
-    }, {
-      name = "KAFKA_GROUP_ID"
-      value = "total-wum-net-worth"
     }, {
       name = "REDIS_HOST"
       value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}"
