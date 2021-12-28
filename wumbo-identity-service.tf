@@ -98,7 +98,7 @@ module "dev_wumbo_identity_service" {
       value = var.twitter_access_token_secret
     }, {
       name = "SOLANA_URL",
-      value = "https://devnet.api.solana.com"
+      value = "https://api.devnet.solana.com"
     }, {
       name = "TWITTER_TLD",
       value = var.twitter_tld
