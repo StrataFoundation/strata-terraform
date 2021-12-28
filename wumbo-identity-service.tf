@@ -70,7 +70,7 @@ module "dev_wumbo_identity_service" {
   memory = 512
   region = var.aws_region
   log_group = aws_cloudwatch_log_group.strata_logs.name
-  desired_count = var.wumbo_identity_service_count
+  desired_count = 1
   environment = [
     {
       name = "AUTH0_CLIENT_ID",
