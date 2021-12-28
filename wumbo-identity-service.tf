@@ -34,11 +34,8 @@ module "wumbo_identity_service" {
       name = "TWITTER_SECRET",
       value = var.twitter_secret
     }, {
-      name = "TWITTER_ACCESS_TOKEN_KEY",
-      value = var.twitter_access_token_key
-    }, {
-      name = "TWITTER_ACCESS_TOKEN_SECRET",
-      value = var.twitter_access_token_secret
+      name = "TWITTER_BEARER_TOKEN",
+      value = var.twitter_bearer_token
     }, {
       name = "SOLANA_URL",
       value = var.solana_url
@@ -91,11 +88,8 @@ module "dev_wumbo_identity_service" {
       name = "TWITTER_SECRET",
       value = var.twitter_secret
     }, {
-      name = "TWITTER_ACCESS_TOKEN_KEY",
-      value = var.twitter_access_token_key
-    }, {
-      name = "TWITTER_ACCESS_TOKEN_SECRET",
-      value = var.twitter_access_token_secret
+      name = "TWITTER_BEARER_TOKEN",
+      value = var.twitter_bearer_token
     }, {
       name = "SOLANA_URL",
       value = "https://api.devnet.solana.com"

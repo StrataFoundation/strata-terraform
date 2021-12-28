@@ -176,11 +176,7 @@ variable "twitter_secret" {
   type = string
 }
 
-variable "twitter_access_token_key" {
-  type = string
-}
-
-variable "twitter_access_token_secret" {
+variable "twitter_bearer_token" {
   type = string
 }
 
