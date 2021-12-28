@@ -190,7 +190,7 @@ variable "auth0_client_secret" {
 
 variable "auth0_domain" {
   type = string
-  default = "strata.us.auth0.com"
+  default = "wumbo.us.auth0.com"
 }
 
 variable "zone_id" {
