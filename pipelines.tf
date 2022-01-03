@@ -122,7 +122,7 @@ module "block_uploader" {
   desired_count = var.block_uploader_count
   environment = [
     {
-      name = MAX_BYTES,
+      name = "MAX_BYTES",
       value = "500"
     },
     {
@@ -177,7 +177,7 @@ module "missed_block_uploader" {
   desired_count = 1
   environment = [
     {
-      name = MAX_BYTES,
+      name = "MAX_BYTES",
       value = "500"
     },
     {
