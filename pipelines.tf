@@ -178,7 +178,11 @@ module "missed_block_uploader" {
   environment = [
     {
       name = "MAX_BYTES",
-      value = "500"
+      value = "1000"
+    },
+    {
+      name = "GROUP_SIZE",
+      value = 5
     },
     {
       name = "KAFKA_OFFSET_RESET"
