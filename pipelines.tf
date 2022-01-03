@@ -122,6 +122,10 @@ module "block_uploader" {
   desired_count = var.block_uploader_count
   environment = [
     {
+      name = MAX_BYTES,
+      value = 500
+    },
+    {
       name = "S3_ACCESS_KEY_ID"
       value = aws_iam_access_key.block_rw.id
     },
@@ -172,6 +176,10 @@ module "missed_block_uploader" {
   memory = var.block_uploader_memory
   desired_count = 1
   environment = [
+    {
+      name = MAX_BYTES,
+      value = 500
+    },
     {
       name = "KAFKA_OFFSET_RESET"
       value = "earliest"
