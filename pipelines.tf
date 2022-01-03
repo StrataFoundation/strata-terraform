@@ -123,7 +123,7 @@ module "block_uploader" {
   environment = [
     {
       name = MAX_BYTES,
-      value = 500
+      value = "500"
     },
     {
       name = "S3_ACCESS_KEY_ID"
@@ -178,7 +178,7 @@ module "missed_block_uploader" {
   environment = [
     {
       name = MAX_BYTES,
-      value = 500
+      value = "500"
     },
     {
       name = "KAFKA_OFFSET_RESET"
