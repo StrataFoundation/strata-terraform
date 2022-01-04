@@ -83,7 +83,7 @@ module "signature_identifiers" {
   command = "dist/lib/kafka-signature-identifier.js"
   cluster = aws_ecs_cluster.strata.id
   log_group = aws_cloudwatch_log_group.strata_logs.name
-  name = "${var.env}-$[each.key}-signature-identifier"
+  name = "${var.env}-${each.key}-signature-identifier"
   cpu = 100
   memory = 300
   desired_count = 1  
