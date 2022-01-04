@@ -204,7 +204,7 @@ module "event_transformer" {
   name = "${var.env}-event-transformer"
   cpu = 350
   memory = 512
-  desired_count = 1  
+  desired_count = var.num_event_transformers 
   environment = [
     {
       name = "SOLANA_URL",

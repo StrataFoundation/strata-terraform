@@ -91,6 +91,10 @@ variable "signature_processor_commit_threshold" {
   default = 100
 }
 
+variable "num_event_transformers" {
+  default = 4
+}
+
 variable "token_bonding_program_id" {
   default = "TBondmkCYxaPCKG4CHYfVTcwQ8on31xnJrPzk8F8WsS"
 }
