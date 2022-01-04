@@ -75,11 +75,11 @@ variable "s3_block_prefix" {
   default = "blocks"
 }
 
-variable "block_uploader_memory" {
+variable "signature_processor_memory" {
   default = 1028
 }
 
-variable "block_uploader_cpu" {
+variable "signature_processor_cpu" {
   default = 350
 }
 
@@ -91,13 +91,13 @@ variable "token_collective_program_id" {
   default = "TCo1sfSr2nCudbeJPykbif64rG9K1JNMGzrtzvPmp3y"
 }
 
-variable "block_uploader_count" {
+variable "signature_processor_count" {
   type = number
-  default = 1
+  default = 4
 }
 
-variable "slots_num_partitions" {
-  default = 8
+variable "signature_processor_num_partitions" {
+  default = 16
 }
 
 variable "solana_url" {

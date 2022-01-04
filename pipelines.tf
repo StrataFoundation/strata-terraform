@@ -65,14 +65,25 @@ resource "aws_iam_access_key" "block_ro" {
   user = aws_iam_user.block_ro.name
 }
 
-module "slot_identifier" {
+locals {
+  accounts = {
+        "token" = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "atoken" = "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL",
+        "name" = "namesLPneVptA9Z5rqUDD9tMTWEJwofgaYwp8cawRkX",
+        "bonding" = var.token_bonding_program_id,
+        "collective" = var.token_collective_program_id
+  }
+}
+
+module "signature_identifiers" {
+  for_each = local.accounts
   source = "./modules/data_pipeline"
   image = var.data_pipeline_image
   region = var.aws_region
-  command = "dist/lib/kafka-s3-slot-identifier.js"
+  command = "dist/lib/kafka-signature-identifier.js"
   cluster = aws_ecs_cluster.strata.id
   log_group = aws_cloudwatch_log_group.strata_logs.name
-  name = "${var.env}-slot-identifier"
+  name = "${var.env}-$[each.key}-signature-identifier"
   cpu = 100
   memory = 300
   desired_count = 1  
@@ -88,141 +99,91 @@ module "slot_identifier" {
       value = "true"
     }, {
       name = "KAFKA_TOPIC"
-      value = "json.solana.slots"
+      value = "json.solana.signatures.${each.key}"
     }, {
       name = "NUM_PARTITIONS",
-      value = var.slots_num_partitions
+      value = "1"
     }, {
-      name = "START_SLOT",
-      value = "113121356"
+      name = "ADDRESS",
+      value = each.value
     }
   ]
 }
 
-locals {
-  accounts = join(",", [
-        "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
-        "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL",
-        "namesLPneVptA9Z5rqUDD9tMTWEJwofgaYwp8cawRkX",
-        var.token_bonding_program_id,
-        var.token_collective_program_id
-      ])
-}
-
-module "block_uploader" {
+module "signature_collector" {
   source = "./modules/data_pipeline"
   image = var.data_pipeline_image
   region = var.aws_region
-  command = "dist/lib/kafka-s3-block-uploader.js"
+  command = "dist/lib/kafka-signature-collector.js"
   cluster = aws_ecs_cluster.strata.id
   log_group = aws_cloudwatch_log_group.strata_logs.name
-  name = "${var.env}-block-uploader"
-  cpu = var.block_uploader_cpu
-  memory = var.block_uploader_memory
-  desired_count = var.block_uploader_count
+  name = "${var.env}-signature-collector"
+  cpu = 100
+  memory = 300
+  desired_count = 1  
   environment = [
     {
-      name = "MAX_BYTES",
-      value = "500"
-    },
-    {
-      name = "S3_ACCESS_KEY_ID"
-      value = aws_iam_access_key.block_rw.id
-    },
-    {
-      name = "KAFKA_GROUP_ID",
-      value = "kafka-s3-block-uploader"
-    },
-    {
-      name = "S3_SECRET_ACCESS_KEY"
-      value = aws_iam_access_key.block_rw.secret
-    }, {
-      name = "SOLANA_URL"
-      value = var.solana_url
-    }, {
-      name = "S3_BUCKET"
-      value = aws_s3_bucket.strata_blocks_bucket.id
-    }, {
-      name = "S3_PREFIX"
-      value = var.s3_block_prefix
-    }, {
       name = "KAFKA_BOOTSTRAP_SERVERS"
       value = aws_msk_cluster.kafka.bootstrap_brokers_tls
     }, {
       name = "KAFKA_SSL_ENABLED"
       value = "true"
     }, {
-      name = "KAFKA_INPUT_TOPIC",
-      value = "json.solana.slots"
-    }, {
       name = "KAFKA_TOPIC"
-      value = "json.solana.blocks"
+      value = "json.solana.signatures"
     }, {
-      name = "ACCOUNTS"
-      value = local.accounts
-    }
-  ]
-}
-
-module "missed_block_uploader" {
-  source = "./modules/data_pipeline"
-  image = var.data_pipeline_image
-  region = var.aws_region
-  command = "dist/lib/kafka-s3-block-uploader.js"
-  cluster = aws_ecs_cluster.strata.id
-  log_group = aws_cloudwatch_log_group.strata_logs.name
-  name = "${var.env}-missed-block-uploader"
-  cpu = var.block_uploader_cpu
-  memory = var.block_uploader_memory
-  desired_count = 1
-  environment = [
-    {
-      name = "MAX_BYTES",
-      value = "1000"
-    },
-    {
-      name = "GROUP_SIZE",
-      value = 5
-    },
-    {
-      name = "KAFKA_OFFSET_RESET"
+      name = "KAFKA_INPUT_TOPIC"
+      value = "json.solana.signatures..*"
+    }, {
+      name = "NUM_PARTITIONS",
+      value = var.signature_processor_num_partitions
+    }, {
+      name = "KAFKA_OFFSET_RESET",
       value = "earliest"
-    },
-    {
-      name = "S3_ACCESS_KEY_ID"
-      value = aws_iam_access_key.block_rw.id
-    },
-    {
+    }, {
       name = "KAFKA_GROUP_ID",
-      value = "kafka-s3-missed-block-uploader-1"
+      value = "kafka-signature-collector"
+    }
+  ]
+}
+
+module "signature_processor" {
+  source = "./modules/data_pipeline"
+  image = var.data_pipeline_image
+  region = var.aws_region
+  command = "dist/lib/kafka-signature-processor.js"
+  cluster = aws_ecs_cluster.strata.id
+  log_group = aws_cloudwatch_log_group.strata_logs.name
+  name = "${var.env}-signature-processor"
+  cpu = var.signature_processor_cpu
+  memory = var.signature_processor_memory
+  desired_count = var.signature_processor_count
+  environment = [
+    {
+      name = "SOLANA_URL",
+      value = var.solana_url
     },
     {
-      name = "S3_SECRET_ACCESS_KEY"
-      value = aws_iam_access_key.block_rw.secret
-    }, {
-      name = "SOLANA_URL"
-      value = var.missed_block_solana_url
-    }, {
-      name = "S3_BUCKET"
-      value = aws_s3_bucket.strata_blocks_bucket.id
-    }, {
-      name = "S3_PREFIX"
-      value = var.s3_block_prefix
-    }, {
       name = "KAFKA_BOOTSTRAP_SERVERS"
       value = aws_msk_cluster.kafka.bootstrap_brokers_tls
     }, {
       name = "KAFKA_SSL_ENABLED"
       value = "true"
     }, {
-      name = "KAFKA_INPUT_TOPIC",
-      value = "json.solana.missed_slots"
-    }, {
       name = "KAFKA_TOPIC"
-      value = "json.solana.blocks"
+      value = "json.solana.transactions"
     }, {
-      name = "ACCOUNTS"
-      value = local.accounts
+      name = "KAFKA_INPUT_TOPIC"
+      value = "json.solana.signatures"
+    }, {
+      name = "NUM_PARTITIONS",
+      value = "1"
+    }, {
+      name = "KAFKA_OFFSET_RESET",
+      value = "earliest"
+    }, {
+      name = "KAFKA_GROUP_ID",
+      value = "kafka-signature-processor"
     }
   ]
 }
@@ -242,20 +203,6 @@ module "event_transformer" {
     {
       name = "SOLANA_URL",
       value = var.solana_url
-    },
-    {
-      name = "S3_ACCESS_KEY_ID"
-      value = aws_iam_access_key.block_ro.id
-    },
-    { 
-      name = "S3_SECRET_ACCESS_KEY"
-      value = aws_iam_access_key.block_ro.secret
-    }, {
-      name = "S3_BUCKET"
-      value = aws_s3_bucket.strata_blocks_bucket.id
-    }, {
-      name = "S3_PREFIX"
-      value = var.s3_block_prefix
     }, {
       name = "KAFKA_BOOTSTRAP_SERVERS"
       value = aws_msk_cluster.kafka.bootstrap_brokers_tls
@@ -264,7 +211,7 @@ module "event_transformer" {
       value = "true"
     }, {
       name = "KAFKA_INPUT_TOPIC"
-      value = "json.solana.blocks"
+      value = "json.solana.transactions"
     }, {
       name = "KAFKA_OUTPUT_TOPIC"
       value = "json.solana.events"
