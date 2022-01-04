@@ -184,6 +184,12 @@ module "signature_processor" {
     }, {
       name = "KAFKA_GROUP_ID",
       value = "kafka-signature-processor"
+    },  {
+      name = "GROUP_SIZE",
+      value = var.signature_processor_concurrent_fetch
+    }, {
+      name = "AUTO_COMMIT_THRESHOLD",
+      value = var.signature_processor_commit_threshold
     }
   ]
 }

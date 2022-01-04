@@ -83,6 +83,14 @@ variable "signature_processor_cpu" {
   default = 350
 }
 
+variable "signature_processor_concurrent_fetch" {
+  default = 20
+}
+
+variable "signature_processor_commit_threshold" {
+  default = 100
+}
+
 variable "token_bonding_program_id" {
   default = "TBondmkCYxaPCKG4CHYfVTcwQ8on31xnJrPzk8F8WsS"
 }
