@@ -19,6 +19,14 @@ module "wumbo_identity_service" {
   desired_count = var.wumbo_identity_service_count
   environment = [
     {
+      name = "FEE_WALLET",
+      value = var.wumbo_fee_wallet
+    },
+    {
+      name = "GO_LIVE",
+      value = "1642604400"
+    },
+    {
       name = "AUTH0_CLIENT_ID",
       value = var.auth0_client_id
     }, {
@@ -72,6 +80,14 @@ module "dev_wumbo_identity_service" {
   log_group = aws_cloudwatch_log_group.strata_logs.name
   desired_count = 1
   environment = [
+    {
+      name = "FEE_WALLET",
+      value = var.wumbo_fee_wallet
+    },
+    {
+      name = "GO_LIVE",
+      value = "0"
+    },
     {
       name = "AUTH0_CLIENT_ID",
       value = var.auth0_client_id

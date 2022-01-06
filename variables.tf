@@ -227,3 +227,7 @@ variable "cluster_max_size" {
   type = number
   default = 3
 }
+
+variable "wumbo_fee_wallet" {
+  type = string
+}
