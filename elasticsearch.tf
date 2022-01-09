@@ -1,11 +1,3 @@
-
-module "cognito" {
-  source     = "./modules/cognito"
-  region = var.aws_region
-  name = "${var.env}-strata"
-  cognito_domain = "${var.env}-strata"
-}
-
 data "aws_iam_policy_document" "cognito_es_policy" {
   version = "2012-10-17"
   statement {
