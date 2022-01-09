@@ -73,12 +73,6 @@ data "aws_iam_policy_document" "default" {
       type        = "AWS"
       identifiers = ["*"]
     }
-
-    condition {
-      test     = "IpAddress"
-      values   = ["0.0.0.0/0"]
-      variable = "aws:SourceIp"
-    }
   }
 }
 
