@@ -10,10 +10,11 @@ module "elasticsearch" {
   zone_awareness_enabled  = "true"
   elasticsearch_version   = "7.10"
   instance_type           = "t2.small.elasticsearch"
-  instance_count          = 3
+  availability_zone_count = 3
+  instance_count          = 4
   ebs_volume_size         = 10
-  encrypt_at_rest_enabled = true
-  kibana_subdomain_name   = "kibana-es"
+  encrypt_at_rest_enabled = false
+  kibana_subdomain_name   = "${var.env}-kibana"
 
   advanced_options = {
     "rest.action.multi.allow_explicit_index" = "true"
