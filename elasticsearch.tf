@@ -58,6 +58,35 @@ resource "aws_iam_role_policy_attachment" "cognito_es_attach" {
   policy_arn = aws_iam_policy.cognito_es_policy.arn
 }
 
+data "aws_iam_policy_document" "default" {
+  statement {
+    effect = "Allow"
+
+    actions = ["es:*"]
+
+    resources = [
+      module.elasticsearch.domain_arn,
+      "${module.elasticsearch.domain_arn}/*"
+    ]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+
+    condition {
+      test     = "IpAddress"
+      values   = ["0.0.0.0/0"]
+      variable = "aws:SourceIp"
+    }
+  }
+}
+
+resource "aws_elasticsearch_domain_policy" "default" {
+  domain_name     = module.elasticsearch.domain_name
+  access_policies = join("", data.aws_iam_policy_document.default.*.json)
+}
+
 module "elasticsearch" {
   source = "cloudposse/elasticsearch/aws"
   namespace               = "eg"
@@ -75,13 +104,6 @@ module "elasticsearch" {
   ebs_volume_size         = 10
   encrypt_at_rest_enabled = false
   kibana_subdomain_name   = "${var.env}-kibana"
-  iam_authorizing_role_arns = [var.kafka_connect_arn]
-  iam_role_arns =  ["${lookup(module.cognito.cognito_map, "auth_arn")}", var.kafka_connect_arn]
-  iam_actions = ["es:*"]
-  cognito_authentication_enabled = true
-  cognito_user_pool_id = lookup(module.cognito.cognito_map, "user_pool")
-  cognito_identity_pool_id = lookup(module.cognito.cognito_map, "identity_pool")
-  cognito_iam_role_arn = aws_iam_role.cognito_es_role.arn
   advanced_options = {
     "rest.action.multi.allow_explicit_index" = "true"
   }
