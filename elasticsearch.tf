@@ -8,7 +8,7 @@ module "elasticsearch" {
   vpc_id                  = module.vpc.vpc_id
   subnet_ids              = module.vpc.public_subnets
   zone_awareness_enabled  = "true"
-  elasticsearch_version   = "7.16.2"
+  elasticsearch_version   = "7.10"
   instance_type           = "t2.small.elasticsearch"
   instance_count          = 3
   ebs_volume_size         = 10
