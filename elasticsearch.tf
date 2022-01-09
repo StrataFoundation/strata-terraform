@@ -75,8 +75,8 @@ module "elasticsearch" {
   ebs_volume_size         = 10
   encrypt_at_rest_enabled = false
   kibana_subdomain_name   = "${var.env}-kibana"
-  iam_authorizing_role_arns = [var.kafka_connect_arn]
-  iam_role_arns =  ["${lookup(module.cognito.cognito_map, "auth_arn")}", var.kafka_connect_arn]
+  allowed_cidr_blocks = concat(module.vpc.public_subnets_cidr_blocks, module.vpc.private_subnets_cidr_blocks)
+  iam_role_arns =  ["${lookup(module.cognito.cognito_map, "auth_arn")}"]
   iam_actions = ["es:*"]
   cognito_authentication_enabled = true
   cognito_user_pool_id = lookup(module.cognito.cognito_map, "user_pool")
