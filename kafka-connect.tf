@@ -1,7 +1,7 @@
 module "kafka_connect" {
   source = "./modules/service_with_lb"
-  image = var.nft_verifier_image
-  internal = false
+  image = "confluentinc/cp-kafka-connect:5.4.6"
+  internal = true
   name = "${var.env}-kafka-connect"
   path = "${var.env}-kafka-connect.teamwumbo.com"
   cluster = aws_ecs_cluster.strata.id
@@ -21,6 +21,10 @@ module "kafka_connect" {
       {
         name = "CONNECT_BOOTSTRAP_SERVERS"
         value =  aws_msk_cluster.kafka.bootstrap_brokers_tls
+      },
+      {
+        name = "CONNECT_SECURITY_PROTOCOL"
+        value = "SSL"
       },
       {
          name = "CONNECT_REST_PORT"
@@ -65,10 +69,6 @@ module "kafka_connect" {
       {
         name = "CONNECT_INTERNAL_VALUE_CONVERTER"
         value = "org.apache.kafka.connect.json.JsonConverter"
-      },
-      {
-        name = "CONNECT_REST_ADVERTISED_HOST_NAME"
-        value = "kafka-connect-01"
       },
       {
         name = "CONNECT_LOG4J_ROOT_LOGLEVEL"
