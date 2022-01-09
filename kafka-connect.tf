@@ -13,7 +13,7 @@ module "kafka_connect" {
   vpc_id = module.vpc.vpc_id
   certificate_arn = aws_acm_certificate.main_domain.arn
   cpu = 1000
-  memory = 8192
+  memory = 4000
   region = var.aws_region
   log_group = aws_cloudwatch_log_group.strata_logs.name
   desired_count = 1
