@@ -11,6 +11,11 @@ variable "command" {
   default = []
 }
 
+variable "iam_role" {
+  type = string
+  default = ""
+}
+
 variable "lb_subnets" {
   type = list(string)
 }
@@ -204,6 +209,7 @@ resource "aws_ecs_service" "service" {
   cluster = var.cluster
   task_definition = aws_ecs_task_definition.task.arn
   desired_count = var.desired_count
+  iam_role = var.iam_role
 
   load_balancer {
     target_group_arn = aws_lb_target_group.api.arn

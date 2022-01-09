@@ -231,3 +231,7 @@ variable "cluster_max_size" {
 variable "wumbo_fee_wallet" {
   type = string
 }
+
+variable "account_id" {
+  type = string
+}
