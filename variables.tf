@@ -235,3 +235,7 @@ variable "wumbo_fee_wallet" {
 variable "account_id" {
   type = string
 }
+
+variable "kafka_connect_arn" {
+  type = string
+}
