@@ -32,15 +32,15 @@ module "vpc" {
   enable_vpn_gateway = true
 }
 
-module "vpn" {
-  source="./modules/vpn"
-  aws_region = var.aws_region
-  vpn_name = "${var.env}-strata-vpn"
-  ovpn_users = var.ovpn_users
-  vpc_id = module.vpc.vpc_id
-  subnet_id = module.vpc.public_subnets[0]
-  security_groups = [data.aws_security_group.default.id]
-}
+# module "vpn" {
+#   source="./modules/vpn"
+#   aws_region = var.aws_region
+#   vpn_name = "${var.env}-strata-vpn"
+#   ovpn_users = var.ovpn_users
+#   vpc_id = module.vpc.vpc_id
+#   subnet_id = module.vpc.public_subnets[0]
+#   security_groups = [data.aws_security_group.default.id]
+# }
 
 data "aws_security_group" "default" {
   vpc_id = module.vpc.vpc_id
