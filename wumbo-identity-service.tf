@@ -24,7 +24,7 @@ module "wumbo_identity_service" {
     },
     {
       name = "GO_LIVE",
-      value = "1642604400"
+      value = "1642690800"
     },
     {
       name = "AUTH0_CLIENT_ID",
