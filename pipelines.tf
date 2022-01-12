@@ -165,6 +165,10 @@ module "signature_processor" {
   desired_count = var.signature_processor_count
   environment = [
     {
+      name = "MAX_BYTES",
+      value = 1000
+    },
+    {
       name = "SOLANA_URL",
       value = var.solana_url
     },
