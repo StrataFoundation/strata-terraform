@@ -166,7 +166,7 @@ module "signature_processor" {
   environment = [
     {
       name = "MAX_BYTES",
-      value = 2000
+      value = 200
     },
     {
       name = "SOLANA_URL",
