@@ -70,6 +70,7 @@ locals {
         "token" = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
         "atoken" = "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL",
         "name" = "namesLPneVptA9Z5rqUDD9tMTWEJwofgaYwp8cawRkX",
+        "token-metadata" = "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s",
         "bonding" = var.token_bonding_program_id,
         "collective" = var.token_collective_program_id
   }
@@ -106,6 +107,8 @@ module "signature_identifiers" {
     }, {
       name = "ADDRESS",
       value = each.value
+    }, {
+      
     }
   ]
 }
