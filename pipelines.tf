@@ -90,6 +90,10 @@ module "signature_identifiers" {
   desired_count = 1  
   environment = [
     {
+      name = "START_SIGNATURE",
+      value = "5qmi8Y2CfvVT1MGe6xQ37KeCTZajLnYJFQdqvqHGQa7ZF6bJqUDhVf8k9CMjgHMYeBSFxNw9mWpaa6CTcNA4sT14"
+    },
+    {
       name = "SOLANA_URL"
       value = var.solana_url
     }, {
@@ -107,8 +111,6 @@ module "signature_identifiers" {
     }, {
       name = "ADDRESS",
       value = each.value
-    }, {
-      
     }
   ]
 }
