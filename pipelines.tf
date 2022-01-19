@@ -272,7 +272,7 @@ module "account_leaderboard" {
       value = "earliest"
     }, {
       name = "KAFKA_GROUP_ID"
-      value = "account-leaderboard"
+      value = "account-leaderboard-1"
     }, {
       name = "REDIS_HOST"
       value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}"
@@ -290,7 +290,7 @@ module "top_tokens_leaderboard" {
   command = "dist/lib/leaderboard/index.js"
   cluster = aws_ecs_cluster.strata.id
   log_group = aws_cloudwatch_log_group.strata_logs.name
-  name = "${var.env}-top-tokens-leaderboard"
+  name = "${var.env}-top-tokens-leaderboard-1"
   cpu = 200
   memory = 512
   desired_count = 1  
