@@ -313,7 +313,7 @@ module "top_tokens_leaderboard" {
       value = "earliest"
     }, {
       name = "KAFKA_GROUP_ID"
-      value = "top-token-leaderboard"
+      value = "top-token-leaderboard-1"
     }, {
       name = "REDIS_HOST"
       value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}"
