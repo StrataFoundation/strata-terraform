@@ -87,7 +87,7 @@ module "signature_identifiers" {
   name = "${var.env}-${each.key}-signature-identifier"
   cpu = 100
   memory = 300
-  desired_count = 1  
+  desired_count = 0
   environment = [
     {
       name = "START_SIGNATURE",
@@ -125,7 +125,7 @@ module "signature_collector" {
   name = "${var.env}-signature-collector"
   cpu = 100
   memory = 300
-  desired_count = 1  
+  desired_count = 1
   environment = [
     {
       name = "KAFKA_BOOTSTRAP_SERVERS"
