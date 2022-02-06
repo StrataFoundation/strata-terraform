@@ -239,3 +239,7 @@ variable "account_id" {
 variable "kafka_connect_arn" {
   type = string
 }
+
+variable "vpn_count" {
+  default = 1
+}

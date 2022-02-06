@@ -33,6 +33,7 @@ module "vpc" {
 }
 
 module "vpn" {
+  count = var.vpn_count
   source="./modules/vpn"
   aws_region = var.aws_region
   vpn_name = "${var.env}-strata-vpn"
