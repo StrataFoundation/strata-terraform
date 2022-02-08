@@ -243,3 +243,15 @@ variable "kafka_connect_arn" {
 variable "vpn_count" {
   default = 1
 }
+
+variable "swap_tweets" {
+  type = string
+}
+
+variable "mint_tweets" {
+  type = string
+}
+
+variable "claim_tweets" {
+  type = string
+}

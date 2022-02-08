@@ -56,6 +56,15 @@ module "wumbo_identity_service" {
     }, {
       name = "PAYER_SERVICE_ACCOUNT",
       value = var.payer_service_account
+    }, {
+      name = "SWAP_TWEETS",
+      value = var.swap_tweets
+    }, {
+      name = "MINT_TWEETS",
+      value = var.mint_tweets
+    }, {
+      name = "CLAIM_TWEETS",
+      value = var.claim_tweets
     }
   ]
 }
