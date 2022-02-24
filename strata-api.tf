@@ -19,11 +19,8 @@ module "strata_api" {
   desired_count = var.strata_api_count
   environment = [
     {
-      name = "REDIS_HOST"
-      value = "${aws_elasticache_cluster.redis.cache_nodes[0].address}"
-    }, {
-      name = "REDIS_PORT"
-      value = "6379"
+      name = "SOLANA_URL"
+      value = "${var.solana_url}"
     }
   ]
 }
