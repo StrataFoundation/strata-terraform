@@ -49,7 +49,7 @@ resource "aws_db_instance" "default" {
   identifier = "postgres"
   name = "strata"
   publicly_accessible = true
-  
+
   # All available versions: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts
   engine               = "postgres"
   engine_version       = "14.1"
@@ -79,5 +79,4 @@ resource "aws_db_instance" "default" {
 
   performance_insights_enabled          = true
   performance_insights_retention_period = 7
-  monitoring_interval                   = 60
 }
