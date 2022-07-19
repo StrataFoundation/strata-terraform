@@ -251,3 +251,7 @@ variable "mint_tweets" {
 variable "claim_tweets" {
   type = string
 }
+
+variable "rds_password" {
+  type = string
+}

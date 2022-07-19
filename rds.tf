@@ -48,7 +48,8 @@ module "vpc_security_group" {
 resource "aws_db_instance" "default" {
   identifier = "postgres"
   name = "strata"
-
+  publicly_accessible = true
+  
   # All available versions: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts
   engine               = "postgres"
   engine_version       = "14.1"
@@ -61,6 +62,7 @@ resource "aws_db_instance" "default" {
   # "Error creating DB Instance: InvalidParameterValue: MasterUsername
   # user cannot be used as it is a reserved word used by the engine"
   username = "strata"
+  password = var.rds_password
   port     = 5432
 
   multi_az               = true
