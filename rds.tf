@@ -47,7 +47,7 @@ module "vpc_security_group" {
 
 resource "aws_db_instance" "default" {
   identifier = "postgres"
-  db_name = "strata"
+  name = "strata"
 
   # All available versions: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts
   engine               = "postgres"
