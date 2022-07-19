@@ -38,7 +38,7 @@ variable "public_subnets" {
 
 variable "database_subnets" {
   type = list(string)
-  default = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+  default = ["10.0.201.0/24", "10.0.202.0/24", "10.0.203.0/24"]
 }
 
 variable "num_kafka_nodes" {
