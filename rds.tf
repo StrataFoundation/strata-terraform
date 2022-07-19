@@ -49,7 +49,6 @@ resource "aws_db_instance" "default" {
   identifier = "postgres"
   name = "strata"
   publicly_accessible = true
-  vpc_id      = module.vpc.vpc_id
 
   # All available versions: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts
   engine               = "postgres"
@@ -68,7 +67,7 @@ resource "aws_db_instance" "default" {
 
   multi_az               = true
   db_subnet_group_name   = module.vpc.database_subnet_group
-  vpc_security_group_ids = [module.security_group.security_group_id]
+  vpc_security_group_ids = [module.vpc_security_group.secruity_group_id, module.security_group.security_group_id]
 
   maintenance_window              = "Mon:00:00-Mon:03:00"
   backup_window                   = "03:00-06:00"
