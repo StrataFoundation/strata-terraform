@@ -1,9 +1,16 @@
+resource "aws_mq_configuration" "rabbitmq" {
+  description    = "RabbitMQ Config"
+  name           = "rabbitmq"
+  engine_type    = "RabbitMQ"
+  engine_version = "5.15.9"
+}
+
 resource "aws_mq_broker" "rabbitmq" {
   broker_name = "rabbitmq"
 
   configuration {
-    id       = aws_mq_configuration.test.id
-    revision = aws_mq_configuration.test.latest_revision
+    id       = aws_mq_configuration.rabbitmq.id
+    revision = aws_mq_configuration.rabbitmq.latest_revision
   }
 
   engine_type        = "RabbitMQ"
