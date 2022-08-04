@@ -3,6 +3,14 @@ resource "aws_mq_configuration" "rabbitmq" {
   name           = "rabbitmq"
   engine_type    = "RabbitMQ"
   engine_version = "5.15.9"
+
+    data = <<DATA
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<broker xmlns="http://activemq.apache.org/schema/core">
+  <plugins>
+  </plugins>
+</broker>
+DATA
 }
 
 resource "aws_mq_broker" "rabbitmq" {
