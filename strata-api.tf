@@ -41,7 +41,7 @@ module "strata_api" {
       name = "RABBIT_PROTOCOL",
       value = "amqps"
     }, {
-      name = "RABBIT_USER",
+      name = "RABBIT_USERNAME",
       value = "strata"
     }, {
       name = "RABBIT_PASSWORD",
