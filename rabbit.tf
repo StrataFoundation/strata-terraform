@@ -5,7 +5,7 @@ resource "aws_mq_broker" "rabbitmq" {
   engine_version     = "3.9.16"
   host_instance_type = "mq.m5.large"
   security_groups = [data.aws_security_group.default.id]
-  subnet_ids = module.vpc.private_subnets
+  subnet_ids = [module.vpc.private_subnets[0]]
 
   user {
     username = "strata"
