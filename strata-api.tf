@@ -34,6 +34,21 @@ module "strata_api" {
     }, {
       name = "PG_DB",
       value = "strata"
+    }, {
+      name = "RABBIT_HOSTNAME",
+      value = aws_mq_broker.rabbitmq.instances.0.ip_address
+    }, {
+      name = "RABBIT_PROTOCOL",
+      value = "amqps"
+    }, {
+      name = "RABBIT_USER",
+      value = "strata"
+    }, {
+      name = "RABBIT_PASSWORD",
+      value = var.rabbit_password
+    }, {
+      name = "RABBIT_PORT",
+      value = "5671"
     }
   ]
 }

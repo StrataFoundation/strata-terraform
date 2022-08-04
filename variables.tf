@@ -260,3 +260,8 @@ variable "claim_tweets" {
 variable "rds_password" {
   type = string
 }
+
+variable "rabbit_password" {
+  type = string
+}
+
