@@ -36,7 +36,7 @@ module "strata_api" {
       value = "strata"
     }, {
       name = "RABBIT_HOSTNAME",
-      value = aws_mq_broker.rabbitmq.instances.0.ip_address
+      value = aws_mq_broker.rabbitmq.instances.0.endpoints.0
     }, {
       name = "RABBIT_PROTOCOL",
       value = "amqps"
