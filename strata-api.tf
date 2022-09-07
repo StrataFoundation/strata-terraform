@@ -21,21 +21,6 @@ module "strata_api" {
     {
       name = "SOLANA_URL"
       value = "${var.solana_url}"
-    },{
-      name = "RABBIT_HOSTNAME",
-      value = replace(replace(aws_mq_broker.rabbitmq.instances.0.endpoints.0, ":5671", ""), "amqps://", "")
-    }, {
-      name = "RABBIT_PROTOCOL",
-      value = "amqps"
-    }, {
-      name = "RABBIT_USERNAME",
-      value = "strata"
-    }, {
-      name = "RABBIT_PASSWORD",
-      value = var.rabbit_password
-    }, {
-      name = "RABBIT_PORT",
-      value = "5671"
     }
   ]
 }
