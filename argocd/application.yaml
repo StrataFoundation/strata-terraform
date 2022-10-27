@@ -4,7 +4,7 @@ server:
      namespace: argocd
      project: default
      source:
-       repoURL: https://github.com/helium/helium-foundation-k8s
+       repoURL: https://github.com/helium/helium-foundation-k8s.git
        targetRevision: HEAD
        path: argocd/manifests/cluster
        directory:
