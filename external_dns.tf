@@ -6,8 +6,8 @@ module "external_dns_helm" {
   argo_enabled      = false
   argo_helm_enabled = false
 
-  cluster_identity_oidc_issuer     = module.eks_cluster.eks_cluster_identity_oidc_issuer
-  cluster_identity_oidc_issuer_arn = module.eks_cluster.eks_cluster_identity_oidc_issuer_arn
+  cluster_identity_oidc_issuer     = module.eks.eks_cluster_identity_oidc_issuer
+  cluster_identity_oidc_issuer_arn = module.eks.eks_cluster_identity_oidc_issuer_arn
 
   policy_allowed_zone_ids = var.zone_ids
 
