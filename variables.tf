@@ -36,13 +36,13 @@ variable "database_subnets" {
   default = ["10.0.201.0/24", "10.0.202.0/24", "10.0.203.0/24"]
 }
 
-variable "instance_type" {
-  default = "m5.large"
+variable "aws_account_id" {
+  type = string
+  default = "848739503602"
 }
 
-variable "zone_ids" {
-  description = "The rotue53 zone ids of the domains accessible to k8s"
-  default = ["Z00702383HA5R7HK4JVO3"]
+variable "instance_type" {
+  default = "m5.large"
 }
 
 variable "cluster_name" {
@@ -64,3 +64,25 @@ variable "rds_password" {
   type = string
 }
 
+variable "external_dns_chart_version" {
+  description = "External-dns Helm chart version to deploy. 3.0.0 is the minimum version for this function"
+  type        = string
+  default     = "3.0.0"
+}
+
+variable "external_dns_chart_log_level" {
+  description = "External-dns Helm chart log leve. Possible values are: panic, debug, info, warn, error, fatal"
+  type        = string
+  default     = "warn"
+}
+
+variable "external_dns_zoneType" {
+  description = "External-dns Helm chart AWS DNS zone type (public, private or empty for both)"
+  type        = string
+  default     = ""
+}
+
+variable "external_dns_domain_filters" {
+  description = "External-dns Domain filters."
+  type        = list(string)
+}
