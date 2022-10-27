@@ -30,7 +30,7 @@ module "vpc" {
   database_subnets = var.database_subnets
 
   enable_nat_gateway = true
-  sinle_nat_gateway = true
+  single_nat_gateway = true
   enable_vpn_gateway = true
 
   create_database_subnet_group           = true
