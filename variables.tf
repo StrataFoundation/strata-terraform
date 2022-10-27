@@ -85,4 +85,5 @@ variable "external_dns_zoneType" {
 variable "external_dns_domain_filters" {
   description = "External-dns Domain filters."
   type        = list(string)
+  default = ["test-helium.com"]
 }
