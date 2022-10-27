@@ -16,11 +16,6 @@ variable "cidr_block" {
   default = "10.0.0.0/16"
 }
 
-variable "ovpn_users" { 
-  type = list(string)
-  default = ["helium"] 
-}
-
 variable "aws_azs" {
   type = list(string)
   default = ["us-east-1a", "us-east-1b", "us-east-1c"]
@@ -63,10 +58,6 @@ variable "cluster_max_size" {
 variable "cluster_desired_size" { 
   type = number
   default = 2
-}
-
-variable "vpn_count" {
-  default = 1
 }
 
 variable "rds_password" {
