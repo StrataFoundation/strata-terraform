@@ -87,7 +87,7 @@ resource "helm_release" "external_dns" {
   wait       = true
   repository = "https://charts.bitnami.com/bitnami"
   chart      = "external-dns"
-  version    = "v0.13.1"
+  version    = "6.11.2"
 
   set {
     name  = "rbac.create"
