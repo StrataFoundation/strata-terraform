@@ -16,7 +16,7 @@ resource "aws_route53_record" "main_domain" {
 }
 
 resource "aws_acm_certificate" "main_domain" {
-  domain_name       = "*.teamwumbo.com"
+  domain_name       = "*.helium.foundation"
   validation_method = "DNS"
 
   lifecycle {
@@ -29,4 +29,3 @@ resource "aws_acm_certificate_validation" "main_domain" {
   certificate_arn         = aws_acm_certificate.main_domain.arn
   validation_record_fqdns = [for record in aws_route53_record.main_domain : record.fqdn]
 }
-

@@ -30,6 +30,7 @@ module "vpc" {
   database_subnets = var.database_subnets
 
   enable_nat_gateway = true
+  sinle_nat_gateway = true
   enable_vpn_gateway = true
 
   create_database_subnet_group           = true
@@ -38,13 +39,23 @@ module "vpc" {
 
   enable_dns_hostnames = true
   enable_dns_support   = true
+
+  public_subnet_tags = {
+    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/role/elb"                      = 1
+  }
+
+  private_subnet_tags = {
+    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/role/internal-elb"             = 1
+  }
 }
 
 module "vpn" {
   count = var.vpn_count
   source="./modules/vpn"
   aws_region = var.aws_region
-  vpn_name = "${var.env}-strata-vpn"
+  vpn_name = "${var.env}-helium-vpn"
   ovpn_users = var.ovpn_users
   vpc_id = module.vpc.vpc_id
   subnet_id = module.vpc.public_subnets[0]
