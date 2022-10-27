@@ -19,7 +19,7 @@ provider "aws" {
 }
 
 locals {
-  cluster_name = "${var.cluster-name}-${var.env}"
+  cluster_name = "${var.cluster_name}-${var.env}"
 }
 
 module "vpc" {
