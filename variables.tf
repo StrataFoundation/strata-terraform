@@ -40,9 +40,9 @@ variable "instance_type" {
   default = "m5.large"
 }
 
-variable "zone_id" {
-  description = "The rotue53 zone id of the domain we're using in this tf"
-  default = "Z09747452F1E9H5ZWWB5V"
+variable "zone_ids" {
+  description = "The rotue53 zone ids of the domains accessible to k8s"
+  default = ["Z00702383HA5R7HK4JVO3"]
 }
 
 variable "cluster_name" {
