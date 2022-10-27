@@ -81,11 +81,16 @@ resource "kubernetes_cluster_role_binding" "external_dns" {
   }
 }
 
+data "helm_repository" "bitnami" {
+  name = "bitnami"
+  url  = "https://charts.bitnami.com/bitnami"
+}
+
 resource "helm_release" "external_dns" {
   name       = "external-dns"
   namespace  = kubernetes_service_account.external_dns.metadata.0.namespace
   wait       = true
-  repository = "https://kubernetes-sigs.github.io/external-dns"
+  repository = data.helm_repository.bitnami.metadata[0].name
   chart      = "external-dns"
   version    = "v0.13.1"
 
