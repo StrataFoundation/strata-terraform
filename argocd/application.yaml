@@ -4,14 +4,20 @@ metadata:
   name: cluster
   namespace: argocd
 spec:
-  destination:
-    namespace: cluster
-    server: https://kubernetes.default.svc
-  project: cluster
-  source:
-    repoURL: https://github.com/helium/helium-foundation-k8s
-    path: argocd/manifests/cluster
-    targetRevision: HEAD
-  syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
+  - name: cluster-config
+    namespace: argocd
+    project: default
+    source:
+      repoURL: https://github.com/piomin/sample-terraform-kubernetes-argocd.git
+      targetRevision: HEAD
+      path: argocd/manifests/cluster
+      directory:
+        recurse: true
+    destination:
+      server: https://kubernetes.default.svc
+    syncPolicy:
+      automated:
+        prune: false
+        selfHeal: false
+
+         
