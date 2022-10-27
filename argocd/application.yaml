@@ -1,6 +1,8 @@
 server:
   additionalApplications:
    - name: cluster-config
+      additionalAnnotations:
+        "helm.sh/resource-policy": keep 
      namespace: argocd
      project: default
      source:
