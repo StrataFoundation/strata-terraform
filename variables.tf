@@ -23,7 +23,7 @@ variable "ovpn_users" {
 
 variable "aws_azs" {
   type = list(string)
-  default = ["us-east-2a", "us-east-2b", "us-east-2c"]
+  default = ["us-east-1a", "us-east-1b", "us-east-1c"]
 }
 
 variable "private_subnets" {
