@@ -23,7 +23,7 @@ resource "helm_release" "argocd" {
 }
 
 data "kubectl_path_documents" "application" {
-    pattern = "./argo/application.yaml"
+    pattern = "./argocd/application.yaml"
 }
 
 resource "kubectl_manifest" "argocd" {
