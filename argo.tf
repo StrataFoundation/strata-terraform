@@ -14,8 +14,14 @@ resource "helm_release" "argocd" {
   namespace        = "argocd"
   version          = "5.8.3"
   create_namespace = true
+}
 
-  values = [
-    file("argocd/application.yaml")
-  ]
+data "kubectl_path_documents" "application" {
+    pattern = "./argo/application.yaml"
+}
+
+resource "kubectl_manifest" "argocd" {
+  depends_on = [helm_release.argocd]
+  count      = length(data.kubectl_path_documents.application.documents)
+  yaml_body  = element(data.kubectl_path_documents.application.documents, count.index)
 }
