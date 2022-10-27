@@ -4,8 +4,6 @@ metadata:
   name: cluster
   namespace: argocd
 spec:
-- name: cluster-config
-  namespace: argocd
   project: default
   source:
     repoURL: https://github.com/piomin/sample-terraform-kubernetes-argocd.git
@@ -14,9 +12,11 @@ spec:
     directory:
       recurse: true
   destination:
+    namespace: default
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
       prune: false
       selfHeal: false
+
          
