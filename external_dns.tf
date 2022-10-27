@@ -87,7 +87,7 @@ resource "helm_release" "external_dns" {
   wait       = true
   repository = "https://kubernetes-sigs.github.io/external-dns"
   chart      = "external-dns"
-  version    = "0.13.1"
+  version    = "v0.13.1"
 
   set {
     name  = "rbac.create"
