@@ -24,8 +24,8 @@ module "eks" {
       instance_types = ["t3.small"]
 
       min_size     = 1
-      max_size     = variables.cluster_max_size
-      desired_size = 2
+      max_size     = var.cluster_max_size
+      desired_size = var.cluster_desired_size
 
       pre_bootstrap_user_data = <<-EOT
       EOT

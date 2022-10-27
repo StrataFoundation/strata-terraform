@@ -18,6 +18,10 @@ provider "aws" {
   }
 }
 
+locals {
+  cluster_name = "${var.cluster-name}-${var.env}"
+}
+
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 

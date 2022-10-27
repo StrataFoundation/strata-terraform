@@ -45,25 +45,24 @@ variable "instance_type" {
   default = "m5.large"
 }
 
-variable "cluster_instance_iam_policy_contents" {
-  description = "The contents of the cluster instance IAM policy."
-  type        = string
-  default     = ""
-}
-variable "cluster_service_iam_policy_contents" {
-  description = "The contents of the cluster service IAM policy."
-  type        = string
-  default     = ""
-}
-
 variable "zone_id" {
   description = "The rotue53 zone id of the domain we're using in this tf"
   default = "Z09747452F1E9H5ZWWB5V"
 }
 
+variable "cluster_name" {
+  type = string
+  default = "helium"
+}
+
 variable "cluster_max_size" { 
   type = number
   default = 3
+}
+
+variable "cluster_desired_size" { 
+  type = number
+  default = 2
 }
 
 variable "vpn_count" {
