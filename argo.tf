@@ -28,7 +28,7 @@ resource "helm_release" "argocd" {
   }
 
   set {
-    name = "server.service.annotations.external-dns\\.alpha\\.kubernetes\\.io/hostname: "
+    name = "server.service.annotations.external-dns\\.alpha\\.kubernetes\\.io/hostname"
     value = var.argo_url
   }
 }
