@@ -19,12 +19,17 @@ resource "helm_release" "argocd" {
 
   set {
     name = "server.ingress.hosts[0]"
-    value = "argocd.test-helium.com"
+    value = var.argo_url
   }
 
   set {
     name = "server.ingress.ingressClassName"
     value = "nginx"
+  }
+
+  set {
+    name = "server.service.annotations.external-dns\\.alpha\\.kubernetes\\.io/hostname: "
+    value = var.argo_url
   }
 }
 

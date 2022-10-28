@@ -88,6 +88,10 @@ variable "zone_id" {
   default = "Z00485103CA63B8G5H7FP"
 }
 
+variable "argo_url" {
+  default = "argo.test-helium.com"
+}
+
 variable "zone_cert" {
   default = "arn:aws:acm:us-east-1:848739503602:certificate/c9616061-04ef-48a3-91fa-0fc62fcab6df"
 }
