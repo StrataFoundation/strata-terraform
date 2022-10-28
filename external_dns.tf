@@ -81,71 +81,37 @@ resource "kubernetes_cluster_role_binding" "external_dns" {
   }
 }
 
-resource "helm_release" "external_dns" {
-  name       = "external-dns"
-  namespace  = kubernetes_service_account.external_dns.metadata.0.namespace
-  wait       = true
-  repository = "https://charts.bitnami.com/bitnami"
-  chart      = "external-dns"
-  version    = "6.11.2"
-
-  set {
-    name  = "rbac.create"
-    value = false
-  }
-
-  set {
-    name  = "serviceAccount.create"
-    value = false
-  }
-
-  set {
-    name  = "serviceAccount.name"
-    value = kubernetes_service_account.external_dns.metadata.0.name
-  }
-
-  set {
-    name  = "rbac.pspEnabled"
-    value = false
-  }
-
-  set {
-    name  = "name"
-    value = "${var.cluster_name}-external-dns"
-  }
-
-  set {
-    name  = "provider"
-    value = "aws"
-  }
-
-  set {
-    name  = "policy"
-    value = "sync"
-  }
-
-  set {
-    name  = "logLevel"
-    value = var.external_dns_chart_log_level
-  }
-
-  set {
-    name  = "sources"
-    value = "{ingress,service}"
-  }
-
-  set {
-    name  = "domainFilters"
-    value = "{${join(",", var.external_dns_domain_filters)}}"
-  }
-
-  set {
-    name  = "aws.zoneType"
-    value = var.external_dns_zoneType
-  }
-
-  set {
-    name  = "aws.region"
-    value = var.aws_region
-  }
+resource "kubectl_manifest" "external_dns" {
+  yaml_body = <<YAML
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: external-dns
+  template:
+    metadata:
+      labels:
+        app: external-dns
+    serviceAccountName: external-dns
+    securityContext:
+      fsGroup: 65534
+    spec:
+      containers:
+      - name: external-dns
+        image: k8s.gcr.io/external-dns/external-dns:v0.10.2
+        args:
+        - --source=service
+        - --source=ingress
+        - --domain-filter=${var.domain_filter}  # will make ExternalDNS see only the hosted zones matching provided domain, omit to process all available hosted zones
+        - --provider=aws
+        - --policy=upsert-only # would prevent ExternalDNS from deleting any records, omit to enable full synchronization
+        - --aws-zone-type=public # only look at public hosted zones (valid values are public, private or no value for both)
+        - --registry=txt
+        - --txt-owner-id=${var.zone_id}
+  YAML
 }

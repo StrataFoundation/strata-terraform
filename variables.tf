@@ -81,3 +81,15 @@ variable "external_dns_domain_filters" {
   type        = list(string)
   default = ["test-helium.com"]
 }
+
+variable "zone_id" {
+  description = "Route53 zone ID"
+  type        = string
+  default = "Z00702383HA5R7HK4JVO3"
+}
+
+variable "domain_filter" {
+  description = "External-dns Domain filter."
+  type       = string
+  default = "test-helium.com"
+}
