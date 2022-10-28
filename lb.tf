@@ -53,7 +53,7 @@ resource "helm_release" "lbc" {
   chart            = "aws-load-balancer-controller"
   version          = "1.4.5"
   repository       = "https://aws.github.io/eks-charts"
-  namespace        = local.namespace
+  namespace        = "kube-system"
   create_namespace = true
   cleanup_on_fail  = true
 
