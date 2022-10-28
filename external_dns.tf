@@ -123,6 +123,6 @@ spec:
         - --policy=upsert-only # would prevent ExternalDNS from deleting any records, omit to enable full synchronization
         - --registry=txt
         - --log-level=debug
-        - --txt-owner-id=/hostedzone/${var.zone_id}
+        - --txt-owner-id=${var.zone_id}
   YAML
 }
