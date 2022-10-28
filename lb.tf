@@ -65,3 +65,16 @@ resource "helm_release" "lbc" {
     value = "lb"
   }
 }
+
+data "kubectl_path_documents" "nginx" {
+    pattern = "./lb/ingress-nginx.yaml"
+    vars = {
+      cert = var.zone_cert
+    }
+}
+
+resource "kubectl_manifest" "argocd" {
+  depends_on = [helm_release.argocd]
+  count      = length(data.kubectl_path_documents.application.documents)
+  yaml_body  = element(data.kubectl_path_documents.application.documents, count.index)
+}

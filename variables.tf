@@ -88,6 +88,10 @@ variable "zone_id" {
   default = "Z00485103CA63B8G5H7FP"
 }
 
+variable "zone_cert" {
+  default = "arn:aws:acm:us-east-2:848739503602:certificate/e39224bb-42cf-466d-a82a-0b699192d41a"
+}
+
 variable "domain_filter" {
   description = "External-dns Domain filter."
   type       = string
