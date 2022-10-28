@@ -44,3 +44,14 @@ data "aws_eks_cluster" "eks" {
 data "aws_eks_cluster_auth" "eks" {
   name = module.eks.cluster_id
 }
+
+module "lb-controller" {
+  source       = "Young-ook/eks/aws//modules/lb-controller"
+  cluster_name = module.eks.cluster.name
+  oidc         = module.eks.oidc
+  helm = {
+    vars = {
+      clusterName = module.eks.cluster.name
+    }
+  }
+}
