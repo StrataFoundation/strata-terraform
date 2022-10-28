@@ -341,7 +341,7 @@ data:
       listen 2443;
       return 308 https://$host$request_uri;
     }
-  proxy-real-ip-cidr: {cidr}
+  proxy-real-ip-cidr: ${cidr}
   use-forwarded-headers: "true"
 kind: ConfigMap
 metadata:
