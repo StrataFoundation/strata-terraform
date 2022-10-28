@@ -97,6 +97,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: external-dns
+  namespace: kube-system
 spec:
   strategy:
     type: Recreate
