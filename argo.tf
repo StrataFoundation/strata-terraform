@@ -13,6 +13,11 @@ resource "helm_release" "argocd" {
   }
 
   set {
+    name = "config.params.server.insecure"
+    value = "true"
+  }
+
+  set {
     name = "server.ingress.enabled"
     value = "true"
   }
