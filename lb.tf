@@ -43,11 +43,6 @@ resource "kubernetes_service_account" "lb" {
   automount_service_account_token = true
 }
 
-module "iam_eks_role" {
-  source    = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  role_name = local.lb_role_name
-}
-
 resource "helm_release" "lbc" {
   name             = "aws-load-balancer-controller"
   chart            = "aws-load-balancer-controller"
