@@ -123,6 +123,7 @@ spec:
         - --policy=upsert-only # would prevent ExternalDNS from deleting any records, omit to enable full synchronization
         - --aws-zone-type=public # only look at public hosted zones (valid values are public, private or no value for both)
         - --registry=txt
+        - --log-level=debug
         - --txt-owner-id=/hostedzone/${var.zone_id}
   YAML
 }
