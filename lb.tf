@@ -75,6 +75,6 @@ data "kubectl_path_documents" "nginx" {
 
 resource "kubectl_manifest" "nginx" {
   depends_on = [helm_release.argocd]
-  count      = length(data.kubectl_path_documents.application.documents)
-  yaml_body  = element(data.kubectl_path_documents.application.documents, count.index)
+  count      = length(data.kubectl_path_documents.nginx.documents)
+  yaml_body  = element(data.kubectl_path_documents.nginx.documents, count.index)
 }
