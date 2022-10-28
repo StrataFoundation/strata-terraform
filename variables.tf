@@ -85,7 +85,7 @@ variable "external_dns_domain_filters" {
 variable "zone_id" {
   description = "Route53 zone ID"
   type        = string
-  default = "Z00702383HA5R7HK4JVO3"
+  default = "Z00485103CA63B8G5H7FP"
 }
 
 variable "domain_filter" {
