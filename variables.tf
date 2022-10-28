@@ -89,7 +89,7 @@ variable "zone_id" {
 }
 
 variable "zone_cert" {
-  default = "arn:aws:acm:us-east-2:848739503602:certificate/e39224bb-42cf-466d-a82a-0b699192d41a"
+  default = "arn:aws:acm:us-east-1:848739503602:certificate/c9616061-04ef-48a3-91fa-0fc62fcab6df"
 }
 
 variable "domain_filter" {
