@@ -70,7 +70,7 @@ data "kubectl_path_documents" "nginx" {
     pattern = "./lb/ingress-nginx.yaml"
     vars = {
       cert = var.zone_cert
-      cidr = module.vpc.cidr
+      cidr = var.cidr_block
     }
 }
 
