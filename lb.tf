@@ -37,7 +37,8 @@ resource "kubernetes_service_account" "lb" {
     name      = "lb"
     namespace = "kube-system"
     annotations = {
-      "eks.amazonaws.com/role-arn" = aws_iam_role.lb.arn
+      "eks.amazonaws.com/role-arn" = aws_iam_role.lb.arn,
+      "app.kubernetes.io/managed-by" = "Helm"
     }
   }
   automount_service_account_token = true
@@ -48,7 +49,6 @@ resource "helm_release" "lbc" {
   chart            = "aws-load-balancer-controller"
   version          = "1.4.5"
   repository       = "https://aws.github.io/eks-charts"
-  namespace        = "kube-system"
   create_namespace = true
   cleanup_on_fail  = true
   set {
