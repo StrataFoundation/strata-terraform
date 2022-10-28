@@ -118,11 +118,11 @@ spec:
         args:
         - --source=service
         - --source=ingress
-        - --domain-filter=${var.domain_filter}  # will make ExternalDNS see only the hosted zones matching provided domain, omit to process all available hosted zones
+        - --domain-filter=${var.domain_filter}
         - --provider=aws
         - --policy=upsert-only # would prevent ExternalDNS from deleting any records, omit to enable full synchronization
         - --aws-zone-type=public # only look at public hosted zones (valid values are public, private or no value for both)
         - --registry=txt
-        - --txt-owner-id=${var.zone_id}
+        - --txt-owner-id=/hostedzone/${var.zone_id}
   YAML
 }
