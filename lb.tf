@@ -51,7 +51,10 @@ resource "helm_release" "lbc" {
   namespace        = "kube-system"
   create_namespace = true
   cleanup_on_fail  = true
-
+  set {
+    name = "clusterName"
+    value = local.cluster_name
+  }
   set {
     name = "serviceAccount.name"
     value = "lb"
