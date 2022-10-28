@@ -38,7 +38,9 @@ resource "kubernetes_service_account" "lb" {
     namespace = "default"
     annotations = {
       "eks.amazonaws.com/role-arn" = aws_iam_role.lb.arn,
-      "app.kubernetes.io/managed-by" = "Helm"
+      "app.kubernetes.io/managed-by" = "Helm",
+      "meta.helm.sh/release-name" = "aws-load-balancer-controller",
+      "meta.helm.sh/release-namespace" = "default",
     }
   }
   automount_service_account_token = true
