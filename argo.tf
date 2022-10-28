@@ -28,13 +28,18 @@ resource "helm_release" "argocd" {
   }
 
   set {
-    name = "configs.params.server.insecure"
+    name = "server.repo.server.strict.tls"
     value = "true"
   }
 
   set {
     name = "server.service.annotations.external-dns\\.alpha\\.kubernetes\\.io/hostname"
     value = var.argo_url
+  }
+
+  set {
+    name = "server.ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/backend-protocol"
+    value = "HTTP"
   }
 }
 
