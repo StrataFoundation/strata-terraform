@@ -41,7 +41,7 @@ resource "kubernetes_service_account" "lb" {
       "meta.helm.sh/release-name" = "aws-load-balancer-controller",
       "meta.helm.sh/release-namespace" = "default",
     }
-    lables = {
+    labels = {
       "app.kubernetes.io/managed-by" = "Helm",
     }
   }
