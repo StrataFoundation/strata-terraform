@@ -35,7 +35,7 @@ resource "aws_iam_role_policy" "lb" {
 resource "kubernetes_service_account" "lb" {
   metadata {
     name      = "lb"
-    namespace = "kube-system"
+    namespace = "default"
     annotations = {
       "eks.amazonaws.com/role-arn" = aws_iam_role.lb.arn,
       "app.kubernetes.io/managed-by" = "Helm"
