@@ -17,7 +17,7 @@ resource "aws_iam_role" "lb" {
       "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {
         "StringEquals": {
-          "${local.oidc_url}:sub": "system:serviceaccount:kube-system:external-dns"
+          "${local.oidc_url}:sub": "system:serviceaccount:lb:lb"
         }
       }
     }
@@ -35,7 +35,7 @@ resource "aws_iam_role_policy" "lb" {
 resource "kubernetes_service_account" "lb" {
   metadata {
     name      = "lb"
-    namespace = "default"
+    namespace = "lb"
     annotations = {
       "eks.amazonaws.com/role-arn" = aws_iam_role.lb.arn,
       "app.kubernetes.io/managed-by" = "Helm"
@@ -48,6 +48,7 @@ resource "helm_release" "lbc" {
   name             = "aws-load-balancer-controller"
   chart            = "aws-load-balancer-controller"
   version          = "1.4.5"
+  namespace = "lb"
   repository       = "https://aws.github.io/eks-charts"
   create_namespace = true
   cleanup_on_fail  = true
