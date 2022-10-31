@@ -91,39 +91,39 @@ resource "kubernetes_cluster_role_binding" "external_dns" {
   }
 }
 
-# resource "kubectl_manifest" "external_dns" {
-#   yaml_body = <<YAML
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: external-dns
-#   namespace: kube-system
-# spec:
-#   strategy:
-#     type: Recreate
-#   selector:
-#     matchLabels:
-#       app: external-dns
-#   template:
-#     metadata:
-#       labels:
-#         app: external-dns
-#     spec:
-#       securityContext:
-#         fsGroup: 65534
-#       serviceAccountName: external-dns
-#       containers:
-#       - name: external-dns
-#         image: k8s.gcr.io/external-dns/external-dns:v0.10.2
-#         args:
-#         - --source=service
-#         - --source=ingress
-#         - --domain-filter=${var.domain_filter}
-#         - --provider=aws
-#         - --policy=upsert-only # would prevent ExternalDNS from deleting any records, omit to enable full synchronization
-#         - --aws-zone-type=
-#         - --registry=txt
-#         - --log-level=debug
-#         - --txt-owner-id=${var.zone_id}
-#   YAML
-# }
+resource "kubectl_manifest" "external_dns" {
+  yaml_body = <<YAML
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns
+  namespace: kube-system
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: external-dns
+  template:
+    metadata:
+      labels:
+        app: external-dns
+    spec:
+      securityContext:
+        fsGroup: 65534
+      serviceAccountName: external-dns
+      containers:
+      - name: external-dns
+        image: k8s.gcr.io/external-dns/external-dns:v0.10.2
+        args:
+        - --source=service
+        - --source=ingress
+        - --domain-filter=${var.domain_filter}
+        - --provider=aws
+        - --policy=upsert-only # would prevent ExternalDNS from deleting any records, omit to enable full synchronization
+        - --aws-zone-type=
+        - --registry=txt
+        - --log-level=debug
+        - --txt-owner-id=${var.zone_id}
+  YAML
+}
