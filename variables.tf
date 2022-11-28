@@ -85,11 +85,11 @@ variable "external_dns_domain_filters" {
 variable "zone_id" {
   description = "Route53 zone ID"
   type        = string
-  default = "Z00485103CA63B8G5H7FP"
+  default = "Z050039512T5DB5GPPHRV"
 }
 
 variable "argo_url" {
-  default = "argo.test-helium.com"
+  default = "argo.oracle.test-helium.com"
 }
 
 variable "zone_cert" {
@@ -99,5 +99,5 @@ variable "zone_cert" {
 variable "domain_filter" {
   description = "External-dns Domain filter."
   type       = string
-  default = "test-helium.com"
+  default = "oracle.test-helium.com"
 }
