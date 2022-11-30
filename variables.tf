@@ -36,11 +36,6 @@ variable "database_subnets" {
   default = ["10.0.201.0/24", "10.0.202.0/24", "10.0.203.0/24"]
 }
 
-variable "aws_account_id" {
-  type = string
-  default = "848739503602"
-}
-
 variable "instance_type" {
   default = "m5.large"
 }

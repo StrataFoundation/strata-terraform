@@ -18,7 +18,7 @@ terraform {
   }
 }
 
-
+data "aws_caller_identity" "current" {}
 
 # Kubernetes provider
 # https://learn.hashicorp.com/terraform/kubernetes/provision-eks-cluster#optional-configure-terraform-kubernetes-provider

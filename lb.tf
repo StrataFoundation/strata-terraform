@@ -2,6 +2,7 @@ locals {
   lb_role_name = "${module.eks.cluster_id}-aws-load-balancer-controller"
 }
 
+
 resource "aws_iam_role" "lb" {
   name  = local.lb_role_name
 
@@ -12,7 +13,7 @@ resource "aws_iam_role" "lb" {
     {
       "Effect": "Allow",
       "Principal": {
-        "Federated": "arn:aws:iam::${var.aws_account_id}:oidc-provider/${local.oidc_url}"
+        "Federated": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${local.oidc_url}"
       },
       "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {

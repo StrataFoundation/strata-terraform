@@ -12,7 +12,7 @@ resource "aws_iam_role" "external_dns" {
     {
       "Effect": "Allow",
       "Principal": {
-        "Federated": "arn:aws:iam::${var.aws_account_id}:oidc-provider/${local.oidc_url}"
+        "Federated": "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${local.oidc_url}"
       },
       "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {
