@@ -18,10 +18,10 @@ module "eks" {
   }
 
   eks_managed_node_groups = {
-    small_group = {
+    medium_group = {
       name = "small-node-group"
 
-      instance_types = ["t3.small"]
+      instance_types = ["t3.medium"]
 
       min_size     = 1
       max_size     = var.cluster_max_size
