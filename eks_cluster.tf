@@ -17,6 +17,8 @@ module "eks" {
     create_security_group = false
   }
 
+  attach_cluster_primary_security_group = false
+
   eks_managed_node_groups = {
     medium_group = {
       name = "small-node-group"
