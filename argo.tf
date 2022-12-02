@@ -41,10 +41,10 @@ resource "helm_release" "argocd" {
     name = "server.service.annotations.external-dns\\.alpha\\.kubernetes\\.io/hostname"
     value = var.argo_url
   }
-  
+
   set {
     name = "server.ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/proxy-connect-timeout"
-    value = "60"
+    value = "10"
   }
 }
 
