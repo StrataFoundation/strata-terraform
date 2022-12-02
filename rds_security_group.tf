@@ -27,13 +27,13 @@ resource "aws_security_group" "rds_security_group" {
     security_groups = [aws_security_group.rds_access_security_group.id]
   }
 
-  ingress {
-    description     = "Allow access from Nova security group (or cidr block)" 
-    from_port       = 5432
-    to_port         = 5432
-    protocol        = "tcp"
-    security_groups = ["${var.nova_aws_account_id}/${var.nova_rds_access_security_group}"] 
-  }
+#   ingress {
+#     description     = "Allow access from Nova security group (or cidr block)" 
+#     from_port       = 5432
+#     to_port         = 5432
+#     protocol        = "tcp"
+#     security_groups = ["${var.nova_aws_account_id}/${var.nova_rds_access_security_group}"] 
+#   }
 
   egress {
     from_port        = 0
