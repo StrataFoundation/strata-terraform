@@ -71,12 +71,6 @@ variable "external_dns_zoneType" {
   default     = ""
 }
 
-variable "external_dns_domain_filters" {
-  description = "External-dns Domain filters."
-  type        = list(string)
-  default = ["test-helium.com"]
-}
-
 variable "zone_id" {
   description = "Route53 zone ID"
   type        = string
