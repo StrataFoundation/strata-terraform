@@ -11,7 +11,7 @@ module "eks" {
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
 
-    attach_cluster_primary_security_group = false
+    attach_cluster_primary_security_group = true
 
     # Disabling and using externally provided security groups
     create_security_group = false
