@@ -39,22 +39,22 @@ module "vpc" {
 }
 
 # Create VPC Peering connection with specified Nova AWS account
-resource "aws_vpc_peering_connection" "nova_vpc_peering_connection" {
-  vpc_id        = module.vpc.vpc_id
-  peer_vpc_id   = var.nova_vpc_id
-  peer_owner_id = var.nova_aws_account_id
-}
+# resource "aws_vpc_peering_connection" "nova_vpc_peering_connection" {
+#   vpc_id        = module.vpc.vpc_id
+#   peer_vpc_id   = var.nova_vpc_id
+#   peer_owner_id = var.nova_aws_account_id
+# }
 
 # Add route to database us-east-1a route table allowing connection to specified private Nova subnet via VPC peering connection
-resource "aws_route" "database_route_table_route_to_nova_az_1a" {
-  route_table_id            = module.vpc.database_route_table_ids[0]
-  destination_cidr_block    = var.nova_vpc_private_subnet_cidr
-  vpc_peering_connection_id = aws_vpc_peering_connection.nova_vpc_peering_connection.id
-}
+# resource "aws_route" "database_route_table_route_to_nova_az_1a" {
+#   route_table_id            = module.vpc.database_route_table_ids[0]
+#   destination_cidr_block    = var.nova_vpc_private_subnet_cidr
+#   vpc_peering_connection_id = aws_vpc_peering_connection.nova_vpc_peering_connection.id
+# }
 
 # Add route to database us-east-1b route table allowing connection to specified private Nova subnet via VPC peering connection
-resource "aws_route" "database_route_table_route_to_nova_az_1b" {
-  route_table_id            = module.vpc.database_route_table_ids[1]
-  destination_cidr_block    = var.nova_vpc_private_subnet_cidr
-  vpc_peering_connection_id = aws_vpc_peering_connection.nova_vpc_peering_connection.id
-}
+# resource "aws_route" "database_route_table_route_to_nova_az_1b" {
+#   route_table_id            = module.vpc.database_route_table_ids[1]
+#   destination_cidr_block    = var.nova_vpc_private_subnet_cidr
+#   vpc_peering_connection_id = aws_vpc_peering_connection.nova_vpc_peering_connection.id
+# }
