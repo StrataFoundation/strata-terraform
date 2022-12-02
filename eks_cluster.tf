@@ -1,6 +1,6 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "18.26.6"
+  version = "18.31.2"
 
   cluster_name    = local.cluster_name
   cluster_version = "1.22"
@@ -15,6 +15,13 @@ module "eks" {
 
     # Disabling and using externally provided security groups
     create_security_group = false
+  }
+
+
+  # Remove this tag to allow the aws lb to target a single sg using the tag
+  # https://github.com/terraform-aws-modules/terraform-aws-eks/issues/2258
+  node_security_group_tags = {
+    "kubernetes.io/cluster/${local.cluster_name}" = null
   }
 
   eks_managed_node_groups = {
