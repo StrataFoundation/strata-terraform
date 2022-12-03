@@ -91,7 +91,6 @@ variable "domain_filter" {
   default = "oracle.test-helium.com"
 }
 
-
 # Nova-specific variables
 # variable "nova_aws_account_id" {
 #   description = "The AWS account ID for the Nova environment (e.g., dev or prod)."
