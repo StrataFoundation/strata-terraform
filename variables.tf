@@ -37,7 +37,7 @@ variable "database_subnets" {
 }
 
 variable "instance_type" {
-  default = "m5.large"
+  default = "t3.medium"
 }
 
 variable "cluster_name" {
@@ -57,36 +57,4 @@ variable "cluster_desired_size" {
 
 variable "rds_password" {
   type = string
-}
-
-variable "external_dns_chart_log_level" {
-  description = "External-dns Helm chart log leve. Possible values are: panic, debug, info, warn, error, fatal"
-  type        = string
-  default     = "warn"
-}
-
-variable "external_dns_zoneType" {
-  description = "External-dns Helm chart AWS DNS zone type (public, private or empty for both)"
-  type        = string
-  default     = ""
-}
-
-variable "zone_id" {
-  description = "Route53 zone ID"
-  type        = string
-  default = "Z050039512T5DB5GPPHRV"
-}
-
-variable "argo_url" {
-  default = "argo.oracle.test-helium.com"
-}
-
-variable "zone_cert" {
-  default = "arn:aws:acm:us-east-1:848739503602:certificate/c9616061-04ef-48a3-91fa-0fc62fcab6df"
-}
-
-variable "domain_filter" {
-  description = "External-dns Domain filter."
-  type       = string
-  default = "oracle.test-helium.com"
 }

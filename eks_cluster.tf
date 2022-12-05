@@ -28,7 +28,7 @@ module "eks" {
     medium_group = {
       name = "small-node-group"
 
-      instance_types = ["t3.medium"]
+      instance_types = [var.instance_type]
 
       min_size     = 1
       max_size     = var.cluster_max_size
@@ -43,22 +43,6 @@ module "eks" {
     }
   }
 }
-
-provider "helm" {
-  kubernetes {
-    host                   = module.eks.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-    token                  = data.aws_eks_cluster_auth.eks.token
-  }
-}
-
-provider "kubectl" {
-  host                   = module.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-  token                  = data.aws_eks_cluster_auth.eks.token
-  load_config_file = false
-}
-
 
 data "aws_eks_cluster" "eks" {
   name = module.eks.cluster_id

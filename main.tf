@@ -11,10 +11,6 @@ terraform {
     local = {
       version = "~> 2.1"
     }
-    kubectl = {
-      source = "gavinbunney/kubectl"
-      version = "1.11.3"
-    }
   }
 }
 
