@@ -3,8 +3,8 @@
 # Idea here is to create a Nova-specific user on the RDS instance for them to use in access.
 # To do so, we create an cross-account AWS IAM role their account can assume. The governance
 # of which resources can assume the role on their end is entirely up to them.
-resource "aws_iam_role" "nova_rds_role" {
-  name        = "nova_rds_role"
+resource "aws_iam_role" "rds_nova_user_access_role" {
+  name        = "rds_nova_user_access_role"
   description = "IAM Role for the Nova account to assume to access RDS via the nova user"
   count       = var.nova_aws_account_id == "" ? 0 : 1 # Don't create the resource if nova_aws_account_id isn't provided
 
@@ -48,9 +48,9 @@ resource "aws_iam_openid_connect_provider" "open_id" {
   url             = module.eks.cluster_oidc_issuer_url
 }
 
-resource "aws_iam_role" "hf_rds_role" {
-  name        = "hf_rds_role"
-  description = "IAM Role for the K8s pod to assume to access RDS via the hf user"
+resource "aws_iam_role" "rds_hf_user_access_role" {
+  name        = "rds_hf_user_access_role"
+  description = "IAM Role for a K8s pod to assume to access RDS via the hf user"
 
   inline_policy {
     name   = "hf_rds_user_access_policy"
