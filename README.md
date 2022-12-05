@@ -2,6 +2,12 @@
 Helium foundation terraform for AWS infra
 
 
+To get the kubeconfig,
+
+```
+aws eks --region us-east-1 update-kubeconfig  --name helium-prod
+```
+
 ## On new cluster create
 
 ### Route53
