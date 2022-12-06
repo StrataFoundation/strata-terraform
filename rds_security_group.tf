@@ -36,7 +36,7 @@ resource "aws_security_group_rule" "rds_security_group_ingress_rule_2" {
   from_port                = 5432
   to_port                  = 5432
   protocol                 = "tcp"
-  source_security_group_id = "${var.nova_aws_account_id}/${var.nova_rds_access_sg}"
+  source_security_group_id = "${var.nova_aws_account_id}/${var.nova_rds_access_security_group}"
   security_group_id        = aws_security_group.rds_security_group.id
   count                    = var.nova_aws_account_id == "" ? 0 : 1 # Don't create the resource if nova_aws_account_id isn't provided
 }

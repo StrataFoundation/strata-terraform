@@ -61,7 +61,7 @@ variable "rds_password" {
 
 # Nova-specific variables
 variable "nova_aws_account_id" {
-  description = "The AWS account ID for the Nova environment (e.g., dev or prod)."
+  description = "The AWS account ID for the Nova environment (e.g., dev or prod).\n\nIf an empty string is provided, no Nova-dependent resources will be created"
   type = string
 }
 
@@ -71,7 +71,7 @@ variable "nova_vpc_id" {
 }
 
 variable "nova_rds_access_security_group" {
-  description = "The Security Group ID for the Nova environment (e.g., dev or prod). IMPORTANT to note terraform apply WILL FAIL on this if the VPC peering connection hasn't been accepted on the Nova side."
+  description = "The Security Group ID for the Nova environment (e.g., dev or prod).\n\nIMPORTANT to note terraform apply WILL FAIL on this if the VPC peering connection hasn't been accepted on the Nova side."
   type = string
 }
 

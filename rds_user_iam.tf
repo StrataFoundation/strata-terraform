@@ -9,7 +9,7 @@ resource "aws_iam_role" "rds_nova_user_access_role" {
   count       = var.nova_aws_account_id == "" ? 0 : 1 # Don't create the resource if nova_aws_account_id isn't provided
 
   inline_policy {
-    name   = "nova_rds_user_access_policy"
+    name   = "rds_nova_user_access_policy"
     policy = jsonencode({
       Version   = "2012-10-17"
       Statement = [
@@ -42,18 +42,12 @@ resource "aws_iam_role" "rds_nova_user_access_role" {
 }
 
 # Helium Foundation IAM policy & role for RDS access
-resource "aws_iam_openid_connect_provider" "open_id" {
-  client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = [module.eks.cluster_tls_certificate_sha1_fingerprint]
-  url             = module.eks.cluster_oidc_issuer_url
-}
-
 resource "aws_iam_role" "rds_hf_user_access_role" {
   name        = "rds_hf_user_access_role"
   description = "IAM Role for a K8s pod to assume to access RDS via the hf user"
 
   inline_policy {
-    name   = "hf_rds_user_access_policy"
+    name   = "rds_hf_user_access_policy"
     policy = jsonencode({
       Version   = "2012-10-17"
       Statement = [
@@ -78,12 +72,11 @@ resource "aws_iam_role" "rds_hf_user_access_role" {
         Effect = "Allow"
         Sid    = ""
         Principal = {
-          Federated = "${aws_iam_openid_connect_provider.open_id.arn}"
+          Federated = "${module.eks.oidc_provider_arn}"
         }
         Condition = {
-          StringEqual = {
-            "${replace("${aws_iam_openid_connect_provider.open_id.url}", "https://", "")}:aub" = "sts:amazonaws.com"
-            "${replace("${aws_iam_openid_connect_provider.open_id.url}", "https://", "")}:sub" = "system:serviceaccount:default:app"
+          StringEquals = {
+            "${module.eks.oidc_provider}:sub" = "system:serviceaccount:default:app" # Will need to update this with proper service account namespace and application
           }
         }
       },

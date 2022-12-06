@@ -1,4 +1,3 @@
-# RDS
 resource "aws_db_instance" "oracle_rds" {
   db_name                             = "oracle"
   identifier                          = "oracle-rds"
