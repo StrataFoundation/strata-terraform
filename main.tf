@@ -26,7 +26,6 @@ provider "kubernetes" {
 }
 
 provider "aws" {
-  profile = "terraform-test"
   region = var.aws_region
 
   default_tags {

@@ -1,8 +1,7 @@
 # Nova IAM policy & role for RDS access
 #
-# Idea here is to create a Nova-specific user on the RDS instance for them to use in access.
-# To do so, we create an cross-account AWS IAM role their account can assume. The governance
-# of which resources can assume the role on their end is entirely up to them.
+# This IAM role allows cross-account access to the postgres db for a nova user. In sum, a Nova Labs
+# AWS account can assume this role in order to access the postgres db as the db-defined nova user.
 resource "aws_iam_role" "rds_nova_user_access_role" {
   name        = "rds_nova_user_access_role"
   description = "IAM Role for the Nova account to assume to access RDS via the nova user"
@@ -42,6 +41,9 @@ resource "aws_iam_role" "rds_nova_user_access_role" {
 }
 
 # Helium Foundation IAM policy & role for RDS access
+#
+# This IAM role allows k8s access to the postgres db for an hf user. Any k8s pod with the proper k8s "service
+# account" definition will be able to assume thhis role in order to access the postgres db as the db-defined hf user.
 resource "aws_iam_role" "rds_hf_user_access_role" {
   name        = "rds_hf_user_access_role"
   description = "IAM Role for a K8s pod to assume to access RDS via the hf user"
