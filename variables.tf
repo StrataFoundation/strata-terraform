@@ -62,7 +62,7 @@ variable "rds_password" {
 # Bastion variables
 variable "ec2_bastion_private_ip" {
   type = string
-  default = "10.0.1.1/32"
+  default = "10.0.1.5" # AWS reserves first 4 addresses
 }
 
 variable "ec2_bastion_ssh_key_name" {

@@ -6,9 +6,8 @@ resource "aws_instance" "bastion" {
   user_data     = "${file("ec2_bastion_user_data.sh")}"
 
   # VPC & networking
-  vpc_id            = module.vpc.vpc_id
   availability_zone = var.aws_azs[0]
-  subnet_id         = var.public_subnets[0]
+  subnet_id         = module.vpc.public_subnets[0]
   private_ip        = var.ec2_bastion_private_ip
 
   # Security
@@ -20,7 +19,7 @@ resource "aws_instance" "bastion" {
   # Storage 
   root_block_device {
     volume_size           = "100"
-    volume_type           = "i02"
+    volume_type           = "gp2"
     encrypted             = true
     delete_on_termination = true
   }

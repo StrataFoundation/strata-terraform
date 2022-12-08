@@ -1,6 +1,10 @@
 resource "aws_network_acl" "rds_db_subnet_nacl" {
   vpc_id     = module.vpc.vpc_id
-  subnet_ids = var.database_subnets
+  subnet_ids = module.vpc.database_subnets
+
+  tags = {
+    Name = "db-subnets-nacl"
+  }
 }
 
 # Ingress - private subnet 1a
@@ -77,7 +81,7 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_2" {
 }
 
 # Egress - bastion
-resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_3" {
+resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_3" {
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 300
   egress         = true
