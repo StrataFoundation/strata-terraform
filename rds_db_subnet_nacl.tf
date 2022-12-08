@@ -27,10 +27,22 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_2" {
   to_port        = 5432
 }
 
-# Ingress - nova private subnet
+# Ingress - bastion
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_3" {
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 300
+  egress         = false
+  protocol       = "tcp"
+  rule_action    = "allow"
+  cidr_block     = "${var.ec2_bastion_private_ip}/32"
+  from_port      = 5432
+  to_port        = 5432
+}
+
+# Ingress - nova private subnet
+resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_4" {
+  network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
+  rule_number    = 400
   egress         = false
   protocol       = "tcp"
   rule_action    = "allow"
@@ -64,10 +76,22 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_2" {
   to_port        = 65535
 }
 
-# Egress - nova private subnet
-resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_3" {
+# Egress - bastion
+resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_3" {
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 300
+  egress         = true
+  protocol       = "tcp"
+  rule_action    = "allow"
+  cidr_block     = "${var.ec2_bastion_private_ip}/32"
+  from_port      = 0
+  to_port        = 65535
+}
+
+# Egress - nova private subnet
+resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_4" {
+  network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
+  rule_number    = 400
   egress         = true
   protocol       = "tcp"
   rule_action    = "allow"

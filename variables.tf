@@ -59,6 +59,16 @@ variable "rds_password" {
   type = string
 }
 
+# Bastion variables
+variable "ec2_bastion_private_ip" {
+  type = string
+  default = "10.0.1.1/32"
+}
+
+variable "ec2_bastion_ssh_key_name" {
+  type = string
+}
+
 # Nova-specific variables
 variable "nova_aws_account_id" {
   description = "The AWS account ID for the Nova environment (e.g., dev or prod).\n\nIf an empty string is provided, no Nova-dependent resources will be created"

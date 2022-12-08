@@ -1,0 +1,38 @@
+resource "aws_instance" "bastion" {
+  # Instance
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t3.micro"
+  key_name      = var.ec2_bastion_ssh_key_name
+  user_data     = "${file("ec2_bastion_user_data.sh")}"
+
+  # VPC & networking
+  vpc_id            = module.vpc.vpc_id
+  availability_zone = var.aws_azs[0]
+  subnet_id         = var.public_subnets[0]
+  private_ip        = var.ec2_bastion_private_ip
+
+  # Security
+  vpc_security_group_ids = [
+    aws_security_group.rds_access_security_group.id, 
+    aws_security_group.ec2_bastion_security_group.id
+  ]
+
+  # Storage 
+  root_block_device {
+    volume_size           = "100"
+    volume_type           = "i02"
+    encrypted             = true
+    delete_on_termination = true
+  }
+  
+  tags = {
+    Name = "bastion"
+  }
+}
+
+resource "aws_eip" "bastion_eip" {
+  vpc                       = true
+  instance                  = aws_instance.bastion.id
+  associate_with_private_ip = var.ec2_bastion_private_ip
+  depends_on                = [module.vpc.igw_id]
+}

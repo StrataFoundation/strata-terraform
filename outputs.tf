@@ -22,3 +22,8 @@ output "cluster_name" {
   description = "Kubernetes Cluster Name"
   value       = local.cluster_name
 }
+
+output "bastion_eip" {
+  description = "Bastion EIP (static public IP address)"
+  value       = aws_eip.bastion_eip.public_ip
+}
