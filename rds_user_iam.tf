@@ -59,7 +59,7 @@ resource "aws_iam_role" "rds_mobile_oracle_user_access_role" {
           ]
           Effect   = "Allow"
           Resource = [
-            "arn:aws:rds-db:us-east-1:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.oracle_rds.resource_id}/mobile-oracle"
+            "arn:aws:rds-db:us-east-1:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.oracle_rds.resource_id}/mobile_oracle"
           ]
         },
       ]
@@ -78,7 +78,7 @@ resource "aws_iam_role" "rds_mobile_oracle_user_access_role" {
         }
         Condition = {
           StringEquals = {
-            "${module.eks.oidc_provider}:sub" = "system:serviceaccount:default:rds-mobile-oracle-user-access"
+            "${module.eks.oidc_provider}:sub" = "system:serviceaccount:helium:rds-mobile-oracle-user-access"
           }
         }
       },
@@ -103,7 +103,7 @@ resource "aws_iam_role" "rds_active_device_oracle_user_access_role" {
           ]
           Effect   = "Allow"
           Resource = [
-            "arn:aws:rds-db:us-east-1:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.oracle_rds.resource_id}/active-device-oracle"
+            "arn:aws:rds-db:us-east-1:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.oracle_rds.resource_id}/active_device_oracle"
           ]
         },
       ]
@@ -122,7 +122,7 @@ resource "aws_iam_role" "rds_active_device_oracle_user_access_role" {
         }
         Condition = {
           StringEquals = {
-            "${module.eks.oidc_provider}:sub" = "system:serviceaccount:default:rds-active-device-oracle-user-access"
+            "${module.eks.oidc_provider}:sub" = "system:serviceaccount:helium:rds-active-device-oracle-user-access"
           }
         }
       },

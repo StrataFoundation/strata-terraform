@@ -24,6 +24,17 @@ module "eks" {
     "kubernetes.io/cluster/${local.cluster_name}" = null
   }
 
+  node_security_group_additional_rules  = {
+    ingress_allow_access_fron_rds_access_sg = {
+            type                          = "ingress"
+            from_port                     = 0
+            to_port                       = 0
+            protocol                      = "-1"
+            source_security_group_id      = aws_security_group.rds_access_security_group.id
+            description                   = "Allow access from rds-access-security-group"
+    }
+  }
+
   eks_managed_node_groups = {
     medium_group = {
       name = "small-node-group"

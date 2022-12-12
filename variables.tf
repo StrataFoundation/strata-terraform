@@ -37,7 +37,7 @@ variable "database_subnets" {
 }
 
 variable "instance_type" {
-  default = "t3.medium"
+  default = "m5.large"
 }
 
 variable "cluster_name" {
