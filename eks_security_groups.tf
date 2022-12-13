@@ -7,8 +7,6 @@ resource "aws_security_group" "small_node_group" {
     to_port   = 22
     protocol  = "tcp"
 
-    cidr_blocks = [
-      "10.0.0.0/8",
-    ]
+    cidr_blocks = [var.cidr_block]
   }
 }

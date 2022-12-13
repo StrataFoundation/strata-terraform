@@ -1,6 +1,6 @@
 # Nova IAM policy & role for RDS access
 #
-# This IAM role allows cross-account access to the postgres db for a nova user. In sum, a Nova Labs
+# This IAM role allows cross-account access to the postgres db for a nova user. A Nova Labs
 # AWS account can assume this role in order to access the postgres db as the db-defined nova user.
 resource "aws_iam_role" "rds_nova_user_access_role" {
   name        = "rds-nova-user-access-role"
@@ -42,8 +42,8 @@ resource "aws_iam_role" "rds_nova_user_access_role" {
 
 # Helium Foundation IAM policy & role for RDS access
 #
-# This IAM role allows k8s access to the postgres db for an mobile-oracle user. Any k8s pod (e.g., ideally the mobile-oracle pod) with the proper 
-# k8s "service account" definition will be able to assume this role in order to access the postgres db as the db-defined mobile-oracle user.
+# This IAM role allows k8s access to the postgres db for a mobile_oracle user. Any k8s pod (e.g., ideally the mobile-oracle pod) with the proper 
+# k8s "service account" definition will be able to assume this role in order to access the postgres db as the db-defined mobile_oracle user.
 resource "aws_iam_role" "rds_mobile_oracle_user_access_role" {
   name        = "rds-mobile-oracle-user-access-role"
   description = "IAM Role for a K8s pod to assume to access RDS via the mobile-oracle user"
@@ -86,8 +86,8 @@ resource "aws_iam_role" "rds_mobile_oracle_user_access_role" {
   })
 }
 
-# This IAM role allows k8s access to the postgres db for an active-device-oracle user. Any k8s pod (e.g., ideally the active-device-oracle pod) with the proper 
-# k8s "service account" definition will be able to assume this role in order to access the postgres db as the db-defined active-device-oracle user.
+# This IAM role allows k8s access to the postgres db for an active_device_oracle user. Any k8s pod (e.g., ideally the active-device-oracle pod) with the proper 
+# k8s "service account" definition will be able to assume this role in order to access the postgres db as the db-defined active_device_oracle user.
 resource "aws_iam_role" "rds_active_device_oracle_user_access_role" {
   name        = "rds-active-device-oracle-user-access-role"
   description = "IAM Role for a K8s pod to assume to access RDS via the active-device-oracle user"

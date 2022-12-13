@@ -17,6 +17,7 @@ resource "aws_security_group" "rds_access_security_group" {
 }
 
 # RDS security group
+# Rules are applied individually so we can deploy if VPC peering connection with isn't created.
 # IMPORTANT to note terraform apply WILL FAIL on this if the VPC peering connection hasn't been accepted on the Nova side.
 resource "aws_security_group" "rds_security_group" {
   name        = "rds-security-group"

@@ -24,14 +24,16 @@ module "eks" {
     "kubernetes.io/cluster/${local.cluster_name}" = null
   }
 
+  # This rule on the node security group appears to be required to let pods
+  # with the rds-access-security-group sg communicate with the open internet
   node_security_group_additional_rules  = {
     ingress_allow_access_fron_rds_access_sg = {
-            type                          = "ingress"
-            from_port                     = 0
-            to_port                       = 0
-            protocol                      = "-1"
-            source_security_group_id      = aws_security_group.rds_access_security_group.id
-            description                   = "Allow access from rds-access-security-group"
+      type                          = "ingress"
+      from_port                     = 0
+      to_port                       = 0
+      protocol                      = "-1"
+      source_security_group_id      = aws_security_group.rds_access_security_group.id
+      description                   = "Allow access from rds-access-security-group"
     }
   }
 
@@ -54,12 +56,3 @@ module "eks" {
     }
   }
 }
-
-data "aws_eks_cluster" "eks" {
-  name = module.eks.cluster_id
-}
-
-data "aws_eks_cluster_auth" "eks" {
-  name = module.eks.cluster_id
-}
-

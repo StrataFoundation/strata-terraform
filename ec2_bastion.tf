@@ -5,7 +5,7 @@ resource "aws_instance" "bastion" {
   key_name      = var.ec2_bastion_ssh_key_name
   user_data     = "${file("${path.module}/scripts/ec2_bastion_user_data.sh")}"
 
-  # VPC & networking
+  # VPC & Networking
   availability_zone = var.aws_azs[0]
   subnet_id         = module.vpc.public_subnets[0]
   private_ip        = var.ec2_bastion_private_ip

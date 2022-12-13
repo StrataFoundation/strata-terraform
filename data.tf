@@ -1,9 +1,17 @@
+data "aws_caller_identity" "current" {}
+
+data "aws_eks_cluster" "eks" {
+  name = module.eks.cluster_id
+}
+
+data "aws_eks_cluster_auth" "eks" {
+  name = module.eks.cluster_id
+}
+
 data "aws_security_group" "default" {
   vpc_id = module.vpc.vpc_id
   name   = "default"
 }
-
-data "aws_caller_identity" "current" {}
 
 data "aws_ami" "ubuntu" {
   most_recent = true

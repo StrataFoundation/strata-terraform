@@ -1,3 +1,6 @@
+# During deployment of the EKS cluster, the aws-cni addon gets applied by default. 
+# However, in order to allow for pod-level security groups, a patch needs to be applied to the 
+# aws-cni addon. To do so, the "null_resource" is used to execute a bash script to apply the patch.
 resource "null_resource" "aws_cni_patch" {
   triggers = {
     cluster_name  = local.cluster_name

@@ -69,6 +69,11 @@ variable "ec2_bastion_ssh_key_name" {
   type = string
 }
 
+variable "ec2_bastion_access_ip" {
+  description = "The IP, in CIDR block form (x.x.x.x/32), to whitelist access to the bastion"
+  type = string
+}
+
 # Nova-specific variables
 variable "nova_aws_account_id" {
   description = "The AWS account ID for the Nova environment (e.g., dev or prod).\n\nIf an empty string is provided, no Nova-dependent resources will be created"
