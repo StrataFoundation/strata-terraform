@@ -1,6 +1,6 @@
 # RDS access security group
 resource "aws_security_group" "rds_access_security_group" {
-  name        = "rds_access_security_group"
+  name        = "rds-access-security-group"
   description = "Security group required to access RDS instance"
   vpc_id      = module.vpc.vpc_id
 
@@ -10,19 +10,28 @@ resource "aws_security_group" "rds_access_security_group" {
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name = "rds-access-security-group"
+  }
 }
 
 # RDS security group
+# Rules are applied individually so we can deploy if VPC peering connection with isn't created.
 # IMPORTANT to note terraform apply WILL FAIL on this if the VPC peering connection hasn't been accepted on the Nova side.
 resource "aws_security_group" "rds_security_group" {
-  name        = "rds_security_group"
+  name        = "rds-security-group"
   description = "Security group for RDS resource"
   vpc_id      = module.vpc.vpc_id
+
+  tags = {
+    Name = "rds-security-group"
+  }
 }
 
 resource "aws_security_group_rule" "rds_security_group_ingress_rule_1" {
   type                     = "ingress"
-  description              = "Allow access from rds_access_security_group"
+  description              = "Allow access from rds-access-security-group"
   from_port                = 5432
   to_port                  = 5432
   protocol                 = "tcp"
@@ -32,7 +41,7 @@ resource "aws_security_group_rule" "rds_security_group_ingress_rule_1" {
 
 resource "aws_security_group_rule" "rds_security_group_ingress_rule_2" {
   type                     = "ingress"
-  description              = "Allow access from Nova security group (or cidr block)" 
+  description              = "Allow access from Nova security group" 
   from_port                = 5432
   to_port                  = 5432
   protocol                 = "tcp"

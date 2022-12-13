@@ -37,7 +37,7 @@ variable "database_subnets" {
 }
 
 variable "instance_type" {
-  default = "t3.medium"
+  default = "m5.large"
 }
 
 variable "cluster_name" {
@@ -56,6 +56,21 @@ variable "cluster_desired_size" {
 }
 
 variable "rds_password" {
+  type = string
+}
+
+# Bastion variables
+variable "ec2_bastion_private_ip" {
+  type = string
+  default = "10.0.1.5" # AWS reserves first 4 addresses
+}
+
+variable "ec2_bastion_ssh_key_name" {
+  type = string
+}
+
+variable "ec2_bastion_access_ip" {
+  description = "The IP, in CIDR block form (x.x.x.x/32), to whitelist access to the bastion"
   type = string
 }
 
