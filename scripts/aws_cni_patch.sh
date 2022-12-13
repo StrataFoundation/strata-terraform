@@ -2,7 +2,7 @@
 
 # Configure kubectl to interact with eks cluster
 KUBE_CONFIG="$(mktemp)"
-aws eks update-kubeconfig --name "${CLUSTER_NAME}" --kubeconfig "${KUBE_CONFIG}" --region "$REGION" --profile sandbox-darwin
+aws eks update-kubeconfig --name "${CLUSTER_NAME}" --kubeconfig "${KUBE_CONFIG}" --region "$REGION"
 
 # Apply aws-node daemonset patch to enable pod-level network interafces for security group assignement
 kubectl --kubeconfig "${KUBE_CONFIG}" set env daemonset aws-node -n kube-system ENABLE_POD_ENI=true
