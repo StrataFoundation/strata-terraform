@@ -1,3 +1,4 @@
+# For the automated RDS posgres password rotation, we are using the AWS-provided CloudFormation stack noted below
 resource "aws_serverlessapplicationrepository_cloudformation_stack" "rotator_cf_stack" {
   name             = "rds-pg-credential-rotator-stack"
   application_id   = data.aws_serverlessapplicationrepository_application.rotator.application_id

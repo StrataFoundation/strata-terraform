@@ -1,3 +1,4 @@
+# Generate initial random password for RDS postgres oracle_admin user
 resource "random_password" "oracle_pg_admin_password" {
   length           = 40
   special          = true
@@ -5,11 +6,13 @@ resource "random_password" "oracle_pg_admin_password" {
   override_special = "!#$%^&*()-_=+[]{}<>:?"
 }
 
+# Initialize AWS Secret Manager entry for the RDS postgres oracle_admin credentials
 resource "aws_secretsmanager_secret" "oracle_pg_credentials" {
-  name                     = "oracle-pg-credentials-4"
+  name                     = "oracle-pg-credentials"
   description              = "Admin credentials for Oracle PostgreSQL database"
 }
 
+# Apply the RDS postgres oracle_admin credentials to the AWS Secret Manager entry
 resource "aws_secretsmanager_secret_version" "oracle_pg_credentials_vals" {
   secret_id = aws_secretsmanager_secret.oracle_pg_credentials.id
   secret_string = jsonencode(
@@ -24,12 +27,13 @@ resource "aws_secretsmanager_secret_version" "oracle_pg_credentials_vals" {
   )
 }
 
+# Configure RDS postgres oracle_admin password rotation schedule
 resource "aws_secretsmanager_secret_rotation" "rotation" {
   secret_id           = aws_secretsmanager_secret_version.oracle_pg_credentials_vals.secret_id
   rotation_lambda_arn = aws_serverlessapplicationrepository_cloudformation_stack.rotator_cf_stack.outputs.RotationLambdaARN
 
   rotation_rules {
-    automatically_after_days = 1
+    automatically_after_days = 1 # Can change as needed, this is just for testing
   }
 }
 
