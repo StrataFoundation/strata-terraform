@@ -41,6 +41,16 @@ resource "aws_security_group_rule" "rds_security_group_ingress_rule_1" {
 
 resource "aws_security_group_rule" "rds_security_group_ingress_rule_2" {
   type                     = "ingress"
+  description              = "Allow access from rds-secrets-manager-rotator-lambda-security-group"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.rds_secrets_manager_rotator_lambda_security_group.id
+  security_group_id        = aws_security_group.rds_security_group.id
+}
+
+resource "aws_security_group_rule" "rds_security_group_ingress_rule_3" {
+  type                     = "ingress"
   description              = "Allow access from Nova security group" 
   from_port                = 5432
   to_port                  = 5432
@@ -57,4 +67,47 @@ resource "aws_security_group_rule" "rds_security_group_egress_rule" {
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.rds_security_group.id
+}
+
+# RDS secrets manager VPC endpoint security group
+resource "aws_security_group" "rds_secrets_manager_vpc_endpoint_security_group" {
+  name        = "rds-secrets-manager-vpc-endpoint-security-group"
+  description = "Security group required to secrets manager VPC endpoint"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    security_groups  = [aws_security_group.rds_secrets_manager_rotator_lambda_security_group.id]
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "rds-secrets-manager-vpc-endpoint-security-group"
+  }
+}
+
+# RDS secrets manager rotator lambda security group
+resource "aws_security_group" "rds_secrets_manager_rotator_lambda_security_group" {
+  name        = "rds-secrets-manager-rotator-lambda-security-group"
+  description = "Security group required to secrets manager VPC endpoint"
+  vpc_id      = module.vpc.vpc_id
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "rds-secrets-manager-rotator-lambda-security-group"
+  }
 }

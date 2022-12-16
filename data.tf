@@ -1,5 +1,7 @@
 data "aws_caller_identity" "current" {}
 
+data "aws_partition" "current" {}
+
 data "aws_eks_cluster" "eks" {
   name = module.eks.cluster_id
 }
@@ -32,4 +34,8 @@ data "aws_ami" "ubuntu" {
 data "aws_iam_roles" "admin_role" {
   name_regex  = "AWSReservedSSO_AWSAdministratorAccess_.*"
   path_prefix = "/aws-reserved/sso.amazonaws.com/"
+}
+
+data "aws_serverlessapplicationrepository_application" "rotator" {
+  application_id = "arn:aws:serverlessrepo:us-east-1:297356227824:applications/SecretsManagerRDSPostgreSQLRotationSingleUser"
 }
