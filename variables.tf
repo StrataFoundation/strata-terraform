@@ -55,10 +55,6 @@ variable "cluster_desired_size" {
   default = 2
 }
 
-variable "rds_password" {
-  type = string
-}
-
 # Bastion variables
 variable "ec2_bastion_private_ip" {
   type = string

@@ -18,9 +18,8 @@ resource "aws_db_instance" "oracle_rds" {
 
   # Hardware, Storage & Backup
   storage_type            = "gp3"
-  allocated_storage       = 100
+  allocated_storage       = 400 # 400GB here to get to the next threshold for IOPS (12000) and throughput (500MiB)
   max_allocated_storage   = 1000
-  storage_throughput      = 500
   storage_encrypted       = true
   skip_final_snapshot     = true
   backup_retention_period = 30
