@@ -33,7 +33,7 @@ resource "aws_secretsmanager_secret_rotation" "rotation" {
   rotation_lambda_arn = aws_serverlessapplicationrepository_cloudformation_stack.rotator_cf_stack.outputs.RotationLambdaARN
 
   rotation_rules {
-    automatically_after_days = 1 # Can change as needed, this is just for testing
+    automatically_after_days = 30
   }
 }
 
