@@ -10,7 +10,7 @@ resource "aws_iam_role" "rds_nova_user_access_role" {
   description = "IAM Role for the Nova ${each.value.label} account to assume to access RDS via the ${each.value.user} user"
 
   inline_policy {
-    name   = "rds-nova-iot-user-access-policy"
+    name   = "rds-nova-${each.key}-user-access-policy"
     policy = jsonencode({
       Version   = "2012-10-17"
       Statement = [
