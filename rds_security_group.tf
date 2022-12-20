@@ -49,15 +49,16 @@ resource "aws_security_group_rule" "rds_security_group_ingress_rule_2" {
   security_group_id        = aws_security_group.rds_security_group.id
 }
 
-resource "aws_security_group_rule" "rds_security_group_ingress_rule_3" {
+resource "aws_security_group_rule" "rds_security_group_ingress_rule_3_4" {
+  for_each = var.create_nova_dependent_resources ? local.nova : {}
+
   type                     = "ingress"
-  description              = "Allow access from Nova security group" 
+  description              = "Allow access from Nova ${each.value.label} security group" 
   from_port                = 5432
   to_port                  = 5432
   protocol                 = "tcp"
-  source_security_group_id = "${var.nova_aws_account_id}/${var.nova_rds_access_security_group}"
+  source_security_group_id = "${each.value.account_id}/${each.value.sg_id}"
   security_group_id        = aws_security_group.rds_security_group.id
-  count                    = var.nova_aws_account_id == "" ? 0 : 1 # Don't create the resource if nova_aws_account_id isn't provided
 }
 
 resource "aws_security_group_rule" "rds_security_group_egress_rule" {

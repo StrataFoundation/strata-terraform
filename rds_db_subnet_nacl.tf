@@ -68,16 +68,17 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_5" {
 }
 
 # Ingress - Nova private subnet
-resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_6" {
+resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_6_7" {
+  for_each = var.create_nova_dependent_resources ? local.nova : {}
+
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
-  rule_number    = 600
+  rule_number    = each.value.rule_number
   egress         = false
   protocol       = "tcp"
   rule_action    = "allow"
-  cidr_block     = var.nova_vpc_private_subnet_cidr
+  cidr_block     = each.value.cidr
   from_port      = 5432
   to_port        = 5432
-  count          = var.nova_aws_account_id == "" ? 0 : 1 # Don't create the resource if nova_aws_account_id isn't provided
 }
 
 # Egress - private subnet 1a
@@ -141,14 +142,15 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_5" {
 }
 
 # Egress - Nova private subnet
-resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_6" {
+resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_6_7" {
+  for_each = var.create_nova_dependent_resources ? local.nova : {}
+
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
-  rule_number    = 600
+  rule_number    = each.value.rule_number
   egress         = true
   protocol       = "tcp"
   rule_action    = "allow"
-  cidr_block     = var.nova_vpc_private_subnet_cidr
+  cidr_block     = each.value.cidr
   from_port      = 0
   to_port        = 65535
-  count          = var.nova_aws_account_id == "" ? 0 : 1 # Don't create the resource if nova_aws_account_id isn't provided
 }

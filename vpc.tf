@@ -38,26 +38,29 @@ module "vpc" {
   enable_dns_support   = true
 }
 
-# Create VPC Peering connection with specified Nova AWS account
+# Create VPC Peering connections with specified Nova IoT and Mobile AWS accounts
 resource "aws_vpc_peering_connection" "nova_vpc_peering_connection" {
+  for_each = var.create_nova_dependent_resources ? local.nova : {}
+
   vpc_id        = module.vpc.vpc_id
-  peer_vpc_id   = var.nova_vpc_id
-  peer_owner_id = var.nova_aws_account_id
-  count         = var.nova_aws_account_id == "" ? 0 : 1 # Don't create the resource if nova_aws_account_id isn't provided
+  peer_vpc_id   = each.value.vpc_id
+  peer_owner_id = each.value.account_id
 }
 
-# Add route to database us-east-1a route table allowing connection to specified private Nova subnet via VPC peering connection
+# Add route to database us-east-1a route table allowing connection to specified private Nova IoT and Mobile subnets via VPC peering connection
 resource "aws_route" "database_route_table_route_to_nova_az_1a" {
+  for_each = var.create_nova_dependent_resources ? local.nova : {}
+
   route_table_id            = module.vpc.database_route_table_ids[0]
-  destination_cidr_block    = var.nova_vpc_private_subnet_cidr
-  vpc_peering_connection_id = aws_vpc_peering_connection.nova_vpc_peering_connection[0].id
-  count                     = var.nova_aws_account_id == "" ? 0 : 1 # Don't create the resource if nova_aws_account_id isn't provided
+  destination_cidr_block    = each.value.cidr
+  vpc_peering_connection_id = aws_vpc_peering_connection.nova_vpc_peering_connection[each.key].id
 }
 
-# Add route to database us-east-1b route table allowing connection to specified private Nova subnet via VPC peering connection
+# Add route to database us-east-1b route table allowing connection to specified private Nova IoT and Mobile subnets via VPC peering connection
 resource "aws_route" "database_route_table_route_to_nova_az_1b" {
+  for_each = var.create_nova_dependent_resources ? local.nova : {}
+
   route_table_id            = module.vpc.database_route_table_ids[1]
-  destination_cidr_block    = var.nova_vpc_private_subnet_cidr
-  vpc_peering_connection_id = aws_vpc_peering_connection.nova_vpc_peering_connection[0].id
-  count                     = var.nova_aws_account_id == "" ? 0 : 1 # Don't create the resource if nova_aws_account_id isn't provided
+  destination_cidr_block    = each.value.cidr
+  vpc_peering_connection_id = aws_vpc_peering_connection.nova_vpc_peering_connection[each.key].id
 }
