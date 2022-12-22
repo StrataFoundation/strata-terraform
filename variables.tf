@@ -116,3 +116,9 @@ variable "nova_mobile_vpc_private_subnet_cidr" {
   description = "The Private Subnet CIDR block for the Nova Mobile environment (e.g., dev or prod)."
   type = string
 }
+
+# Slack
+variable "slack_webhook_url" {
+  description = "Slack Webhook URL for RDS alerting."
+  type = string
+}
