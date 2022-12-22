@@ -9,8 +9,8 @@ resource "aws_cloudwatch_metric_alarm" "cpu_utilization" {
   period              = "60"
   statistic           = "Average"
   threshold           = "80"
-  alarm_actions       = [module.sns_to_slack.this_slack_topic_arn]
-  ok_actions          = [module.sns_to_slack.this_slack_topic_arn]
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 
   dimensions = {
     DBInstanceIdentifier = aws_db_instance.oracle_rds.id
@@ -28,8 +28,8 @@ resource "aws_cloudwatch_metric_alarm" "disk_queue_depth" {
   period              = "60"
   statistic           = "Average"
   threshold           = "64"
-  alarm_actions       = [module.sns_to_slack.this_slack_topic_arn]
-  ok_actions          = [module.sns_to_slack.this_slack_topic_arn]
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 
   dimensions = {
     DBInstanceIdentifier = aws_db_instance.oracle_rds.id
@@ -46,8 +46,8 @@ resource "aws_cloudwatch_metric_alarm" "disk_free_storage_space" {
   period              = "60"
   statistic           = "Average"
   threshold           = "10000000000" // 10 GB
-  alarm_actions       = [module.sns_to_slack.this_slack_topic_arn]
-  ok_actions          = [module.sns_to_slack.this_slack_topic_arn]
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 
   dimensions = {
     DBInstanceIdentifier = aws_db_instance.oracle_rds.id
@@ -64,8 +64,8 @@ resource "aws_cloudwatch_metric_alarm" "write_iops" {
   period              = "60"
   statistic           = "Average"
   threshold           = "500" 
-  alarm_actions       = [module.sns_to_slack.this_slack_topic_arn]
-  ok_actions          = [module.sns_to_slack.this_slack_topic_arn]
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 
   dimensions = {
     DBInstanceIdentifier = aws_db_instance.oracle_rds.id
@@ -82,8 +82,8 @@ resource "aws_cloudwatch_metric_alarm" "read_iops" {
   period              = "60"
   statistic           = "Average"
   threshold           = "500" 
-  alarm_actions       = [module.sns_to_slack.this_slack_topic_arn]
-  ok_actions          = [module.sns_to_slack.this_slack_topic_arn]
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 
   dimensions = {
     DBInstanceIdentifier = aws_db_instance.oracle_rds.id
@@ -100,8 +100,8 @@ resource "aws_cloudwatch_metric_alarm" "write_throughput" {
   period              = "60"
   statistic           = "Average"
   threshold           = "300000000" # 300MB
-  alarm_actions       = [module.sns_to_slack.this_slack_topic_arn]
-  ok_actions          = [module.sns_to_slack.this_slack_topic_arn]
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 
   dimensions = {
     DBInstanceIdentifier = aws_db_instance.oracle_rds.id
@@ -118,8 +118,8 @@ resource "aws_cloudwatch_metric_alarm" "read_throughput" {
   period              = "60"
   statistic           = "Average"
   threshold           = "300000000" # 300MB
-  alarm_actions       = [module.sns_to_slack.this_slack_topic_arn]
-  ok_actions          = [module.sns_to_slack.this_slack_topic_arn]
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 
   dimensions = {
     DBInstanceIdentifier = aws_db_instance.oracle_rds.id
@@ -136,8 +136,8 @@ resource "aws_cloudwatch_metric_alarm" "write_latency" {
   period              = "60"
   statistic           = "Average"
   threshold           = "0.15" // 100 ms
-  alarm_actions       = [module.sns_to_slack.this_slack_topic_arn]
-  ok_actions          = [module.sns_to_slack.this_slack_topic_arn]
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 
   dimensions = {
     DBInstanceIdentifier = aws_db_instance.oracle_rds.id
@@ -154,8 +154,8 @@ resource "aws_cloudwatch_metric_alarm" "read_latency" {
   period              = "60"
   statistic           = "Average"
   threshold           = "0.15" // 100 ms
-  alarm_actions       = [module.sns_to_slack.this_slack_topic_arn]
-  ok_actions          = [module.sns_to_slack.this_slack_topic_arn]
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 
   dimensions = {
     DBInstanceIdentifier = aws_db_instance.oracle_rds.id
@@ -173,8 +173,8 @@ resource "aws_cloudwatch_metric_alarm" "memory_freeable" {
   period              = "60"
   statistic           = "Average"
   threshold           = "256000000" // 256 MB
-  alarm_actions       = [module.sns_to_slack.this_slack_topic_arn]
-  ok_actions          = [module.sns_to_slack.this_slack_topic_arn]
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 
   dimensions = {
     DBInstanceIdentifier = aws_db_instance.oracle_rds.id
@@ -191,8 +191,8 @@ resource "aws_cloudwatch_metric_alarm" "memory_swap_usage" {
   period              = "60"
   statistic           = "Average"
   threshold           = "256000000" // 256 MB
-  alarm_actions       = [module.sns_to_slack.this_slack_topic_arn]
-  ok_actions          = [module.sns_to_slack.this_slack_topic_arn]
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 
   dimensions = {
     DBInstanceIdentifier = aws_db_instance.oracle_rds.id
@@ -206,8 +206,8 @@ resource "aws_cloudwatch_metric_alarm" "connection_count_anomalous" {
   evaluation_periods  = "60"
   threshold_metric_id = "e1"
   alarm_description   = "Anomalous Oracle RDS connection count detected. Something unusual is happening."
-  alarm_actions       = [module.sns_to_slack.this_slack_topic_arn]
-  ok_actions          = [module.sns_to_slack.this_slack_topic_arn]
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 
   metric_query {
     id          = "e1"
@@ -245,8 +245,8 @@ resource "aws_cloudwatch_metric_alarm" "maximum_used_transaction_ids" {
   period              = "60"
   statistic           = "Average"
   threshold           = "1000000000" // 1 billion. Half of total.
-  alarm_actions       = [module.sns_to_slack.this_slack_topic_arn]
-  ok_actions          = [module.sns_to_slack.this_slack_topic_arn]
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 
   dimensions = {
     DBInstanceIdentifier = aws_db_instance.oracle_rds.id
