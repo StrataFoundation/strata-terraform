@@ -23,7 +23,7 @@ resource "aws_db_instance" "oracle_rds" {
   storage_encrypted       = true
   skip_final_snapshot     = true
   backup_retention_period = 30
-  instance_class          = "db.m6i.large"
+  instance_class          = "db.m5.large"
 }
 
 # RDS parameter group to force SSL
