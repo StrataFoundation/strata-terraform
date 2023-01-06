@@ -29,6 +29,11 @@ resource "aws_s3_bucket_policy" "poc_data_buckets_bucket_policy_for_s3_cross_acc
 
   bucket = each.value
   policy = data.aws_iam_policy_document.poc_data_buckets_bucket_policy_for_s3_cross_account_replication_rules[each.value].json
+
+  depends_on = [
+    aws_s3_bucket.poc_data_buckets,
+    data.aws_iam_policy_document.poc_data_buckets_bucket_policy_for_s3_cross_account_replication_rules
+  ]
 }
 
 # Create bucket policy rules for bucket policies of poc data buckets to enable S3 cross-account replication from Nova
