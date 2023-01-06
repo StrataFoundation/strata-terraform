@@ -12,11 +12,15 @@ resource aws_s3_bucket_versioning version_poc_data_buckets {
   versioning_configuration {
     status = "Enabled"
   }
+
+  depends_on = [
+    aws_s3_bucket.poc_data_buckets
+  ]
 }
 
 # Create manifest bucket to faciliate S3 batch operation to copy existing S3 objects from Nova 
 resource "aws_s3_bucket" "mainfest_bucket" {
-  bucket = "nova-s3-object-manifests"
+  bucket = local.hf_manifest_bucket_name
 }
 
 # Create bucket policy for poc data buckets to enable S3 cross-account replication
@@ -35,8 +39,8 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
     principals {
       type        = "AWS"
       identifiers = [
-        "arn:aws:iam::${local.nova_account_ids[0]}:role/foundation-s3-replication",
-        "arn:aws:iam::${local.nova_account_ids[1]}:role/foundation-s3-replication"
+        "arn:aws:iam::${local.nova_account_ids[0]}:role/test-s3",
+        "arn:aws:iam::${local.nova_account_ids[1]}:role/BatchOperationsDestinationRoleCOPY"
       ]
     }
     actions = [
@@ -68,8 +72,8 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
     principals {
       type        = "AWS"
       identifiers = [
-        "arn:aws:iam::${local.nova_account_ids[0]}:role/foundation-s3-replication",
-        "arn:aws:iam::${local.nova_account_ids[1]}:role/foundation-s3-replication"
+        "arn:aws:iam::${local.nova_account_ids[0]}:role/test-s3",
+        "arn:aws:iam::${local.nova_account_ids[1]}:role/BatchOperationsDestinationRoleCOPY"
       ]
     }
     actions = [

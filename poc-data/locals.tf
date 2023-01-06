@@ -1,25 +1,16 @@
 locals {
-  hf_bucket_names = [
-    "foundation-entropy",
-    "foundation-iot-ingest",
-    "foundation-iot-packet-ingest",
-    "foundation-iot-packet-verifier",
-    "foundation-iot-verifier",
-    "foundation-mobile-ingest",
-    "foundation-mobile-packet-ingest",
-    "foundation-mobile-packet-verifier",
-    "foundation-mobile-verifier"
+  hf_bucket_names = var.hf_buckets
+  hf_manifest_bucket_name = var.hf_manifest_bucket
+  hf_bucket_arns = [
+    for bucket_name in var.hf_buckets : "arn:aws:s3:::${bucket_name}/*"
   ]
-  nova_bucket_names = [
-    "mainnet-iot-entropy",
-    "mainnet-iot-ingest",
-    "mainnet-iot-packet-reports",
-    "mainnet-iot-reports",
-    "mainnet-iot-rewards",
-    "mainnet-iot-verified-rewards"
-  ]
+  hf_manifest_bucket_arn = ["arn:aws:s3:::${var.hf_manifest_bucket}/*"]
   nova_account_ids = [
     "${var.nova_iot_aws_account_id}",
     "${var.nova_mobile_aws_account_id}"
+  ]
+  nova_bucket_names = var.nova_buckets
+  nova_bucket_arns = [
+    for bucket_name in var.nova_buckets : "arn:aws:s3:::${bucket_name}/*"
   ]
 }
