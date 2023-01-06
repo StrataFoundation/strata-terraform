@@ -65,9 +65,9 @@ variable "ec2_bastion_ssh_key_name" {
   type = string
 }
 
-variable "ec2_bastion_access_ip" {
-  description = "The IP, in CIDR block form (x.x.x.x/32), to whitelist access to the bastion"
-  type = string
+variable "ec2_bastion_access_ips" {
+  description = "The IPs, in CIDR block form (x.x.x.x/32), to whitelist access to the bastion"
+  type = list(string)
 }
 
 variable "create_nova_dependent_resources" {
