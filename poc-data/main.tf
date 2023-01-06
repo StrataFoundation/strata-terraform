@@ -9,7 +9,6 @@ terraform {
 
 provider "aws" {
   region = var.aws_region
-  profile = "sandbox-darwin"
 
   default_tags {
       tags = {
