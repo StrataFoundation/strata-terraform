@@ -36,3 +36,4 @@ variable "nova_buckets" {
   description = "List of Nova buckets for cross-account S3 object replication to Foundation"
   type = list(string)
 }
+#trivial change
