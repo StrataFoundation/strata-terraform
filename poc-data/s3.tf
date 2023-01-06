@@ -87,56 +87,56 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
 }
 
 # Create bucket policy for mainfest bucket to receive manifests from Nova
-resource "aws_s3_bucket_policy" "s3_batch_operation_policy" {
-  bucket = aws_s3_bucket.mainfest_bucket.bucket
-  policy = data.aws_iam_policy_document.s3_batch_operation_policy_rules.json
-}
+# resource "aws_s3_bucket_policy" "s3_batch_operation_policy" {
+#   bucket = aws_s3_bucket.mainfest_bucket.bucket
+#   policy = data.aws_iam_policy_document.s3_batch_operation_policy_rules.json
+# }
 
-# Create bucket policy rules for bucket policy of manifest bucket to faciliate S3 batch operation to copy existing S3 objects from Nova 
-data "aws_iam_policy_document" "s3_batch_operation_policy_rules" {  
-  statement {
-    principals {
-      type        = "Service"
-      identifiers = ["s3.amazonaws.com"]
-    }
-    actions = [
-      "s3:PutObject"
-    ]
-    resources = [
-      "arn:aws:s3:::${aws_s3_bucket.mainfest_bucket.bucket}/*",
-    ]
-    condition {
-      test     = "StringEquals"
-      variable = "s3:x-amz-acl"
-      values   = ["bucket-owner-full-control"]
-    }
-    condition {
-      test     = "StringEquals"
-      variable = "aws:SourceAccount"
-      values   = ["${local.nova_account_ids[0]}"]
-    }
-  }
+# # Create bucket policy rules for bucket policy of manifest bucket to faciliate S3 batch operation to copy existing S3 objects from Nova 
+# data "aws_iam_policy_document" "s3_batch_operation_policy_rules" {  
+#   statement {
+#     principals {
+#       type        = "Service"
+#       identifiers = ["s3.amazonaws.com"]
+#     }
+#     actions = [
+#       "s3:PutObject"
+#     ]
+#     resources = [
+#       "arn:aws:s3:::${aws_s3_bucket.mainfest_bucket.bucket}/*",
+#     ]
+#     condition {
+#       test     = "StringEquals"
+#       variable = "s3:x-amz-acl"
+#       values   = ["bucket-owner-full-control"]
+#     }
+#     condition {
+#       test     = "StringEquals"
+#       variable = "aws:SourceAccount"
+#       values   = ["${local.nova_account_ids[0]}"]
+#     }
+#   }
   
-  statement {
-    principals {
-      type        = "Service"
-      identifiers = ["s3.amazonaws.com"]
-    }
-    actions = [
-      "s3:PutObject"
-    ]
-    resources = [
-      "arn:aws:s3:::${aws_s3_bucket.mainfest_bucket.bucket}/*",
-    ]
-    condition {
-      test     = "StringEquals"
-      variable = "s3:x-amz-acl"
-      values   = ["bucket-owner-full-control"]
-    }
-    condition {
-      test     = "StringEquals"
-      variable = "aws:SourceAccount"
-      values   = ["${local.nova_account_ids[1]}"]
-    }
-  }
-}
+#   statement {
+#     principals {
+#       type        = "Service"
+#       identifiers = ["s3.amazonaws.com"]
+#     }
+#     actions = [
+#       "s3:PutObject"
+#     ]
+#     resources = [
+#       "arn:aws:s3:::${aws_s3_bucket.mainfest_bucket.bucket}/*",
+#     ]
+#     condition {
+#       test     = "StringEquals"
+#       variable = "s3:x-amz-acl"
+#       values   = ["bucket-owner-full-control"]
+#     }
+#     condition {
+#       test     = "StringEquals"
+#       variable = "aws:SourceAccount"
+#       values   = ["${local.nova_account_ids[1]}"]
+#     }
+#   }
+# }
