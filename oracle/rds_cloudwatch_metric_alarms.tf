@@ -203,7 +203,7 @@ resource "aws_cloudwatch_metric_alarm" "memory_swap_usage" {
 resource "aws_cloudwatch_metric_alarm" "connection_count_anomalous" {
   alarm_name          = "rds-pg-oracle-anomalous-connection-count"
   comparison_operator = "GreaterThanUpperThreshold"
-  evaluation_periods  = "600"
+  evaluation_periods  = "5"
   threshold_metric_id = "e1"
   alarm_description   = "Anomalous Oracle RDS connection count detected. Something unusual is happening."
   alarm_actions       = [module.notify_slack.slack_topic_arn]
