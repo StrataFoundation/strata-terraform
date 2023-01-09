@@ -1,3 +1,7 @@
+# ***************************************
+# PoC Data Buckets
+# ***************************************
+
 # Create PoC data buckets to receive copied/replicated objects from Nova
 resource "aws_s3_bucket" "poc_data_buckets" {
   for_each = toset(local.hf_bucket_names)
@@ -18,9 +22,20 @@ resource aws_s3_bucket_versioning version_poc_data_buckets {
   ]
 }
 
-# Create manifest bucket to faciliate S3 batch operation to copy existing S3 objects from Nova 
-resource "aws_s3_bucket" "mainfest_bucket" {
-  bucket = local.hf_manifest_bucket_name
+# Make PoC data buckets private from public
+resource "aws_s3_bucket_public_access_block" "private_poc_data_buckets" {
+  for_each = toset(local.hf_bucket_names)
+
+  bucket = aws_s3_bucket.poc_data_buckets[each.value].id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+
+  depends_on = [
+    aws_s3_bucket.poc_data_buckets
+  ]
 }
 
 # Create bucket policy for poc data buckets to enable S3 cross-account replication
@@ -89,6 +104,29 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
       "arn:aws:s3:::${each.value}",
     ]
   }
+}
+
+# ***************************************
+# Manifest Bucket
+# ***************************************
+
+# Create manifest bucket to faciliate S3 batch operation to copy existing S3 objects from Nova 
+resource "aws_s3_bucket" "mainfest_bucket" {
+  bucket = local.hf_manifest_bucket_name
+}
+
+# Make manifest bucket private from public
+resource "aws_s3_bucket_public_access_block" "private_mainfest_bucket" {
+  bucket = aws_s3_bucket.mainfest_bucket.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+
+  depends_on = [
+    aws_s3_bucket.mainfest_bucket
+  ]
 }
 
 # Create bucket policy for mainfest bucket to receive manifests from Nova
