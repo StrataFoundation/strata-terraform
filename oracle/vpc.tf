@@ -36,6 +36,11 @@ module "vpc" {
   # DNS parameters
   enable_dns_hostnames = true
   enable_dns_support   = true
+
+  # VPC Flow logs to S3 bucket in Log Archive Account
+  enable_flow_log           = true
+  flow_log_destination_type = "s3"
+  flow_log_destination_arn  = "arn:aws:s3:::vpc-flow-logs-${data.aws_caller_identity.current.account_id}"
 }
 
 # Create VPC Peering connections with specified Nova IoT and Mobile AWS accounts
