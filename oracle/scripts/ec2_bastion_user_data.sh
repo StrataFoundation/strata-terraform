@@ -21,7 +21,7 @@ cat <<EOF >> config-1.json
         "collect_list":[
           {
             "file_path":"/var/log/auth.log",
-            "log_group_name":"SSH",
+            "log_group_name":"/aws/ec2/bastion/ssh",
             "log_stream_name":"bastion/var/log/auth"
           }
         ]
