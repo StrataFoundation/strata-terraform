@@ -20,6 +20,7 @@ resource "aws_cloudwatch_log_metric_filter" "bastion_ssh_metrics_filter" {
 # CloudWath alert on failed login attempts to bastion
 resource "aws_cloudwatch_metric_alarm" "bastion_ssh_denied_alarm" {
   alarm_name          = "bastion-ssh-denied"
+  alarm_description   = "There was a failed login attempt to the Oracle Bastion."
   metric_name         = "ssh-denied"
   threshold           = "0"
   statistic           = "Sum"
