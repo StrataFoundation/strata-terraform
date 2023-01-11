@@ -7,7 +7,7 @@ resource "aws_cloudwatch_log_group" "bastion_ssh_denied_log_group" {
 # Add CloudWatch metrics filter to ssh access logs pulled shipped from Bastion to isolate failed login attempts as a metric 
 resource "aws_cloudwatch_log_metric_filter" "bastion_ssh_metrics_filter" {
   name           = "bastion-ssh-metrics-filter"
-  pattern        = "failed, status 22"
+  pattern        = "\"failed,\" status 22"
   log_group_name = aws_cloudwatch_log_group.bastion_ssh_denied_log_group.name
 
   metric_transformation {
