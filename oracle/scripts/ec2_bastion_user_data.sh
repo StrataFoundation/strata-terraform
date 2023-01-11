@@ -13,7 +13,7 @@ wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-
 dpkg -i -E ./amazon-cloudwatch-agent.deb
 
 # Create config for CloudWatch Agent to export ssh logs 
-cat <<EOF >> config-1.json
+cat <<EOF >> config.json
 {
   "logs":{
     "logs_collected":{
