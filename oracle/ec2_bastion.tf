@@ -15,6 +15,7 @@ resource "aws_instance" "bastion" {
     aws_security_group.rds_access_security_group.id, 
     aws_security_group.ec2_bastion_security_group.id
   ]
+  iam_instance_profile = aws_iam_role.bastion_cw_agent_role.name
 
   # Storage 
   root_block_device {
@@ -27,6 +28,10 @@ resource "aws_instance" "bastion" {
   tags = {
     Name = "bastion"
   }
+
+  depends_on = [
+    aws_iam_role.bastion_cw_agent_role
+  ]
 }
 
 resource "aws_eip" "bastion_eip" {
