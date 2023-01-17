@@ -1,6 +1,14 @@
 # Helium-foudnation-terraform
 Helium foundation terraform for AWS infra
 
+## Before initial deploymenet
+
+Make sure to create bastion ssh key.
+
+## After initial deployment
+
+Make sure to add RDS users.
+
 
 To get the kubeconfig,
 
