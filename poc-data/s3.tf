@@ -60,7 +60,7 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
       type        = "AWS"
       identifiers = [
         "arn:aws:iam::${local.nova_account_ids[0]}:role/foundation-s3-replication",
-        "arn:aws:iam::${local.nova_account_ids[1]}:role/foundation-s3-replication"
+        # "arn:aws:iam::${local.nova_account_ids[1]}:role/foundation-s3-replication"
       ]
     }
     actions = [
@@ -77,7 +77,7 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
       type        = "AWS"
       identifiers = [
         "arn:aws:iam::${local.nova_account_ids[0]}:root",
-        "arn:aws:iam::${local.nova_account_ids[1]}:root"
+        # "arn:aws:iam::${local.nova_account_ids[1]}:root"
       ]
     }
     actions = [
@@ -93,7 +93,7 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
       type        = "AWS"
       identifiers = [
         "arn:aws:iam::${local.nova_account_ids[0]}:role/foundation-s3-replication",
-        "arn:aws:iam::${local.nova_account_ids[1]}:role/foundation-s3-replication"
+        # "arn:aws:iam::${local.nova_account_ids[1]}:role/foundation-s3-replication"
       ]
     }
     actions = [
