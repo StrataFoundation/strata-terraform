@@ -9,6 +9,7 @@ resource "aws_s3_bucket" "poc_data_buckets" {
   bucket = each.value
 }
 
+# Make PoC data buckets versioned
 resource aws_s3_bucket_versioning version_poc_data_buckets {
   for_each = toset(local.hf_bucket_names)
 
@@ -22,23 +23,15 @@ resource aws_s3_bucket_versioning version_poc_data_buckets {
   ]
 }
 
-# Make PoC data buckets private from public
-resource "aws_s3_bucket_public_access_block" "private_poc_data_buckets" {
+# Make PoC data buckets open as Requester Pays
+resource "aws_s3_bucket_request_payment_configuration" "requester-pays" {
   for_each = toset(local.hf_bucket_names)
 
-  bucket = aws_s3_bucket.poc_data_buckets[each.value].id
-
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
-
-  depends_on = [
-    aws_s3_bucket.poc_data_buckets
-  ]
+  bucket = each.value
+  payer  = "Requester"
 }
 
-# Create bucket policy for poc data buckets to enable S3 cross-account replication
+# Create bucket policy for poc data buckets to enable S3 cross-account replication and requester pays
 resource "aws_s3_bucket_policy" "poc_data_buckets_bucket_policy_for_s3_cross_account_replication" {
   for_each = toset(local.hf_bucket_names)
 
@@ -51,7 +44,7 @@ resource "aws_s3_bucket_policy" "poc_data_buckets_bucket_policy_for_s3_cross_acc
   ]
 }
 
-# Create bucket policy rules for bucket policies of poc data buckets to enable S3 cross-account replication from Nova
+# Create bucket policy rules for bucket policies of poc data buckets to enable S3 cross-account replication from Nova and requester pays
 data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_account_replication_rules" {
   for_each = toset(local.hf_bucket_names)
   
@@ -102,6 +95,21 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
     ]
     resources = [
       "arn:aws:s3:::${each.value}",
+    ]
+  }
+
+  statement {
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+    actions = [
+      "s3:GetObject",
+      "s3:ListBucket"
+    ]
+    resources = [
+      "arn:aws:s3:::${each.value}",
+      "arn:aws:s3:::${each.value}/*",
     ]
   }
 }
