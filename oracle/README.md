@@ -8,7 +8,7 @@ Make sure to create bastion ssh key.
 ## After initial deployment
 
 - Make sure to add RDS users.
-- Make sure execute `/scripts/aws_cni_patch.sh` to enable pod-level network interafces for security group assignement.
+- Make sure to execute `/scripts/aws_cni_patch.sh` to enable pod-level network interafces for security group assignement.
 
 
 To get the kubeconfig,
