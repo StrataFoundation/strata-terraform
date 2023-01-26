@@ -1,19 +1,13 @@
-terraform {
-  required_providers {
-    aws = {
-      source = "hashicorp/aws"
-      version = "4.47.0"
-    }
-    kubernetes = {
-      source = "hashicorp/kubernetes"
-      version = "2.14.0"
-    }
-    local = {
-      version = "~> 2.1"
-    }
+provider "aws" {
+  region = var.aws_region
+
+  default_tags {
+      tags = {
+        Terraform = "true"
+        Environment = var.env
+      }
   }
 }
-
 # Kubernetes provider
 # https://learn.hashicorp.com/terraform/kubernetes/provision-eks-cluster#optional-configure-terraform-kubernetes-provider
 # To learn how to schedule deployments and services using the provider, go here: https://learn.hashicorp.com/terraform/kubernetes/deploy-nginx-kubernetes
@@ -25,13 +19,31 @@ provider "kubernetes" {
   token                  = data.aws_eks_cluster_auth.eks.token
 }
 
-provider "aws" {
-  region = var.aws_region
+module "vpc" {
+  source = "../modules/vpc"
 
-  default_tags {
-      tags = {
-        Terraform = "true"
-        Environment = var.env
-      }
-  }
+  # Env
+  env                             = var.env
+  deploy_cost_infrastructure      = var.deploy_cost_infrastructure
+  create_nova_dependent_resources = var.create_nova_dependent_resources
+
+  # AWS
+  aws_region = var.aws_region
+  aws_azs    = var.aws_azs
+
+  # VPC
+  cidr_block       = var.cidr_block
+  public_subnets   = var.public_subnets
+  private_subnets  = var.private_subnets
+  database_subnets = var.database_subnets
+
+  # Nova IoT
+  nova_iot_aws_account_id = var.nova_iot_aws_account_id
+  nova_iot_vpc_id = var.nova_iot_vpc_id
+  nova_iot_vpc_private_subnet_cidr = var.nova_iot_vpc_private_subnet_cidr
+
+  # Nova Mobile
+  nova_mobile_aws_account_id = var.nova_mobile_aws_account_id
+  nova_mobile_vpc_id = var.nova_mobile_vpc_id
+  nova_mobile_vpc_private_subnet_cidr = var.nova_mobile_vpc_private_subnet_cidr
 }

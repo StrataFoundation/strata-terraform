@@ -50,6 +50,10 @@ resource "aws_vpc_peering_connection" "nova_vpc_peering_connection" {
   vpc_id        = module.vpc.vpc_id
   peer_vpc_id   = each.value.vpc_id
   peer_owner_id = each.value.account_id
+
+  tags = {
+    Name = "VPC Peering to Nova ${each.value.label}"
+  }
 }
 
 # Add route to database us-east-1a route table allowing connection to specified private Nova IoT and Mobile subnets via VPC peering connection
