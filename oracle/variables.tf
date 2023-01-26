@@ -10,6 +10,10 @@ variable "aws_azs" {
   type = list(string)
 }
 
+variable "deploy_cost_infrastructure" {
+  type = bool
+}
+
 # --- VPC variables ------------------------------------------------
 variable "vpc_name" {
   type = string

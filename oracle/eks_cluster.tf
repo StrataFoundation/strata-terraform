@@ -1,4 +1,6 @@
 module "eks" {
+  count = var.deploy_cost_infrastructure ? 1 : 0
+
   source  = "terraform-aws-modules/eks/aws"
   version = "18.31.2"
 

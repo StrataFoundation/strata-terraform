@@ -1,4 +1,6 @@
 resource "aws_instance" "bastion" {
+  count = var.deploy_cost_infrastructure ? 1 : 0
+
   # Instance
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"

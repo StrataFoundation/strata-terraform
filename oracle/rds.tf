@@ -1,4 +1,6 @@
 resource "aws_db_instance" "oracle_rds" {
+  count = var.deploy_cost_infrastructure ? 1 : 0
+
   # RDS info
   db_name                         = "oracle"
   identifier                      = "oracle-rds"

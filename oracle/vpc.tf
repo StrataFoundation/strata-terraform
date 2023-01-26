@@ -26,9 +26,9 @@ module "vpc" {
   create_database_subnet_route_table = true
 
   # NAT gateway 
-  enable_nat_gateway     = true
+  enable_nat_gateway     = var.deploy_cost_infrastructure ? true : false
   single_nat_gateway     = false
-  one_nat_gateway_per_az = true # Each availability zone will get a NAT gateway, done so for high availability
+  one_nat_gateway_per_az = var.deploy_cost_infrastructure ? true : false  # Each availability zone will get a NAT gateway, done so for high availability
   
   # VPN gateway
   enable_vpn_gateway = true # Not sure if we need this
