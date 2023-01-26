@@ -1,12 +1,16 @@
-variable "aws_region" {
-  type = string
-  default = "us-east-1"
-}
-
+# --- Environment variables ------------------------------------------------
 variable "env" {
   type = string
 }
+variable "aws_region" {
+  type = string
+}
 
+variable "aws_azs" {
+  type = list(string)
+}
+
+# --- VPC variables ------------------------------------------------
 variable "vpc_name" {
   type = string
 }
@@ -14,11 +18,6 @@ variable "vpc_name" {
 variable "cidr_block" {
   type = string
   default = "10.0.0.0/16"
-}
-
-variable "aws_azs" {
-  type = list(string)
-  default = ["us-east-1a", "us-east-1b"]
 }
 
 variable "public_subnets" {
@@ -36,8 +35,9 @@ variable "database_subnets" {
   default = ["10.0.201.0/24", "10.0.202.0/24"]
 }
 
-variable "instance_type" {
-  default = "m5.large"
+# --- EKS variables ------------------------------------------------
+variable "eks_instance_type" {
+  type = string
 }
 
 variable "cluster_name" {
@@ -55,7 +55,28 @@ variable "cluster_desired_size" {
   default = 2
 }
 
-# Bastion variables
+# --- RDS variables ------------------------------------------------
+variable "rds_instance_type" {
+  description = "db.m5.large | db.m6i.large"
+  type = string
+}
+
+variable "rds_storage_type" {
+  description = "gp3"
+  type = string
+}
+
+variable "rds_storage_size" {
+  description = "400"
+  type = number
+}
+
+variable "rds_max_storage_size" {
+  description = "1000"
+  type = number
+}
+
+# --- Bastion variables ------------------------------------------------
 variable "ec2_bastion_private_ip" {
   type = string
   default = "10.0.1.5" # AWS reserves first 4 addresses
@@ -75,7 +96,7 @@ variable "create_nova_dependent_resources" {
   type = bool
 }
 
-# Nova IoT-specific variables
+# --- Nova IoT-specific variables ------------------------------------------------
 variable "nova_iot_aws_account_id" {
   description = "The AWS account ID for the Nova IoT environment (e.g., dev or prod)."
   type = string
@@ -96,7 +117,7 @@ variable "nova_iot_vpc_private_subnet_cidr" {
   type = string
 }
 
-# Nova Mobile-specific variables
+# --- Nova Mobile-specific variables ------------------------------------------------
 variable "nova_mobile_aws_account_id" {
   description = "The AWS account ID for the Nova Mobile environment (e.g., dev or prod).\n\nIf an empty string is provided, no Nova Mobile-dependent resources will be created"
   type = string
@@ -117,7 +138,7 @@ variable "nova_mobile_vpc_private_subnet_cidr" {
   type = string
 }
 
-# Slack
+# --- Slack ------------------------------------------------
 variable "slack_webhook_url" {
   description = "Slack Webhook URL for RDS alerting."
   type = string

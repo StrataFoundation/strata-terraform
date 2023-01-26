@@ -28,7 +28,7 @@ module "eks" {
     medium_group = {
       name = "small-node-group"
 
-      instance_types = [var.instance_type]
+      instance_types = [var.eks_instance_type]
 
       min_size     = 1
       max_size     = var.cluster_max_size
@@ -47,13 +47,13 @@ module "eks" {
   # manage_aws_auth_configmap = true
 
   # Allow all users in an AWS environment with the "AWSAdministratorAccess" role to run kubectl commands
-  # aws_auth_roles = [
-  #   {
-  #     rolearn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${tolist(data.aws_iam_roles.admin_role.names)[0]}"
-  #     username = "AWSAdministratorAccess:{{SessionName}}"
-  #     groups = [
-  #       "system:masters",
-  #     ]
-  #   }
-  # ]
+  aws_auth_roles = [
+    {
+      rolearn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${tolist(data.aws_iam_roles.admin_role.names)[0]}"
+      username = "AWSAdministratorAccess:{{SessionName}}"
+      groups = [
+        "system:masters",
+      ]
+    }
+  ]
 }

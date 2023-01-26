@@ -17,13 +17,13 @@ resource "aws_db_instance" "oracle_rds" {
   iam_database_authentication_enabled = true
 
   # Hardware, Storage & Backup
-  storage_type            = "gp3"
-  allocated_storage       = 400 # 400GB here to get to the next threshold for IOPS (12000) and throughput (500MiB)
-  max_allocated_storage   = 1000
+  storage_type            = var.rds_storage_type
+  allocated_storage       = var.rds_storage_size # 400GB here to get to the next threshold for IOPS (12000) and throughput (500MiB)
+  max_allocated_storage   = var.rds_max_storage_size
   storage_encrypted       = true
   skip_final_snapshot     = true
   backup_retention_period = 30
-  instance_class          = "db.m5.large"
+  instance_class          = var.rds_instance_type
 }
 
 # RDS parameter group to force SSL
