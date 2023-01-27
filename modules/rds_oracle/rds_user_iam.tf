@@ -1,8 +1,12 @@
+# ***************************************
+# IAM Role
+#
 # Nova IAM policy & role for RDS access
 #
 # These IAM roles allow cross-account access to the postgres db for nova_<iot/mobile> users. Nova Labs
 # IoT and Mobile AWS accounts can assume these roles in order to access the postgres db as the db-defined 
 # nova_<iot/mobile> users.
+# ***************************************
 resource "aws_iam_role" "rds_nova_user_access_role" {
   for_each = var.create_nova_dependent_resources ? local.nova : {}
 
@@ -42,11 +46,15 @@ resource "aws_iam_role" "rds_nova_user_access_role" {
   })
 }
 
+# ***************************************
+# IAM Role
+#
 # Helium Foundation IAM policy & role for RDS access
 #
 # These IAM roles allow k8s access to the postgres db for a <active_device/mobile>_oracle user. Any k8s pod
 # (e.g., ideally the <active-device/mobile>-oracle pod) with the proper k8s "service account" definition will
 # be able to assume these roles in order to access the postgres db as the db-defined <active_device/mobile>_oracle user.
+# ***************************************
 resource "aws_iam_role" "rds_foundation_user_access_role" {
   for_each = local.foundation
 

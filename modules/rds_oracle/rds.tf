@@ -1,3 +1,6 @@
+# ***************************************
+# RDS
+# ***************************************
 resource "aws_db_instance" "oracle_rds" {
   count = var.deploy_cost_infrastructure ? 1 : 0
 
@@ -28,7 +31,10 @@ resource "aws_db_instance" "oracle_rds" {
   instance_class          = var.rds_instance_type
 }
 
-# RDS parameter group to force SSL
+# ***************************************
+# RDS Parameter Group
+# Custom group to force SSL connections to Postgres database
+# ***************************************
 resource "aws_db_parameter_group" "oracle_rds_parameter_group" {
   name        = "oracle-rds-parameter-group"
   description = "Oracle RDS parameter group forcing SSL"

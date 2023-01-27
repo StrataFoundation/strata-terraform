@@ -1,3 +1,6 @@
+# ***************************************
+# VPC
+# ***************************************
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
@@ -43,7 +46,10 @@ module "vpc" {
   flow_log_destination_arn  = "arn:aws:s3:::vpc-flow-logs-${data.aws_caller_identity.current.account_id}"
 }
 
-# Create VPC Peering connections with specified Nova IoT and Mobile AWS accounts
+# ***************************************
+# VPC Peering Connections
+# Create connections with specified Nova IoT and Mobile AWS accounts
+# ***************************************
 resource "aws_vpc_peering_connection" "nova_vpc_peering_connection" {
   for_each = var.create_nova_dependent_resources ? local.nova : {}
 
@@ -56,8 +62,11 @@ resource "aws_vpc_peering_connection" "nova_vpc_peering_connection" {
   }
 }
 
-# Add route to database us-east-1a route table allowing connection to specified private Nova IoT and Mobile subnets via VPC peering connection
-resource "aws_route" "database_route_table_route_to_nova_az_1a" {
+# ***************************************
+# Database Route Table Updates
+# Add route "az a" route table allowing connection to specified private Nova IoT and Mobile subnets via VPC peering connection
+# ***************************************
+resource "aws_route" "database_route_table_route_to_nova_az_a" {
   for_each = var.create_nova_dependent_resources ? local.nova : {}
 
   route_table_id            = module.vpc.database_route_table_ids[0]
@@ -65,8 +74,11 @@ resource "aws_route" "database_route_table_route_to_nova_az_1a" {
   vpc_peering_connection_id = aws_vpc_peering_connection.nova_vpc_peering_connection[each.key].id
 }
 
-# Add route to database us-east-1b route table allowing connection to specified private Nova IoT and Mobile subnets via VPC peering connection
-resource "aws_route" "database_route_table_route_to_nova_az_1b" {
+# ***************************************
+# Database Route Table Updates
+# Add route "az b" route table allowing connection to specified private Nova IoT and Mobile subnets via VPC peering connection
+# ***************************************
+resource "aws_route" "database_route_table_route_to_nova_az_b" {
   for_each = var.create_nova_dependent_resources ? local.nova : {}
 
   route_table_id            = module.vpc.database_route_table_ids[1]

@@ -1,4 +1,7 @@
-// CPU Utilization
+# ***************************************
+# CloudWatch Alarm
+# CPU Utilization
+# ***************************************
 resource "aws_cloudwatch_metric_alarm" "cpu_utilization" {
   alarm_name          = "rds-pg-oracle-high-cpu-utilization"
   alarm_description   = "Average Oracle RDS CPU utilization is above 80%."
@@ -17,7 +20,10 @@ resource "aws_cloudwatch_metric_alarm" "cpu_utilization" {
   }
 }
 
-// Disk Utilization
+# ***************************************
+# CloudWatch Alarm
+# Disk Utilization
+# ***************************************
 resource "aws_cloudwatch_metric_alarm" "disk_queue_depth" {
   alarm_name          = "rds-pg-oracle-high-disk-queue-depth"
   alarm_description   = "Average Oracle RDS disk queue depth is above 64."
@@ -36,6 +42,10 @@ resource "aws_cloudwatch_metric_alarm" "disk_queue_depth" {
   }
 }
 
+# ***************************************
+# CloudWatch Alarm
+# Disk free storage space
+# ***************************************
 resource "aws_cloudwatch_metric_alarm" "disk_free_storage_space" {
   alarm_name          = "rds-pg-oracle-low-free-storage-space"
   alarm_description   = "Oracle RDS free storage space is below 10GB."
@@ -54,6 +64,10 @@ resource "aws_cloudwatch_metric_alarm" "disk_free_storage_space" {
   }
 }
 
+# ***************************************
+# CloudWatch Alarm
+# Disk write IOPS
+# ***************************************
 resource "aws_cloudwatch_metric_alarm" "write_iops" {
   alarm_name          = "rds-pg-oracle-high-write-iops"
   alarm_description   = "Average Oracle RDS write IOPS are above 500."
@@ -72,6 +86,10 @@ resource "aws_cloudwatch_metric_alarm" "write_iops" {
   }
 }
 
+# ***************************************
+# CloudWatch Alarm
+# Disk read IOPS
+# ***************************************
 resource "aws_cloudwatch_metric_alarm" "read_iops" {
   alarm_name          = "rds-pg-oracle-high-read-iops"
   alarm_description   = "Average Oracle RDS read IOPS are above 500."
@@ -90,6 +108,10 @@ resource "aws_cloudwatch_metric_alarm" "read_iops" {
   }
 }
 
+# ***************************************
+# CloudWatch Alarm
+# Disk write throughput
+# ***************************************
 resource "aws_cloudwatch_metric_alarm" "write_throughput" {
   alarm_name          = "rds-pg-oracle-high-write-throughput"
   alarm_description   = "Average Oracle RDS write throughput is above 300 MB/s."
@@ -108,6 +130,10 @@ resource "aws_cloudwatch_metric_alarm" "write_throughput" {
   }
 }
 
+# ***************************************
+# CloudWatch Alarm
+# Disk read throughput
+# ***************************************
 resource "aws_cloudwatch_metric_alarm" "read_throughput" {
   alarm_name          = "rds-pg-oracle-high-read-throughput"
   alarm_description   = "Average Oracle RDS read throughput is above 300 MB/s."
@@ -126,6 +152,10 @@ resource "aws_cloudwatch_metric_alarm" "read_throughput" {
   }
 }
 
+# ***************************************
+# CloudWatch Alarm
+# Disk write latency
+# ***************************************
 resource "aws_cloudwatch_metric_alarm" "write_latency" {
   alarm_name          = "rds-pg-oracle-high-write-latency"
   alarm_description   = "Average Oracle RDS write latency is above 150 ms."
@@ -144,6 +174,10 @@ resource "aws_cloudwatch_metric_alarm" "write_latency" {
   }
 }
 
+# ***************************************
+# CloudWatch Alarm
+# Disk read latency
+# ***************************************
 resource "aws_cloudwatch_metric_alarm" "read_latency" {
   alarm_name          = "rds-pg-oracle-high-read-latency"
   alarm_description   = "Average Oracle RDS read latency is above 150 ms."
@@ -162,7 +196,10 @@ resource "aws_cloudwatch_metric_alarm" "read_latency" {
   }
 }
 
-// Memory Utilization
+# ***************************************
+# CloudWatch Alarm
+# Memory Utilization
+# ***************************************
 resource "aws_cloudwatch_metric_alarm" "memory_freeable" {
   alarm_name          = "rds-pg-oracle-low-freeable-memory"
   alarm_description   = "Average Oracle RDS freeable memory is below 256MB."
@@ -181,6 +218,10 @@ resource "aws_cloudwatch_metric_alarm" "memory_freeable" {
   }
 }
 
+# ***************************************
+# CloudWatch Alarm
+# Swap Utilization
+# ***************************************
 resource "aws_cloudwatch_metric_alarm" "memory_swap_usage" {
   alarm_name          = "rds-pg-oracle-high-swap-usage"
   alarm_description   = "Average Oracle RDS swap usage is above 256MB."
@@ -199,42 +240,11 @@ resource "aws_cloudwatch_metric_alarm" "memory_swap_usage" {
   }
 }
 
-// Connection Count
-resource "aws_cloudwatch_metric_alarm" "connection_count_anomalous" {
-  alarm_name          = "rds-pg-oracle-anomalous-connection-count"
-  comparison_operator = "GreaterThanUpperThreshold"
-  evaluation_periods  = "5"
-  threshold_metric_id = "e1"
-  alarm_description   = "Anomalous Oracle RDS connection count detected. Something unusual is happening."
-  alarm_actions       = [module.notify_slack.slack_topic_arn]
-  ok_actions          = [module.notify_slack.slack_topic_arn]
-
-  metric_query {
-    id          = "e1"
-    expression  = "ANOMALY_DETECTION_BAND(m1, 2)"
-    label       = "DatabaseConnections (Expected)"
-    return_data = "true"
-  }
-
-  metric_query {
-    id          = "m1"
-    return_data = "true"
-    metric {
-      metric_name = "DatabaseConnections"
-      namespace   = "AWS/RDS"
-      period      = "600"
-      stat        = "Average"
-      unit        = "Count"
-
-      dimensions = {
-        DBInstanceIdentifier = aws_db_instance.oracle_rds.id
-      }
-    }
-  }
-}
-
-// Early Warning System for Transaction ID Wraparound
-// https://aws.amazon.com/blogs/database/implement-an-early-warning-system-for-transaction-id-wraparound-in-amazon-rds-for-postgresql/
+# ***************************************
+# CloudWatch Alarm
+# Early Warning System for Transaction ID Wraparound
+# https://aws.amazon.com/blogs/database/implement-an-early-warning-system-for-transaction-id-wraparound-in-amazon-rds-for-postgresql/
+# ***************************************
 resource "aws_cloudwatch_metric_alarm" "maximum_used_transaction_ids" {
   alarm_name          = "rds-pg-oracle-maximum-use-transaction-ids"
   alarm_description   = "Nearing a possible critical transaction ID wraparound."

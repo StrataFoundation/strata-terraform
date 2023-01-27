@@ -19,6 +19,9 @@ provider "kubernetes" {
   token                  = data.aws_eks_cluster_auth.eks.token
 }
 
+# ***************************************
+# VPC
+# ***************************************
 module "vpc" {
   source = "../modules/vpc"
 
@@ -38,12 +41,127 @@ module "vpc" {
   database_subnets = var.database_subnets
 
   # Nova IoT
-  nova_iot_aws_account_id = var.nova_iot_aws_account_id
-  nova_iot_vpc_id = var.nova_iot_vpc_id
+  nova_iot_aws_account_id          = var.nova_iot_aws_account_id
+  nova_iot_vpc_id                  = var.nova_iot_vpc_id
   nova_iot_vpc_private_subnet_cidr = var.nova_iot_vpc_private_subnet_cidr
 
   # Nova Mobile
-  nova_mobile_aws_account_id = var.nova_mobile_aws_account_id
-  nova_mobile_vpc_id = var.nova_mobile_vpc_id
+  nova_mobile_aws_account_id          = var.nova_mobile_aws_account_id
+  nova_mobile_vpc_id                  = var.nova_mobile_vpc_id
   nova_mobile_vpc_private_subnet_cidr = var.nova_mobile_vpc_private_subnet_cidr
+}
+
+# ***************************************
+# EKS
+# ***************************************
+module "eks_oracle" {
+  count = var.deploy_cost_infrastructure ? 1 : 0
+
+  source = "../modules/eks_oracle"
+
+  # Env
+  env                             = var.env
+  create_nova_dependent_resources = var.create_nova_dependent_resources
+
+  # AWS
+  aws_region = var.aws_region
+  aws_azs    = var.aws_azs
+
+}
+
+# ***************************************
+# RDS
+# ***************************************
+module "rds_oracle" {
+  count = var.deploy_cost_infrastructure ? 1 : 0
+
+  source = "../modules/rds_oracle"
+
+  # Env
+  env                             = var.env
+  create_nova_dependent_resources = var.create_nova_dependent_resources
+
+  # AWS
+  aws_region = var.aws_region
+  aws_azs    = var.aws_azs
+
+  # RDS
+  rds_instance_type = var.rds_instance_type
+  rds_storage_type = var.rds_storage_type
+  rds_storage_size = var.rds_storage_size
+  rds_max_storage_size = var.rds_max_storage_size
+  database_subnet_group = module.vpc.database_subnet_group
+  database_subnets = module.vpc.database_subnets
+
+  # IAM
+  oidc_provider = module.eks.oidc_provider
+  oidc_provider_arn = module.eks.oidc_provider_arn
+
+  # Security Group
+  vpc_id      = module.vpc.vpc_id
+
+  # Nova IoT
+  nova_iot_aws_account_id            = var.nova_iot_aws_account_id
+  nova_iot_vpc_id                    = var.nova_iot_vpc_id
+  nova_iot_vpc_private_subnet_cidr   = var.nova_iot_vpc_private_subnet_cidr
+  nova_iot_rds_access_security_group = var.nova_iot_rds_access_security_group
+
+  # Nova Mobile
+  nova_mobile_aws_account_id            = var.nova_mobile_aws_account_id
+  nova_mobile_vpc_id                    = var.nova_mobile_vpc_id
+  nova_mobile_vpc_private_subnet_cidr   = var.nova_mobile_vpc_private_subnet_cidr
+  nova_mobile_rds_access_security_group = var.nova_mobile_rds_access_security_group
+
+  depends_on = [
+    //eks
+    //vpc
+  ]
+}
+
+# ***************************************
+# Bastion
+# ***************************************
+module "bastion" {
+  count = var.deploy_cost_infrastructure ? 1 : 0
+
+  source = "../modules/bastion"
+
+  # Env
+  env = var.env
+
+  # AWS
+  aws_region = var.aws_region
+  aws_az     = var.aws_azs[0]
+
+  # Networking & Security
+  vpc_id             = module.vpc.vpc_id
+  public_subnet_id   = module.vpc.public_subnets[0]
+  security_group_ids = [module.rds_oracle.rds_access_security_group_id]
+
+  # EC2
+  ec2_bastion_ssh_key_name = var.ec2_bastion_ssh_key_name
+  user_data                = "${path.module}/scripts/ec2_bastion_user_data.sh"
+  ec2_bastion_access_ips   = var.ec2_bastion_access_ips
+
+  # Monitoring
+  cloudwatch_alarm_action_arns = [module.notify_slack.slack_topic_arn]
+
+  depends_on = [
+    module.vpc,
+    module.notify_slack
+  ]
+}
+
+# ***************************************
+# Slack Alarm Notification Infra
+# ***************************************
+module "notify_slack" {
+  source  = "terraform-aws-modules/notify-slack/aws"
+  version = "~> 4.0"
+
+  sns_topic_name = "slack-topic"
+
+  slack_webhook_url = var.slack_webhook_url
+  slack_channel     = "oracle-alerts"
+  slack_username    = "reporter"
 }
