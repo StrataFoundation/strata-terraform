@@ -2,8 +2,8 @@
 # Database Network Access Control List (ACL)
 # ***************************************
 resource "aws_network_acl" "rds_db_subnet_nacl" {
-  vpc_id     = module.vpc.vpc_id
-  subnet_ids = module.vpc.database_subnets
+  vpc_id     = var.vpc_id
+  subnet_ids = var.database_subnet_ids
 
   tags = {
     Name = "db-subnets-nacl"
@@ -75,7 +75,7 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_4" {
 # Ingress - Bastion
 # ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_5" {
-  count          = var.deploy_cost_infrastructure ? 1 : 0
+  count          = var.ec2_bastion_private_ip ? 1 : 0
 
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 500
@@ -169,7 +169,7 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_4" {
 # Egress - Bastion
 # ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_5" {
-  count          = var.deploy_cost_infrastructure ? 1 : 0
+  count          = var.ec2_bastion_private_ip ? 1 : 0
 
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 500

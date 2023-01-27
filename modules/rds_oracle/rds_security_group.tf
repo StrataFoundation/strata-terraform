@@ -5,7 +5,7 @@
 resource "aws_security_group" "rds_access_security_group" {
   name        = "rds-access-security-group"
   description = "Security group required to access RDS instance"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = var.vpc_id
 
   egress {
     from_port        = 0
@@ -29,7 +29,7 @@ resource "aws_security_group" "rds_access_security_group" {
 resource "aws_security_group" "rds_security_group" {
   name        = "rds-security-group"
   description = "Security group for RDS resource"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = var.vpc_id
 
   tags = {
     Name = "rds-security-group"
@@ -84,7 +84,7 @@ resource "aws_security_group_rule" "rds_security_group_egress_rule" {
 resource "aws_security_group" "rds_secrets_manager_vpc_endpoint_security_group" {
   name        = "rds-secrets-manager-vpc-endpoint-security-group"
   description = "Security group required to secrets manager VPC endpoint"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port        = 0
@@ -112,7 +112,7 @@ resource "aws_security_group" "rds_secrets_manager_vpc_endpoint_security_group" 
 resource "aws_security_group" "rds_secrets_manager_rotator_lambda_security_group" {
   name        = "rds-secrets-manager-rotator-lambda-security-group"
   description = "Security group required to secrets manager VPC endpoint"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = var.vpc_id
 
   egress {
     from_port        = 0

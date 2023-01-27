@@ -87,11 +87,11 @@ resource "aws_iam_role" "rds_foundation_user_access_role" {
         Effect = "Allow"
         Sid    = ""
         Principal = {
-          Federated = "${module.eks.oidc_provider_arn}"
+          Federated = "${var.oidc_provider_arn}"
         }
         Condition = {
           StringEquals = {
-            "${module.eks.oidc_provider}:sub" = "system:serviceaccount:helium:rds-${each.key}-oracle-user-access"
+            "${var.oidc_provider}:sub" = "system:serviceaccount:helium:rds-${each.key}-oracle-user-access"
           }
         }
       },

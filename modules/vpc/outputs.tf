@@ -2,11 +2,11 @@ output "vpc_id" {
   value = module.vpc.vpc_id
 }
 
-output "database_subnet_group" {
+output "database_subnet_group_name" {
   value = module.vpc.database_subnet_group
 }
 
-output "database_subnets" {
+output "database_subnet_ids" {
   value = module.vpc.database_subnets
 }
 

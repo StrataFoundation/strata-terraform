@@ -8,7 +8,7 @@ resource "aws_serverlessapplicationrepository_cloudformation_stack" "rotator_cf_
   parameters = {
     endpoint            = "https://secretsmanager.${var.aws_region}.${data.aws_partition.current.dns_suffix}"
     functionName        = "rds-pg-credential-rotator"
-    vpcSubnetIds        = join(",", module.vpc.database_subnets)
+    vpcSubnetIds        = join(",", var.database_subnet_ids)
     vpcSecurityGroupIds = "${aws_security_group.rds_secrets_manager_rotator_lambda_security_group.id},${aws_security_group.rds_access_security_group.id}"
   }
 }

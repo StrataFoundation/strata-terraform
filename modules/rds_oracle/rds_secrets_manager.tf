@@ -38,10 +38,10 @@ resource "aws_secretsmanager_secret_rotation" "rotation" {
 }
 
 resource "aws_vpc_endpoint" "secretsmanager" {
-  vpc_id              = module.vpc.vpc_id
+  vpc_id              = var.vpc_id
   service_name        = "com.amazonaws.${var.aws_region}.secretsmanager"
   vpc_endpoint_type   = "Interface"
   private_dns_enabled = true
-  subnet_ids          = module.vpc.database_subnets
+  subnet_ids          = var.database_subnet_ids
   security_group_ids  = [aws_security_group.rds_secrets_manager_vpc_endpoint_security_group.id]
 }

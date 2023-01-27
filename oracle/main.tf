@@ -86,19 +86,22 @@ module "rds_oracle" {
   aws_azs    = var.aws_azs
 
   # RDS
-  rds_instance_type = var.rds_instance_type
-  rds_storage_type = var.rds_storage_type
-  rds_storage_size = var.rds_storage_size
+  rds_instance_type    = var.rds_instance_type
+  rds_storage_type     = var.rds_storage_type
+  rds_storage_size     = var.rds_storage_size
   rds_max_storage_size = var.rds_max_storage_size
-  database_subnet_group = module.vpc.database_subnet_group
-  database_subnets = module.vpc.database_subnets
 
   # IAM
-  oidc_provider = module.eks.oidc_provider
+  oidc_provider     = module.eks.oidc_provider
   oidc_provider_arn = module.eks.oidc_provider_arn
 
-  # Security Group
-  vpc_id      = module.vpc.vpc_id
+  # Networking & Security
+  vpc_id                 = module.vpc.vpc_id
+  ec2_bastion_private_ip = var.ec2_bastion_private_ip
+  database_subnets       = var.database_subnets
+  private_subnets        = var.private_subnets
+  database_subnet_ids    = module.vpc.database_subnet_ids
+  db_subnet_group_name   = module.vpc.database_subnet_group_name
 
   # Nova IoT
   nova_iot_aws_account_id            = var.nova_iot_aws_account_id
@@ -112,9 +115,12 @@ module "rds_oracle" {
   nova_mobile_vpc_private_subnet_cidr   = var.nova_mobile_vpc_private_subnet_cidr
   nova_mobile_rds_access_security_group = var.nova_mobile_rds_access_security_group
 
+  # Monitoring
+  cloudwatch_alarm_action_arns = [module.notify_slack.slack_topic_arn]
+
   depends_on = [
-    //eks
-    //vpc
+    module.vpc,
+    module.notify_slack
   ]
 }
 
@@ -148,6 +154,7 @@ module "bastion" {
 
   depends_on = [
     module.vpc,
+    module.rds_oracle,
     module.notify_slack
   ]
 }
