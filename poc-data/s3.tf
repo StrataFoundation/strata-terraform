@@ -24,11 +24,26 @@ resource aws_s3_bucket_versioning version_poc_data_buckets {
 }
 
 # Make PoC data buckets open as Requester Pays
-resource "aws_s3_bucket_request_payment_configuration" "requester-pays" {
+# resource "aws_s3_bucket_request_payment_configuration" "requester-pays" {
+#   for_each = toset(local.hf_bucket_names)
+
+#   bucket = each.value
+#   payer  = "Requester"
+# }
+
+resource "aws_s3_bucket_public_access_block" "private_poc_data_buckets" {
   for_each = toset(local.hf_bucket_names)
 
-  bucket = each.value
-  payer  = "Requester"
+  bucket = aws_s3_bucket.poc_data_buckets[each.value].id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+
+  depends_on = [
+    aws_s3_bucket.poc_data_buckets
+  ]
 }
 
 # Create bucket policy for poc data buckets to enable S3 cross-account replication and requester pays
@@ -98,20 +113,20 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
     ]
   }
 
-  statement {
-    principals {
-      type        = "*"
-      identifiers = ["*"]
-    }
-    actions = [
-      "s3:GetObject",
-      "s3:ListBucket"
-    ]
-    resources = [
-      "arn:aws:s3:::${each.value}",
-      "arn:aws:s3:::${each.value}/*",
-    ]
-  }
+  # statement {
+  #   principals {
+  #     type        = "*"
+  #     identifiers = ["*"]
+  #   }
+  #   actions = [
+  #     "s3:GetObject",
+  #     "s3:ListBucket"
+  #   ]
+  #   resources = [
+  #     "arn:aws:s3:::${each.value}",
+  #     "arn:aws:s3:::${each.value}/*",
+  #   ]
+  # }
 }
 
 # ***************************************
