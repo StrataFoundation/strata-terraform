@@ -49,6 +49,12 @@ variable "cluster_name" {
   default = "helium"
 }
 
+variable "cluster_version" {
+  type = string
+  default = "1.24"
+}
+
+
 variable "cluster_max_size" { 
   type = number
   default = 3

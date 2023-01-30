@@ -35,10 +35,19 @@ module "vpc" {
   aws_azs    = var.aws_azs
 
   # VPC
-  cidr_block       = var.cidr_block
-  public_subnets   = var.public_subnets
-  private_subnets  = var.private_subnets
-  database_subnets = var.database_subnets
+  vpc_name           = var.vpc_name
+  cidr_block         = var.cidr_block
+  public_subnets     = var.public_subnets
+  private_subnets    = var.private_subnets
+  database_subnets   = var.database_subnets
+  public_subnet_tags = {
+    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/role/elb"                      = 1
+  }
+  private_subnet_tags = {
+    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/role/internal-elb"             = 1
+  }
 
   # Nova IoT
   nova_iot_aws_account_id          = var.nova_iot_aws_account_id
@@ -67,6 +76,26 @@ module "eks_oracle" {
   aws_region = var.aws_region
   aws_azs    = var.aws_azs
 
+  # VPC
+  vpc_id      = module.vpc.vpc_id
+  subnet_ids  = module.vpc.private_subnets
+  cidr_block  = var.cidr_block
+
+  # EKS
+  cluster_name                    = var.cluster_name
+  cluster_version                 = var.cluster_version
+  eks_instance_type               = var.eks_instance_type
+  eks_managed_node_group_defaults = {
+    ami_type = "AL2_x86_64"
+
+    attach_cluster_primary_security_group = true
+
+    # Disabling and using externally provided security groups
+    create_security_group = false
+  }
+  node_security_group_tags        = {
+    "kubernetes.io/cluster/${var.cluster_name}-${var.env}" = null
+  }
 }
 
 # ***************************************
@@ -120,6 +149,7 @@ module "rds_oracle" {
 
   depends_on = [
     module.vpc,
+    module.eks,
     module.notify_slack
   ]
 }

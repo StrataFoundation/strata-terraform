@@ -11,28 +11,22 @@ module "vpc" {
 
   # Public subnets
   public_subnets     = var.public_subnets
-  public_subnet_tags = {
-    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
-    "kubernetes.io/role/elb"                      = 1
-  }
-
+  public_subnet_tags = var.public_subnet_tags
+  
   # Private subnets
   private_subnets     = var.private_subnets
-  private_subnet_tags = {
-    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
-    "kubernetes.io/role/internal-elb"             = 1
-  }
+  private_subnet_tags = var.private_subnet_tags
 
   # Database subnets
-  database_subnets                   = var.database_subnets
-  create_database_subnet_group       = true
-  create_database_subnet_route_table = true
+  database_subnets                   = length(var.database_subnets) > 0 ? var.database_subnets : null
+  create_database_subnet_group       = length(var.database_subnets) > 0 ? true : false
+  create_database_subnet_route_table = length(var.database_subnets) > 0 ? true : false
 
   # NAT gateway 
   enable_nat_gateway     = var.deploy_cost_infrastructure ? true : false
-  single_nat_gateway     = false
   one_nat_gateway_per_az = var.deploy_cost_infrastructure ? true : false  # Each availability zone will get a NAT gateway, done so for high availability
-  
+  single_nat_gateway     = false
+
   # VPN gateway
   enable_vpn_gateway = true # Not sure if we need this
 

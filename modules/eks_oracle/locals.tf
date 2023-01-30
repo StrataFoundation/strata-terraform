@@ -17,6 +17,7 @@ locals {
       cidr = var.nova_mobile_vpc_private_subnet_cidr,
     }
   }
+
   foundation = {
     active-device = { 
       user = "active_device_oracle"
