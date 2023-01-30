@@ -14,11 +14,11 @@ provider "aws" {
 # To learn how to schedule deployments and services using the provider, go here: https://learn.hashicorp.com/terraform/kubernetes/deploy-nginx-kubernetes
 # The Kubernetes provider is included in this file so the EKS module can complete successfully. Otherwise, it throws an error when creating `kubernetes_config_map.aws_auth`.
 # You should **not** schedule deployments and services in this workspace. This keeps workspaces modular (one for provision EKS, another for scheduling Kubernetes resources) as per best practices.
-provider "kubernetes" {
-  host                   = module.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-  token                  = data.aws_eks_cluster_auth.eks.token
-}
+# provider "kubernetes" {
+#   host                   = module.eks.cluster_endpoint
+#   cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+#   token                  = data.aws_eks_cluster_auth.eks.token
+# }
 
 # ***************************************
 # VPC
@@ -75,7 +75,6 @@ module "eks_oracle" {
 
   # AWS
   aws_region = var.aws_region
-  aws_azs    = var.aws_azs
 
   # VPC
   vpc_id      = module.vpc.vpc_id
@@ -122,7 +121,6 @@ module "rds_oracle" {
 
   # AWS
   aws_region = var.aws_region
-  aws_azs    = var.aws_azs
 
   # RDS
   rds_instance_type    = var.rds_instance_type
@@ -130,9 +128,20 @@ module "rds_oracle" {
   rds_storage_size     = var.rds_storage_size
   rds_max_storage_size = var.rds_max_storage_size
 
+  # Db
+  db_name              = "oracle"
+  db_identifier        = "oracle-rds"
+  db_engine            = "postgres"
+  db_engine_version    = "14.5"
+  db_username          = "oracle_admin"
+  db_multi_az          = true
+  db_log_exports       = ["postgresql"]
+  db_port              = 5432
+
   # IAM
-  oidc_provider     = module.eks.oidc_provider
-  oidc_provider_arn = module.eks.oidc_provider_arn
+  oidc_provider     = module.eks_oracle.oidc_provider
+  oidc_provider_arn = module.eks_oracle.oidc_provider_arn
+  eks_cluster_name  = var.cluster_name
 
   # Networking & Security
   vpc_id                 = module.vpc.vpc_id
@@ -159,7 +168,7 @@ module "rds_oracle" {
 
   depends_on = [
     module.vpc,
-    module.eks,
+    module.eks_oracle,
     module.notify_slack
   ]
 }
@@ -188,6 +197,7 @@ module "bastion" {
   ec2_bastion_ssh_key_name = var.ec2_bastion_ssh_key_name
   user_data                = "${path.module}/scripts/ec2_bastion_user_data.sh"
   ec2_bastion_access_ips   = var.ec2_bastion_access_ips
+  ec2_bastion_private_ip   = var.ec2_bastion_private_ip
 
   # Monitoring
   cloudwatch_alarm_action_arns = [module.notify_slack.slack_topic_arn]

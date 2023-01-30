@@ -10,12 +10,6 @@ variable "aws_region" {
   default     = ""
 }
 
-variable "aws_azs" {
-  description = "List of AWS availabilty zone you're deploying to"
-  type        = list(string)
-  default     = []
-}
-
 variable "cluster_name" {
   description = "Name of EKS cluster"
   type        = string

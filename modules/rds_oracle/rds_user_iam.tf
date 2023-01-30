@@ -24,7 +24,7 @@ resource "aws_iam_role" "rds_nova_user_access_role" {
           ]
           Effect   = "Allow"
           Resource = [
-            "arn:aws:rds-db:us-east-1:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.oracle_rds.resource_id}/${each.value.user}"
+            "arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.oracle_rds.resource_id}/${each.value.user}"
           ]
         },
       ]
@@ -72,7 +72,7 @@ resource "aws_iam_role" "rds_foundation_user_access_role" {
           ]
           Effect   = "Allow"
           Resource = [
-            "arn:aws:rds-db:us-east-1:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.oracle_rds.resource_id}/${each.value.user}"
+            "arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.oracle_rds.resource_id}/${each.value.user}"
           ]
         },
       ]
@@ -91,7 +91,7 @@ resource "aws_iam_role" "rds_foundation_user_access_role" {
         }
         Condition = {
           StringEquals = {
-            "${var.oidc_provider}:sub" = "system:serviceaccount:helium:rds-${each.key}-oracle-user-access"
+            "${var.oidc_provider}:sub" = "system:serviceaccount:${var.eks_cluster_name}:rds-${each.key}-oracle-user-access"
           }
         }
       },

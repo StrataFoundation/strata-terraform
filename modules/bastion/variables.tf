@@ -1,36 +1,43 @@
 variable "env" {
   description = "Name of AWS enviroment that you're deploying to e.g., oracle-prod"
   type        = string
+  default     = ""
 }
 
 variable "aws_region" {
   description = "AWS region you're deploying to e.g., us-east-1"
   type        = string
+  default     = ""
 }
 
 variable "aws_az" {
   description = "AWS availabilty zone you're deploying to e.g., us-east-1a"
   type        = string
+  default     = ""
 }
 
 variable "ec2_bastion_ssh_key_name" {
   description = "Name of ssh key to use to access Bastion"
   type        = string
+  default     = ""
 }
 
 variable "public_subnet_id" {
   description = "Public subnet ID you're deploying into"
   type        = string
+  default     = ""
 }
 
 variable "user_data" {
   description = "User data to pass to Bastion during boot process"
   type        = string
+  default     = ""
 }
 
 variable "vpc_id" {
   description = "ID of VPC Bastion will be deployed into"
   type        = string
+  default     = ""
 }
 
 variable "security_group_ids" {
@@ -60,7 +67,7 @@ variable "instance_type" {
 variable "ec2_bastion_private_ip" {
   description = "Private IP address to assign to Bastion"
   type        = string
-  default     = "10.0.1.5" # AWS reserves first 4 addresses
+  default     = "" # e.g., 10.0.1.5 AWS reserves first 4 addresses
 }
 
 variable "volume_type" {

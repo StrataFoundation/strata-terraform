@@ -7,6 +7,7 @@ locals {
       vpc_id = var.nova_iot_vpc_id,
       sg_id = var.nova_iot_rds_access_security_group,
       cidr = var.nova_iot_vpc_private_subnet_cidr,
+      rule_number = 600
     }
     mobile = { 
       label = "Mobile",
@@ -15,6 +16,7 @@ locals {
       vpc_id = var.nova_mobile_vpc_id,
       sg_id = var.nova_mobile_rds_access_security_group,
       cidr = var.nova_mobile_vpc_private_subnet_cidr,
+      rule_number = 700
     }
   }
   foundation = {

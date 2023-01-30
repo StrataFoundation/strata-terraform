@@ -1,26 +1,31 @@
 variable "env" {
   description = "Name of AWS enviroment that you're deploying to e.g., oracle-prod"
   type        = string
+  default     = ""
 }
 
 variable "aws_region" {
   description = "AWS region you're deploying to e.g., us-east-1"
   type        = string
+  default     = ""
 }
 
 variable "create_nova_dependent_resources" {
   description = "Should Nova-dependent resources be created"
   type        = bool
+  default     = false
 }
 
 variable "db_subnet_group_name" {
   description = "Name of database subnet group"
   type        = string
+  default     = ""
 }
 
 variable "vpc_id" {
   description = "ID of VPC for RDS security group"
   type        = string
+  default     = ""
 }
 
 variable "vpc_security_group_ids" {
@@ -44,13 +49,13 @@ variable "ssl_required" {
 variable "db_name" {
   description = "Database name"
   type        = string
-  default     = "oracle"
+  default     = ""
 }
 
 variable "db_identifier" {
   description = "Database identifier"
   type        = string
-  default     = "oracle-rds"
+  default     = ""
 }
 
 variable "db_engine" {
@@ -62,19 +67,19 @@ variable "db_engine" {
 variable "db_engine_version" {
   description = "Database engine version"
   type        = string
-  default     = "14.5" # Latest available
+  default     = "" # 14.5 Latest available
 }
 
 variable "db_username" {
   description = "Database username"
   type        = string
-  default     = "oracle_admin"
+  default     = ""
 }
 
 variable "db_multi_az" {
   description = "Multi-az deployment"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "db_log_exports" {
@@ -117,37 +122,87 @@ variable "rds_max_storage_size" {
 variable "database_subnet_ids" {
   description = "List of database subnet IDs"
   type        = list(string)
+  default     = []
 }
 
 variable "oidc_provider" {
   description = "EKS OIDC provider name to enable K8s pods to assume IAM role to access RDS"
   type        = string
+  default     = ""
 }
 
 variable "oidc_provider_arn" {
   description = "EKS OIDC provider arn to enable K8s pods to assume IAM role to access RDS"
   type        = string
+  default     = ""
 }
 
 variable "private_subnets" {
   description = "List of CIDR blocks for private subnets"
   type        = list(string)
-  default     = ["10.0.101.0/24", "10.0.102.0/24"]
+  default     = []
 }
 
 variable "database_subnets" {
   description = "List of CIDR blocks for database subnets"
   type        = list(string)
-  default     = ["10.0.201.0/24", "10.0.202.0/24"]
+  default     = []
 }
 
 variable "ec2_bastion_private_ip" {
   description = "Private IP address of Bastion"
   type        = string
+  default     = ""
 }
 
 variable "cloudwatch_alarm_action_arns" {
   description = "CloudWatch Alarm Action ARNs to report CloudWatch Alarms"
   type        = list(string)
   default     = []
+}
+
+variable "eks_cluster_name" {
+  description = "Name of EKS cluster for IAM RDS access role"
+  type        = string
+  default     = ""
+}
+
+variable "nova_iot_aws_account_id" {
+  description = "The AWS account ID for the Nova IoT environment (e.g., dev or prod)."
+  type = string
+}
+
+variable "nova_iot_vpc_id" {
+  description = "The VPC ID for the Nova IoT environment (e.g., dev or prod)."
+  type = string
+}
+
+variable "nova_iot_rds_access_security_group" {
+  description = "The Security Group ID for the Nova IoT environment (e.g., dev or prod).\n\nIMPORTANT to note terraform apply WILL FAIL on this if the VPC peering connection hasn't been accepted on the Nova IoT side."
+  type = string
+}
+
+variable "nova_iot_vpc_private_subnet_cidr" {
+  description = "The Private Subnet CIDR block for the Nova IoT environment (e.g., dev or prod)."
+  type = string
+}
+
+variable "nova_mobile_aws_account_id" {
+  description = "The AWS account ID for the Nova Mobile environment (e.g., dev or prod).\n\nIf an empty string is provided, no Nova Mobile-dependent resources will be created"
+  type = string
+}
+
+variable "nova_mobile_vpc_id" {
+  description = "The VPC ID for the Nova Mobile environment (e.g., dev or prod)."
+  type = string
+}
+
+variable "nova_mobile_rds_access_security_group" {
+  description = "The Security Group ID for the Nova Mobile environment (e.g., dev or prod).\n\nIMPORTANT to note terraform apply WILL FAIL on this if the VPC peering connection hasn't been accepted on the Nova Mobile side."
+  type = string
+}
+
+variable "nova_mobile_vpc_private_subnet_cidr" {
+  description = "The Private Subnet CIDR block for the Nova Mobile environment (e.g., dev or prod)."
+  type = string
 }
