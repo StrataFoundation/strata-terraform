@@ -2,12 +2,13 @@ provider "aws" {
   region = var.aws_region
 
   default_tags {
-      tags = {
-        Terraform = "true"
-        Environment = var.env
-      }
+    tags = {
+      Terraform = "true"
+      Environment = var.env
+    }
   }
 }
+
 # Kubernetes provider
 # https://learn.hashicorp.com/terraform/kubernetes/provision-eks-cluster#optional-configure-terraform-kubernetes-provider
 # To learn how to schedule deployments and services using the provider, go here: https://learn.hashicorp.com/terraform/kubernetes/deploy-nginx-kubernetes
@@ -83,8 +84,13 @@ module "eks_oracle" {
 
   # EKS
   cluster_name                    = var.cluster_name
+  cluster_node_name               = "small-node-group"
   cluster_version                 = var.cluster_version
+  cluster_min_size                = var.cluster_min_size
+  cluster_max_size                = var.cluster_max_size
+  cluster_desired_size            = var.cluster_desired_size
   eks_instance_type               = var.eks_instance_type
+  manage_aws_auth_configmap       = var.manage_aws_auth_configmap
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
 
@@ -96,6 +102,10 @@ module "eks_oracle" {
   node_security_group_tags        = {
     "kubernetes.io/cluster/${var.cluster_name}-${var.env}" = null
   }
+
+  depends_on = [
+    module.vpc
+  ]
 }
 
 # ***************************************

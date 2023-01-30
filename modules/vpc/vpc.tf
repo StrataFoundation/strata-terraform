@@ -23,8 +23,8 @@ module "vpc" {
   create_database_subnet_route_table = length(var.database_subnets) > 0 ? true : false
 
   # NAT gateway 
-  enable_nat_gateway     = var.deploy_cost_infrastructure ? true : false
-  one_nat_gateway_per_az = var.deploy_cost_infrastructure ? true : false  # Each availability zone will get a NAT gateway, done so for high availability
+  enable_nat_gateway     = var.deploy_cost_infrastructure
+  one_nat_gateway_per_az = var.deploy_cost_infrastructure # Each availability zone will get a NAT gateway, done so for high availability
   single_nat_gateway     = false
 
   # VPN gateway
@@ -58,7 +58,7 @@ resource "aws_vpc_peering_connection" "nova_vpc_peering_connection" {
 
 # ***************************************
 # Database Route Table Updates
-# Add route "az a" route table allowing connection to specified private Nova IoT and Mobile subnets via VPC peering connection
+# Add route to "availability zone a" route table allowing connection to specified private Nova IoT and Mobile subnets via VPC peering connection
 # ***************************************
 resource "aws_route" "database_route_table_route_to_nova_az_a" {
   for_each = var.create_nova_dependent_resources ? local.nova : {}
@@ -70,7 +70,7 @@ resource "aws_route" "database_route_table_route_to_nova_az_a" {
 
 # ***************************************
 # Database Route Table Updates
-# Add route "az b" route table allowing connection to specified private Nova IoT and Mobile subnets via VPC peering connection
+# Add route to "availability zone b" route table allowing connection to specified private Nova IoT and Mobile subnets via VPC peering connection
 # ***************************************
 resource "aws_route" "database_route_table_route_to_nova_az_b" {
   for_each = var.create_nova_dependent_resources ? local.nova : {}

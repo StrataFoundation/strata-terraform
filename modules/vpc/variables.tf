@@ -1,16 +1,19 @@
 variable "env" {
   description = "Name of AWS enviroment that you're deploying to e.g., oracle-prod"
   type        = string
+  default     = ""
 }
 
 variable "aws_region" {
   description = "AWS region you're deploying to e.g., us-east-1"
   type        = string
+  default     = ""
 }
 
 variable "aws_azs" {
   description = "List of AWS availabilty zone you're deploying to"
   type        = list(string)
+  default     = []
 }
 
 variable "deploy_cost_infrastructure" {
@@ -29,12 +32,13 @@ variable "create_nova_dependent_resources" {
 variable "vpc_name" {
   description = "Name of the VPC"
   type        = string
+  default     = "" 
 }
 
 variable "cidr_block" {
   description = "CIDR block for Private IP address allocation e.g., 10.0.0.0/16"
   type        = string
-  default     = "10.0.0.0/16"
+  default     = "" # "10.0.0.0/16"
 }
 
 variable "public_subnets" {
@@ -70,29 +74,35 @@ variable "private_subnet_tags" {
 variable "nova_iot_aws_account_id" {
   description = "The AWS account ID for the Nova IoT environment (e.g., dev or prod)."
   type        = string
+  default     = ""
 }
 
 variable "nova_iot_vpc_id" {
   description = "The VPC ID for the Nova IoT environment (e.g., dev or prod)."
   type        = string
+  default     = ""
 }
 
 variable "nova_iot_vpc_private_subnet_cidr" {
   description = "The Private Subnet CIDR block for the Nova IoT environment (e.g., dev or prod)."
   type        = string
+  default     = ""
 }
 
 variable "nova_mobile_aws_account_id" {
   description = "The AWS account ID for the Nova Mobile environment (e.g., dev or prod).\n\nIf an empty string is provided, no Nova Mobile-dependent resources will be created"
   type        = string
+  default     = ""
 }
 
 variable "nova_mobile_vpc_id" {
   description = "The VPC ID for the Nova Mobile environment (e.g., dev or prod)."
   type        = string
+  default     = ""
 }
 
 variable "nova_mobile_vpc_private_subnet_cidr" {
   description = "The Private Subnet CIDR block for the Nova Mobile environment (e.g., dev or prod)."
   type        = string
+  default     = ""
 }
