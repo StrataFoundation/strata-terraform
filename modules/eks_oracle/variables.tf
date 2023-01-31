@@ -58,12 +58,6 @@ variable "eks_instance_type" {
   default     = ""
 }
 
-variable "cluster_name" {
-  description = "Name of EKS cluster"
-  type        = string
-  default     = ""
-}
-
 variable "cluster_version" {
   description = "K8s version of EKS cluster"
   type        = string
