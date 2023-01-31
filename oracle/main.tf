@@ -76,8 +76,8 @@ module "eks_oracle" {
   aws_region = var.aws_region
 
   # VPC
-  vpc_id      = module.vpc.vpc_id
-  subnet_ids  = module.vpc.private_subnets
+  vpc_id      = module.vpc[0].vpc_id
+  subnet_ids  = module.vpc[0].private_subnets
   cidr_block  = var.cidr_block
 
   # EKS
@@ -102,7 +102,7 @@ module "eks_oracle" {
   }
 
   depends_on = [
-    module.vpc
+    module.vpc[0]
   ]
 }
 
@@ -138,17 +138,17 @@ module "rds_oracle" {
   db_port              = 5432
 
   # IAM
-  oidc_provider     = module.eks_oracle.oidc_provider
-  oidc_provider_arn = module.eks_oracle.oidc_provider_arn
+  oidc_provider     = module.eks_oracle[0].oidc_provider
+  oidc_provider_arn = module.eks_oracle[0].oidc_provider_arn
   eks_cluster_name  = var.cluster_name
 
   # Networking & Security
-  vpc_id                 = module.vpc.vpc_id
+  vpc_id                 = module.vpc[0].vpc_id
   ec2_bastion_private_ip = var.ec2_bastion_private_ip
   database_subnets       = var.database_subnets
   private_subnets        = var.private_subnets
-  database_subnet_ids    = module.vpc.database_subnet_ids
-  db_subnet_group_name   = module.vpc.database_subnet_group_name
+  database_subnet_ids    = module.vpc[0].database_subnet_ids
+  db_subnet_group_name   = module.vpc[0].database_subnet_group_name
 
   # Nova IoT
   nova_iot_aws_account_id            = var.nova_iot_aws_account_id
@@ -166,8 +166,8 @@ module "rds_oracle" {
   cloudwatch_alarm_action_arns = [module.notify_slack.slack_topic_arn]
 
   depends_on = [
-    module.vpc,
-    module.eks_oracle,
+    module.vpc[0],
+    module.eks_oracle[0],
     module.notify_slack
   ]
 }
@@ -188,8 +188,8 @@ module "bastion" {
   aws_az     = var.aws_azs[0]
 
   # Networking & Security
-  vpc_id             = module.vpc.vpc_id
-  public_subnet_id   = module.vpc.public_subnets[0]
+  vpc_id             = module.vpc[0].vpc_id
+  public_subnet_id   = module.vpc[0].public_subnets[0]
   security_group_ids = [module.rds_oracle.rds_access_security_group_id]
 
   # EC2
@@ -202,8 +202,8 @@ module "bastion" {
   cloudwatch_alarm_action_arns = [module.notify_slack.slack_topic_arn]
 
   depends_on = [
-    module.vpc,
-    module.rds_oracle,
+    module.vpc[0],
+    module.rds_oracle[0],
     module.notify_slack
   ]
 }
