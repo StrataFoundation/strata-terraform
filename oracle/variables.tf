@@ -76,7 +76,7 @@ variable "eks_instance_type" {
 variable "cluster_version" {
   description = "K8s Version of EKS cluster"
   type        = string
-  default     = "1.24"
+  default     = "" // 1.24
 }
 
 variable "cluster_min_size" {
