@@ -119,13 +119,13 @@ variable "rds_storage_type" {
 variable "rds_storage_size" {
   description = "EBS storage size for RDS"
   type        = number
-  default     = "" # 400GB here to get to the next threshold for IOPS (12000) and throughput (500MiB)
+  default     = 100 # 400GB here to get to the next threshold for IOPS (12000) and throughput (500MiB)
 }
 
 variable "rds_max_storage_size" {
   description = "Maximum EBS storage size for RDS"
   type        = number
-  default     = "" # 1000
+  default     = 1000 # 1000
 }
 
 # --- Bastion variables ------------------------------------------------
