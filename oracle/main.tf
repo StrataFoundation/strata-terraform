@@ -190,7 +190,7 @@ module "bastion" {
   # Networking & Security
   vpc_id             = module.vpc[0].vpc_id
   public_subnet_id   = module.vpc[0].public_subnets[0]
-  security_group_ids = [module.rds_oracle.rds_access_security_group_id]
+  security_group_ids = [module.rds_oracle[0].rds_access_security_group_id]
 
   # EC2
   ec2_bastion_ssh_key_name = var.ec2_bastion_ssh_key_name
