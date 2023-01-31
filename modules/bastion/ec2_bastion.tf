@@ -15,7 +15,7 @@ resource "aws_instance" "bastion" {
     [aws_security_group.ec2_bastion_security_group.id],
     var.security_group_ids
   )
-  iam_instance_profile = var.cloudwatch_ssh_denied_monitoring ? aws_iam_instance_profile.bastion_instance_profile.name : null
+  iam_instance_profile = var.cloudwatch_ssh_denied_monitoring ? aws_iam_instance_profile.bastion_instance_profile[0].name : null
 
   # Storage 
   root_block_device {
