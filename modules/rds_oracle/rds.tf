@@ -15,7 +15,7 @@ resource "aws_db_instance" "oracle_rds" {
 
   # Networking & Security
   port                                = var.db_port
-  db_subnet_group_name                = var.database_subnet_group
+  db_subnet_group_name                = var.db_subnet_group_name
   vpc_security_group_ids              = concat([aws_security_group.rds_security_group.id], var.vpc_security_group_ids)
   iam_database_authentication_enabled = var.iam_database_authentication_enabled
 
