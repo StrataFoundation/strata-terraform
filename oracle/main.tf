@@ -143,12 +143,12 @@ module "rds_oracle" {
   eks_cluster_name  = var.cluster_name
 
   # Networking & Security
-  vpc_id                 = module.vpc[0].vpc_id
+  vpc_id                 = module.vpc.vpc_id
   ec2_bastion_private_ip = var.ec2_bastion_private_ip
   database_subnets       = var.database_subnets
   private_subnets        = var.private_subnets
-  database_subnet_ids    = module.vpc[0].database_subnet_ids
-  db_subnet_group_name   = module.vpc[0].database_subnet_group_name
+  database_subnet_ids    = module.vpc.database_subnet_ids
+  db_subnet_group_name   = module.vpc.database_subnet_group_name
 
   # Nova IoT
   nova_iot_aws_account_id            = var.nova_iot_aws_account_id
@@ -166,7 +166,7 @@ module "rds_oracle" {
   cloudwatch_alarm_action_arns = [module.notify_slack.slack_topic_arn]
 
   depends_on = [
-    module.vpc[0],
+    module.vpc,
     module.notify_slack
   ]
 }
@@ -187,8 +187,8 @@ module "bastion" {
   aws_az     = var.aws_azs[0]
 
   # Networking & Security
-  vpc_id             = module.vpc[0].vpc_id
-  public_subnet_id   = module.vpc[0].public_subnets[0]
+  vpc_id             = module.vpc.vpc_id
+  public_subnet_id   = module.vpc.public_subnets[0]
   security_group_ids = [module.rds_oracle[0].rds_access_security_group_id]
 
   # EC2

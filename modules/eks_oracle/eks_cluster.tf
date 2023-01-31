@@ -28,10 +28,10 @@ module "eks" {
   }
 
   # Allow setting access permissions to the eks cluster (e.g., who can run kubectl commands) via aws-auth configmap
-  manage_aws_auth_configmap = var.manage_aws_auth_configmap
+  manage_aws_auth_configmap = true
 
   # Allow all users in an AWS environment with the "AWSAdministratorAccess" role to run kubectl commands
-  aws_auth_roles = var.manage_aws_auth_configmap ? [
+  aws_auth_roles = [
     {
       rolearn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${tolist(data.aws_iam_roles.admin_role.names)[0]}"
       username = "AWSAdministratorAccess:{{SessionName}}"
@@ -39,5 +39,5 @@ module "eks" {
         "system:masters",
       ]
     }
-  ] : []
+  ] 
 }
