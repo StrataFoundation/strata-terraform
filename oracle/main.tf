@@ -1,4 +1,5 @@
 provider "aws" {
+  profile = "sandbox-darwin"
   region = var.aws_region
 
   default_tags {
@@ -15,9 +16,9 @@ provider "aws" {
 # The Kubernetes provider is included in this file so the EKS module can complete successfully. Otherwise, it throws an error when creating `kubernetes_config_map.aws_auth`.
 # You should **not** schedule deployments and services in this workspace. This keeps workspaces modular (one for provision EKS, another for scheduling Kubernetes resources) as per best practices.
 provider "kubernetes" {
-  host                   = module.eks_oracle[0].cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks_oracle[0].cluster_certificate_authority_data)
-  token                  = data.aws_eks_cluster_auth.eks.token
+  host                   = try(module.eks_oracle[0].cluster_endpoint, null)
+  cluster_ca_certificate = try(base64decode(module.eks_oracle[0].cluster_certificate_authority_data), null)
+  token                  = try(module.eks_oracle[0].aws_eks_cluster_auth, null)
 }
 
 # ***************************************
@@ -76,8 +77,8 @@ module "eks_oracle" {
   aws_region = var.aws_region
 
   # VPC
-  vpc_id      = module.vpc[0].vpc_id
-  subnet_ids  = module.vpc[0].private_subnets
+  vpc_id      = module.vpc.vpc_id
+  subnet_ids  = module.vpc.private_subnets
   cidr_block  = var.cidr_block
 
   # EKS
@@ -102,7 +103,7 @@ module "eks_oracle" {
   }
 
   depends_on = [
-    module.vpc[0]
+    module.vpc
   ]
 }
 
@@ -202,7 +203,7 @@ module "bastion" {
   cloudwatch_alarm_action_arns = [module.notify_slack.slack_topic_arn]
 
   depends_on = [
-    module.vpc[0],
+    module.vpc,
     module.rds_oracle[0],
     module.notify_slack
   ]
