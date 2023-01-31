@@ -167,7 +167,6 @@ module "rds_oracle" {
 
   depends_on = [
     module.vpc[0],
-    module.eks_oracle[0],
     module.notify_slack
   ]
 }
