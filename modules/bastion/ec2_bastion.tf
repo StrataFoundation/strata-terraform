@@ -29,5 +29,5 @@ resource "aws_instance" "bastion" {
     Name = "bastion"
   }
 
-  depends_on = var.cloudwatch_ssh_denied_monitoring ? [aws_iam_role.bastion_cw_agent_role] : []
+  depends_on = [aws_iam_role.bastion_cw_agent_role]
 }
