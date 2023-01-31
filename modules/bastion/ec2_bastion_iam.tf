@@ -28,5 +28,5 @@ resource "aws_iam_instance_profile" "bastion_instance_profile" {
   count = var.cloudwatch_ssh_denied_monitoring ? 1 : 0
   
   name = "bastion_instance_profile_for_cw_agent"
-  role = aws_iam_role.bastion_cw_agent_role.name
+  role = aws_iam_role.bastion_cw_agent_role[0].name
 }

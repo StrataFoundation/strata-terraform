@@ -12,7 +12,7 @@ resource "aws_cloudwatch_log_metric_filter" "bastion_ssh_metrics_filter" {
 
   name           = "bastion-ssh-metrics-filter"
   pattern        = "status 22"
-  log_group_name = aws_cloudwatch_log_group.bastion_ssh_denied_log_group.name
+  log_group_name = aws_cloudwatch_log_group.bastion_ssh_denied_log_group[0].name
 
   metric_transformation {
     name         = "ssh-denied"
@@ -23,7 +23,7 @@ resource "aws_cloudwatch_log_metric_filter" "bastion_ssh_metrics_filter" {
 
 # CloudWath alert on failed login attempts to bastion
 resource "aws_cloudwatch_metric_alarm" "bastion_ssh_denied_alarm" {
-  count               = var.cloudwatch_ssh_denied_monitoring && var.cloudwatch_alarm_action_arns ? 1 : 0
+  count               = var.cloudwatch_ssh_denied_monitoring && length(var.cloudwatch_alarm_action_arns) < 0 ? 1 : 0
 
   alarm_name          = "bastion-ssh-denied"
   alarm_description   = "There was a failed login attempt to the Oracle Bastion."
