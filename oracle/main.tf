@@ -100,10 +100,6 @@ module "eks_oracle" {
   node_security_group_tags        = {
     "kubernetes.io/cluster/${var.cluster_name}-${var.env}" = null
   }
-
-  depends_on = [
-    module.vpc
-  ]
 }
 
 # ***************************************
@@ -164,11 +160,6 @@ module "rds_oracle" {
 
   # Monitoring
   cloudwatch_alarm_action_arns = [module.notify_slack.slack_topic_arn]
-
-  depends_on = [
-    module.vpc,
-    module.notify_slack
-  ]
 }
 
 # ***************************************
@@ -199,12 +190,6 @@ module "bastion" {
 
   # Monitoring
   cloudwatch_alarm_action_arns = [module.notify_slack.slack_topic_arn]
-
-  depends_on = [
-    module.vpc,
-    module.rds_oracle[0],
-    module.notify_slack
-  ]
 }
 
 # ***************************************

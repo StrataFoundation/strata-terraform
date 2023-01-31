@@ -28,6 +28,4 @@ resource "aws_instance" "bastion" {
   tags = {
     Name = "bastion"
   }
-
-  depends_on = [aws_iam_role.bastion_cw_agent_role]
 }
