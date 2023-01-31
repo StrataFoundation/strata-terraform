@@ -1,5 +1,4 @@
 provider "aws" {
-  profile = "sandbox-darwin"
   region = var.aws_region
 
   default_tags {
