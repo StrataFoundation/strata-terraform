@@ -71,7 +71,6 @@ module "eks_oracle" {
 
   # Env
   env                             = var.env
-  create_nova_dependent_resources = var.create_nova_dependent_resources
 
   # AWS
   aws_region = var.aws_region
