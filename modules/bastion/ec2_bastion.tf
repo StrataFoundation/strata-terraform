@@ -3,7 +3,7 @@ resource "aws_instance" "bastion" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   key_name      = var.ec2_bastion_ssh_key_name
-  user_data     = var.user_data ? "${file("${var.user_data}")}" : null
+  user_data     = var.user_data != "" ? "${file("${var.user_data}")}" : null
 
   # VPC & Networking
   availability_zone = var.aws_az
