@@ -20,11 +20,18 @@ locals {
     }
   }
   foundation = {
-    active-device = { 
-      user = "active_device_oracle"
+    oracle = {
+      active-device = { 
+        user = "active_device_oracle"
+      }
+      mobile = { 
+        user = "mobile_oracle"
+      }
     }
-    mobile = { 
-      user = "mobile_oracle"
+    web = {
+      web = { 
+        user = "web"
+      }
     }
   }
 }

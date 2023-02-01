@@ -4,7 +4,7 @@ provider "aws" {
   default_tags {
     tags = {
       Terraform = "true"
-      Environment = var.stage
+      Environment = var.env
     }
   }
 }
@@ -43,23 +43,13 @@ module "vpc" {
   private_subnets    = var.private_subnets
   database_subnets   = var.database_subnets
   public_subnet_tags = {
-    "kubernetes.io/cluster/${var.cluster_name}-${var.stage}" = "shared"
+    "kubernetes.io/cluster/${var.cluster_name}-${var.env}" = "shared"
     "kubernetes.io/role/elb"                      = 1
   }
   private_subnet_tags = {
-    "kubernetes.io/cluster/${var.cluster_name}-${var.stage}" = "shared"
+    "kubernetes.io/cluster/${var.cluster_name}-${var.env}" = "shared"
     "kubernetes.io/role/internal-elb"             = 1
   }
-
-  # Nova IoT
-  nova_iot_aws_account_id          = var.nova_iot_aws_account_id
-  nova_iot_vpc_id                  = var.nova_iot_vpc_id
-  nova_iot_vpc_private_subnet_cidr = var.nova_iot_vpc_private_subnet_cidr
-
-  # Nova Mobile
-  nova_mobile_aws_account_id          = var.nova_mobile_aws_account_id
-  nova_mobile_vpc_id                  = var.nova_mobile_vpc_id
-  nova_mobile_vpc_private_subnet_cidr = var.nova_mobile_vpc_private_subnet_cidr
 }
 
 # ***************************************
@@ -100,7 +90,7 @@ module "eks" {
     create_security_group = false
   }
   node_security_group_tags        = {
-    "kubernetes.io/cluster/${var.cluster_name}-${var.stage}" = null
+    "kubernetes.io/cluster/${var.cluster_name}-${var.env}" = null
   }
 }
 
@@ -127,12 +117,12 @@ module "rds" {
   rds_max_storage_size = var.rds_max_storage_size
 
   # Db
-  db_name              = "oracle"
-  db_identifier        = "oracle-rds"
+  db_name              = "web"
+  db_identifier        = "web-rds"
   db_engine            = "postgres"
   db_engine_version    = "14.5"
-  db_username          = "oracle_admin"
-  db_multi_az          = true
+  db_username          = "web_admin"
+  db_multi_az          = false
   db_log_exports       = ["postgresql"]
   db_port              = 5432
 
@@ -148,18 +138,6 @@ module "rds" {
   private_subnets        = var.private_subnets
   database_subnet_ids    = module.vpc.database_subnet_ids
   db_subnet_group_name   = module.vpc.database_subnet_group_name
-
-  # Nova IoT
-  nova_iot_aws_account_id            = var.nova_iot_aws_account_id
-  nova_iot_vpc_id                    = var.nova_iot_vpc_id
-  nova_iot_vpc_private_subnet_cidr   = var.nova_iot_vpc_private_subnet_cidr
-  nova_iot_rds_access_security_group = var.nova_iot_rds_access_security_group
-
-  # Nova Mobile
-  nova_mobile_aws_account_id            = var.nova_mobile_aws_account_id
-  nova_mobile_vpc_id                    = var.nova_mobile_vpc_id
-  nova_mobile_vpc_private_subnet_cidr   = var.nova_mobile_vpc_private_subnet_cidr
-  nova_mobile_rds_access_security_group = var.nova_mobile_rds_access_security_group
 
   # Monitoring
   cloudwatch_alarm_action_arns = [module.notify_slack.slack_topic_arn]

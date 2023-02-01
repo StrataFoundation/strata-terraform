@@ -51,18 +51,18 @@ resource "aws_iam_role" "rds_nova_user_access_role" {
 #
 # Helium Foundation IAM policy & role for RDS access
 #
-# These IAM roles allow k8s access to the postgres db for a <active_device/mobile>_oracle user. Any k8s pod
+# These IAM roles allow k8s access to the postgres db for a <active_device/mobile>_<env> user. Any k8s pod
 # (e.g., ideally the <active-device/mobile>-oracle pod) with the proper k8s "service account" definition will
 # be able to assume these roles in order to access the postgres db as the db-defined <active_device/mobile>_oracle user.
 # ***************************************
 resource "aws_iam_role" "rds_foundation_user_access_role" {
-  for_each = local.foundation
+  for_each = local.foundation[var.env]
 
-  name        = "rds-${each.key}-oracle-user-access-role"
+  name        = "rds-${each.key}-${var.env}-user-access-role"
   description = "IAM Role for a K8s pod to assume to access RDS via the ${each.value.user} user"
 
   inline_policy {
-    name   = "rds-${each.key}-oracle-user-access-policy"
+    name   = "rds-${each.key}-${var.env}-user-access-policy"
     policy = jsonencode({
       Version   = "2012-10-17"
       Statement = [
@@ -91,7 +91,7 @@ resource "aws_iam_role" "rds_foundation_user_access_role" {
         }
         Condition = {
           StringEquals = {
-            "${var.oidc_provider}:sub" = "system:serviceaccount:${var.eks_cluster_name}:rds-${each.key}-oracle-user-access"
+            "${var.oidc_provider}:sub" = "system:serviceaccount:${var.eks_cluster_name}:rds-${each.key}-${var.env}-user-access"
           }
         }
       },

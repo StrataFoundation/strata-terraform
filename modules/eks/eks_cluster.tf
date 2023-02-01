@@ -2,7 +2,7 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "18.31.2"
 
-  cluster_name    = "${var.cluster_name}-${var.env}"
+  cluster_name    = "${var.cluster_name}-${var.stage}"
   cluster_version = var.cluster_version
 
   vpc_id     = var.vpc_id

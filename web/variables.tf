@@ -43,34 +43,34 @@ variable "vpc_name" {
 }
 
 variable "cidr_block" {
-  description = "CIDR block for Private IP address allocation e.g., 10.0.0.0/16"
+  description = "CIDR block for Private IP address allocation e.g., 10.1.0.0/16"
   type        = string
-  default     = "10.0.0.0/16"
+  default     = "10.10.0.0/16"
 }
 
 variable "public_subnets" {
   description = "List of public subnets from CIDR block"
   type        = list(string)
-  default     = ["10.0.1.0/24", "10.0.2.0/24"]
+  default     = ["10.10.1.0/24", "10.10.2.0/24"]
 }
 
 variable "private_subnets" {
   description = "List of private subnets from CIDR block"
   type        = list(string)
-  default     = ["10.0.101.0/24", "10.0.102.0/24"]
+  default     = ["10.10.101.0/24", "10.10.102.0/24"]
 }
 
 variable "database_subnets" {
   description = "List of database subnets from CIDR block"
   type        = list(string)
-  default     = ["10.0.201.0/24", "10.0.202.0/24"]
+  default     = ["10.10.201.0/24", "10.10.202.0/24"]
 }
 
 # --- EKS variables ------------------------------------------------
 variable "cluster_name" {
   description = "Name of EKS cluster"
   type        = string
-  default     = "helium"
+  default     = ""
 }
 
 variable "eks_instance_type" {
@@ -113,7 +113,7 @@ variable "manage_aws_auth_configmap" {
 variable "rds_instance_type" {
   description = "Instance type for RDS"
   type        = string
-  default     = "" # db.m5.large | db.m6i.large
+  default     = "" # db.m5.large | db.m6i.large | db.t3.large
 }
 
 variable "rds_storage_type" {
@@ -138,7 +138,7 @@ variable "rds_max_storage_size" {
 variable "ec2_bastion_private_ip" {
   description = "Private IP address to assign to Bastion"
   type        = string
-  default     = "10.0.1.5" # AWS reserves first 4 addresses
+  default     = "10.10.1.5" # AWS reserves first 4 addresses
 }
 
 variable "ec2_bastion_ssh_key_name" {

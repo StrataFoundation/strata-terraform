@@ -1,13 +1,19 @@
+variable "env" {
+  description = "Name of AWS enviroment that you're deploying to e.g., oracle, web, etc."
+  type        = string
+  default     = ""
+}
+
+variable "stage" {
+  description = "Name of AWS stage that you're deploying to e.g., sdlc, prod"
+  type        = string
+  default     = ""
+}
+
 variable "aws_region" {
   type = string
   default = "us-west-2"
 }
-
-variable "env" {
-  type    = string
-  default = "prod"
-}
-
 
 # Foundation Variables
 variable "hf_buckets" {
