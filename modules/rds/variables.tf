@@ -175,40 +175,48 @@ variable "eks_cluster_name" {
 
 variable "nova_iot_aws_account_id" {
   description = "The AWS account ID for the Nova IoT environment (e.g., dev or prod)."
-  type = string
+  type        = string
+  default     = ""
 }
 
 variable "nova_iot_vpc_id" {
   description = "The VPC ID for the Nova IoT environment (e.g., dev or prod)."
-  type = string
+  type        = string
+  default     = ""
 }
 
 variable "nova_iot_rds_access_security_group" {
   description = "The Security Group ID for the Nova IoT environment (e.g., dev or prod).\n\nIMPORTANT to note terraform apply WILL FAIL on this if the VPC peering connection hasn't been accepted on the Nova IoT side."
-  type = string
+  type        = string
+  default     = ""
 }
 
 variable "nova_iot_vpc_private_subnet_cidr" {
   description = "The Private Subnet CIDR block for the Nova IoT environment (e.g., dev or prod)."
-  type = string
+  type        = string
+  default     = ""
 }
 
 variable "nova_mobile_aws_account_id" {
   description = "The AWS account ID for the Nova Mobile environment (e.g., dev or prod).\n\nIf an empty string is provided, no Nova Mobile-dependent resources will be created"
-  type = string
+  type        = string
+  default     = ""
 }
 
 variable "nova_mobile_vpc_id" {
   description = "The VPC ID for the Nova Mobile environment (e.g., dev or prod)."
-  type = string
+  type        = string
+  default     = ""
 }
 
 variable "nova_mobile_rds_access_security_group" {
   description = "The Security Group ID for the Nova Mobile environment (e.g., dev or prod).\n\nIMPORTANT to note terraform apply WILL FAIL on this if the VPC peering connection hasn't been accepted on the Nova Mobile side."
-  type = string
+  type        = string
+  default     = ""
 }
 
 variable "nova_mobile_vpc_private_subnet_cidr" {
   description = "The Private Subnet CIDR block for the Nova Mobile environment (e.g., dev or prod)."
-  type = string
+  type        = string
+  default     = ""
 }
