@@ -1,6 +1,12 @@
 # --- Environment variables ------------------------------------------------
 variable "env" {
-  description = "Name of AWS enviroment that you're deploying to e.g., oracle-prod"
+  description = "Name of AWS enviroment that you're deploying to e.g., oracle, web, etc."
+  type        = string
+  default     = ""
+}
+
+variable "stage" {
+  description = "Name of AWS stage that you're deploying to e.g., sdlc, prod"
   type        = string
   default     = ""
 }
