@@ -1,9 +1,4 @@
 locals {
-  cluster_name = "${var.cluster_name}-${var.env}"
-}
-
-#  vpc.tf, rds_security_group.tf, rds_user_iam.tf, rds_db_subnet_nacl.tf
-locals {
   nova = {
     iot = {
       label = "IoT",

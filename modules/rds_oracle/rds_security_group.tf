@@ -1,8 +1,11 @@
+# ***************************************
+# Security Group
 # RDS access security group
+# ***************************************
 resource "aws_security_group" "rds_access_security_group" {
   name        = "rds-access-security-group"
   description = "Security group required to access RDS instance"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = var.vpc_id
 
   egress {
     from_port        = 0
@@ -16,13 +19,17 @@ resource "aws_security_group" "rds_access_security_group" {
   }
 }
 
+
+# ***************************************
+# Security Group Rules
 # RDS security group
 # Rules are applied individually so we can deploy if VPC peering connection with isn't created.
 # IMPORTANT to note terraform apply WILL FAIL on this if the VPC peering connection hasn't been accepted on the Nova side.
+# ***************************************
 resource "aws_security_group" "rds_security_group" {
   name        = "rds-security-group"
   description = "Security group for RDS resource"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = var.vpc_id
 
   tags = {
     Name = "rds-security-group"
@@ -70,11 +77,14 @@ resource "aws_security_group_rule" "rds_security_group_egress_rule" {
   security_group_id = aws_security_group.rds_security_group.id
 }
 
+# ***************************************
+# Security Group
 # RDS secrets manager VPC endpoint security group
+# ***************************************
 resource "aws_security_group" "rds_secrets_manager_vpc_endpoint_security_group" {
   name        = "rds-secrets-manager-vpc-endpoint-security-group"
   description = "Security group required to secrets manager VPC endpoint"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port        = 0
@@ -95,11 +105,14 @@ resource "aws_security_group" "rds_secrets_manager_vpc_endpoint_security_group" 
   }
 }
 
+# ***************************************
+# Security Group
 # RDS secrets manager rotator lambda security group
+# ***************************************
 resource "aws_security_group" "rds_secrets_manager_rotator_lambda_security_group" {
   name        = "rds-secrets-manager-rotator-lambda-security-group"
   description = "Security group required to secrets manager VPC endpoint"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = var.vpc_id
 
   egress {
     from_port        = 0

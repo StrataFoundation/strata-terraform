@@ -1,13 +1,19 @@
+# ***************************************
+# Database Network Access Control List (ACL)
+# ***************************************
 resource "aws_network_acl" "rds_db_subnet_nacl" {
-  vpc_id     = module.vpc.vpc_id
-  subnet_ids = module.vpc.database_subnets
+  vpc_id     = var.vpc_id
+  subnet_ids = var.database_subnet_ids
 
   tags = {
     Name = "db-subnets-nacl"
   }
 }
 
-# Ingress - private subnet 1a
+# ***************************************
+# Database Network ACL Rule
+# Ingress - Private subnet "az a"
+# ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_1" {
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 100
@@ -19,7 +25,10 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_1" {
   to_port        = 5432
 }
 
-# Ingress - private subnet 1b
+# ***************************************
+# Database Network ACL Rule
+# Ingress - Private subnet "az b"
+# ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_2" {
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 200
@@ -31,7 +40,10 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_2" {
   to_port        = 5432
 }
 
-# Ingress - database subnet 1a
+# ***************************************
+# Database Network ACL Rule
+# Ingress - Databse subnet "az a"
+# ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_3" {
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 300
@@ -43,7 +55,10 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_3" {
   to_port        = 65535
 }
 
-# Ingress - database subnet 1b
+# ***************************************
+# Database Network ACL Rule
+# Ingress - Databse subnet "az b"
+# ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_4" {
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 400
@@ -55,8 +70,13 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_4" {
   to_port        = 65535
 }
 
-# Ingress - bastion
+# ***************************************
+# Database Network ACL Rule
+# Ingress - Bastion
+# ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_5" {
+  count          = var.ec2_bastion_private_ip != "" ? 1 : 0
+
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 500
   egress         = false
@@ -67,7 +87,10 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_5" {
   to_port        = 5432
 }
 
-# Ingress - Nova private subnet
+# ***************************************
+# Database Network ACL Rule
+# Ingress - Nova IoT and Mobile private subnets
+# ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_6_7" {
   for_each = var.create_nova_dependent_resources ? local.nova : {}
 
@@ -81,7 +104,10 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_6_7" {
   to_port        = 5432
 }
 
-# Egress - private subnet 1a
+# ***************************************
+# Database Network ACL Rule
+# Egress - Private subnet "az a"
+# ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_1" {
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 100
@@ -93,7 +119,10 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_1" {
   to_port        = 65535
 }
 
-# Egress - private subnet 1b
+# ***************************************
+# Database Network ACL Rule
+# Egress - Private subnet "az b"
+# ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_2" {
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 200
@@ -105,7 +134,10 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_2" {
   to_port        = 65535
 }
 
-# Egress - database subnet 1a
+# ***************************************
+# Database Network ACL Rule
+# Egress - Database subnet "az a"
+# ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_3" {
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 300
@@ -117,7 +149,10 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_3" {
   to_port        = 65535
 }
 
-# Egress - database subnet 1b
+# ***************************************
+# Database Network ACL Rule
+# Egress - Database subnet "az b"
+# ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_4" {
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 400
@@ -129,8 +164,13 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_4" {
   to_port        = 65535
 }
 
-# Egress - bastion
+# ***************************************
+# Database Network ACL Rule
+# Egress - Bastion
+# ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_5" {
+  count          = var.ec2_bastion_private_ip != "" ? 1 : 0
+
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = 500
   egress         = true
@@ -141,7 +181,10 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_5" {
   to_port        = 65535
 }
 
-# Egress - Nova private subnet
+# ***************************************
+# Database Network ACL Rule
+# Egress - Nova IoT and Mobile private subnets
+# ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_6_7" {
   for_each = var.create_nova_dependent_resources ? local.nova : {}
 

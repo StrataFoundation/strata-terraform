@@ -1,6 +1,8 @@
 # Create IAM role to server as bastion instance profile to facilitate logging by cw agent
 # Needed for ssh access slack alerting 
 resource "aws_iam_role" "bastion_cw_agent_role" {
+  count = var.cloudwatch_ssh_denied_monitoring ? 1 : 0
+
   name        = "bastion-cloudwatch-agent-role"
   description = "IAM role for EC2 Instance Profile to facilitate logging by CloudWatch Agent"
 
@@ -21,9 +23,10 @@ resource "aws_iam_role" "bastion_cw_agent_role" {
   })
 }
 
-
 # EC2 Instance Profile to facilitate logging by CloudWatch Agent on bastion
 resource "aws_iam_instance_profile" "bastion_instance_profile" {
+  count = var.cloudwatch_ssh_denied_monitoring ? 1 : 0
+  
   name = "bastion_instance_profile_for_cw_agent"
-  role = aws_iam_role.bastion_cw_agent_role.name
+  role = aws_iam_role.bastion_cw_agent_role[0].name
 }
