@@ -1,5 +1,5 @@
 resource "aws_security_group" "small_node_group" {
-  name_prefix = "${var.cluster_node_name}_group"
+  name_prefix = "small_node_group"
   vpc_id      = var.vpc_id
 
   ingress {
