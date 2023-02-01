@@ -1,5 +1,4 @@
-# Helium-foudnation-terraform
-Helium foundation terraform for AWS infra
+# Web Accounts
 
 ## Before initial deploymenet
 
