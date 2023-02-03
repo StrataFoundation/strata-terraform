@@ -153,8 +153,8 @@ data "aws_iam_policy_document" "poc_data_requester_pays_buckets_bucket_policy_ru
       "s3:ListBucket"
     ]
     resources = [
-      "arn:aws:s3:::${each.value}",
-      "arn:aws:s3:::${each.value}/*",
+      "arn:aws:s3:::${each.value}-rp",
+      "arn:aws:s3:::${each.value}-rp/*",
     ]
   }
 }
