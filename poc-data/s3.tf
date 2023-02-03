@@ -39,7 +39,7 @@ resource "aws_s3_bucket_public_access_block" "private_poc_data_buckets" {
   ]
 }
 
-# Create bucket policy for poc data buckets to enable S3 cross-account replication and requester pays
+# Create bucket policy for poc data buckets to enable S3 cross-account replication
 resource "aws_s3_bucket_policy" "poc_data_buckets_bucket_policy_for_s3_cross_account_replication" {
   for_each = toset(local.hf_bucket_names)
 
@@ -52,7 +52,7 @@ resource "aws_s3_bucket_policy" "poc_data_buckets_bucket_policy_for_s3_cross_acc
   ]
 }
 
-# Create bucket policy rules for bucket policies of poc data buckets to enable S3 cross-account replication from Nova and requester pays
+# Create bucket policy rules for bucket policies of poc data buckets to enable S3 cross-account replication from Nova
 data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_account_replication_rules" {
   for_each = toset(local.hf_bucket_names)
   
@@ -111,28 +111,14 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
 # PoC Data Requester Pays Buckets
 # ***************************************
 
-# Create PoC data requester pays buckets to data from poc data replica buckets
+# Create PoC data requester pays buckets
 resource "aws_s3_bucket" "poc_data_requester_pays_buckets" {
   for_each = toset(local.hf_bucket_names)
 
   bucket = "${each.value}-rp"
 }
 
-# Make PoC data requester pays buckets versioned
-resource aws_s3_bucket_versioning version_poc_data_buckets {
-  for_each = toset(local.hf_bucket_names)
-
-  bucket = aws_s3_bucket.poc_data_requester_pays_buckets[each.value].id
-  versioning_configuration {
-    status = "Enabled"
-  }
-
-  depends_on = [
-    aws_s3_bucket.poc_data_requester_pays_buckets
-  ]
-}
-
-# Apply configuration for PoC data requester pays buckets 
+# Apply requester pays configuration to PoC data requester pays buckets 
 resource "aws_s3_bucket_request_payment_configuration" "poc_data_requester_pays_config" {
   for_each = toset(local.hf_bucket_names)
 
@@ -140,7 +126,7 @@ resource "aws_s3_bucket_request_payment_configuration" "poc_data_requester_pays_
   payer  = "Requester"
 }
 
-# Create bucket policy for poc data buckets to enable S3 cross-account replication and requester pays
+# Create bucket policy for PoC data requester pays bucketss to enable requester pays
 resource "aws_s3_bucket_policy" "poc_data_requester_pays_buckets_bucket_policy" {
   for_each = toset(local.hf_bucket_names)
 
