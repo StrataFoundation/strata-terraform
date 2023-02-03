@@ -134,7 +134,7 @@ resource "aws_s3_bucket_policy" "poc_data_requester_pays_buckets_bucket_policy" 
   policy = data.aws_iam_policy_document.poc_data_requester_pays_buckets_bucket_policy_rules[each.value].json
 
   depends_on = [
-    aws_s3_bucket.poc_data_buckets,
+    aws_s3_bucket.poc_data_requester_pays_buckets,
     data.aws_iam_policy_document.poc_data_requester_pays_buckets_bucket_policy_rules
   ]
 }
