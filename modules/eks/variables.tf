@@ -59,7 +59,7 @@ variable "node_security_group_tags" {
 }
 
 variable "eks_instance_type" {
-  description = "EC2 instance type for EKS nodes"
+  description = "EC2 instance type for EKS nodes. MAKE SURE YOU PICK ONE WITH TRUNK COMPATIBILITY!!" // https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go
   type        = string
   default     = ""
 }
