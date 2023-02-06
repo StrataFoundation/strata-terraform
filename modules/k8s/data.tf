@@ -1,10 +1,10 @@
-data "kubectl_path_documents" "nginx" {
-  pattern = "./lb/ingress-nginx.yaml"
-  vars = {
-    cert = var.zone_cert
-    cidr = var.cidr_block
-  }
-}
+# data "kubectl_path_documents" "nginx" {
+#   pattern = "./lb/ingress-nginx.yaml"
+#   vars = {
+#     cert = var.zone_cert
+#     cidr = var.cidr_block
+#   }
+# }
 
 data "kubectl_path_documents" "application" {
   pattern = "./argo/application.yaml"
