@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/helium/helium-foundation-k8s
+    repoURL: https://github.com/helium/helium-foundation-terraform
     targetRevision: HEAD
     path: ${path}
     directory:

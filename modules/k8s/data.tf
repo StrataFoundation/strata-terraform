@@ -13,10 +13,6 @@ data "kubectl_path_documents" "application" {
   }
 }
 
-locals {
-  cluster_name = "${var.cluster_name}-${var.stage}"
-}
-
 data "aws_eks_cluster" "eks" {
   name = local.cluster_name
 }

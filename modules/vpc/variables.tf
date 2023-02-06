@@ -1,14 +1,4 @@
-variable "env" {
-  description = "Name of AWS enviroment that you're deploying to e.g., oracle, web, etc."
-  type        = string
-  default     = ""
-}
 
-variable "stage" {
-  description = "Name of AWS stage that you're deploying to e.g., sdlc, prod"
-  type        = string
-  default     = ""
-}
 
 variable "aws_region" {
   description = "AWS region you're deploying to e.g., us-east-1"
