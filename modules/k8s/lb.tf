@@ -50,7 +50,7 @@ resource "helm_release" "lbc" {
   }
 }
 
-resource "kubectl_manifest" "nginx" {
+resource "kubectl_manifest" "ingress-nginx" {
   depends_on = [helm_release.lbc]
   count      = length(data.kubectl_path_documents.nginx.documents)
   yaml_body  = element(data.kubectl_path_documents.nginx.documents, count.index)
