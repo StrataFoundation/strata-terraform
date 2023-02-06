@@ -41,6 +41,7 @@ module "k8s" {
   # Env
   env   = var.env // in tf cloud, create add var: env = web
   stage = var.stage // in tf cloud, create add var: stage = sdlc
+  cluster_name = var.cluster_name // in tf cloud, create add var: cluster_name = web-cluster
 
   # AWS
   aws_region = var.aws_region // in tf cloud, create add var: aws_region = us-east-1
