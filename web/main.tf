@@ -27,8 +27,6 @@ module "vpc" {
   source = "../modules/vpc"
 
   # Env
-  env                             = var.env
-  stage                           = var.stage
   deploy_cost_infrastructure      = var.deploy_cost_infrastructure
   create_nova_dependent_resources = var.create_nova_dependent_resources
 
@@ -90,7 +88,7 @@ module "eks" {
     create_security_group = false
   }
   node_security_group_tags        = {
-    "kubernetes.io/cluster/${var.cluster_name}-${var.env}" = null
+    "kubernetes.io/cluster/${var.cluster_name}-${var.stage}" = null
   }
 }
 
