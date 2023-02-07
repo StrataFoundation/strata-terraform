@@ -27,8 +27,6 @@ module "vpc" {
   source = "../modules/vpc"
 
   # Env
-  env                             = var.env
-  stage                           = var.stage
   deploy_cost_infrastructure      = var.deploy_cost_infrastructure
   create_nova_dependent_resources = var.create_nova_dependent_resources
 
