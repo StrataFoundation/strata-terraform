@@ -7,7 +7,7 @@ data "kubectl_path_documents" "nginx" {
 }
 
 data "kubectl_path_documents" "application" {
-  pattern = "${path.module}/argo/application.yaml"
+  pattern = "${path.module}/argocd/application.yaml"
   vars = {
     path = var.argo_path
   }
