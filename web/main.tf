@@ -90,7 +90,7 @@ module "eks" {
     create_security_group = false
   }
   node_security_group_tags        = {
-    "kubernetes.io/cluster/${var.cluster_name}-${var.env}" = null
+    "kubernetes.io/cluster/${var.cluster_name}-${var.stage}" = null
   }
 }
 
