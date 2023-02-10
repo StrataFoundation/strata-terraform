@@ -50,7 +50,7 @@ module "k8s" {
   cidr_block = var.cidr_block // in tf cloud, create add var: cidr_block = 10.10.0.0/16
 
   # EKS/k8s
-  argo_path    = "manifests/${var.cluster_name}/${var.stage}/cluster" // TODO: where does this path exist?
+  argo_path    = var.argo_path
   zone_id      = var.zone_id // in tf cloud, create add var: zone_id = Z0569325L7XT2OOHXNLX
   argo_url     = var.argo_url // in tf cloud, create add var: argo_url = argo.oracle.test-helium.com
   zone_cert    = var.zone_cert // in tf cloud, create add var: zone_cert = arn:aws:acm:us-east-1:694730983297:certificate/5e357031-0723-40d3-9723-7475c6188824
