@@ -57,7 +57,7 @@ module "k8s" {
 }
 
 data "aws_iam_role" "rds_oracle_access_role" {
-  name = "rds-oracle-oracle-user-access-role" 
+  name = "rds-mobile-oracle-user-access-role" 
 }
 
 data "aws_security_group" "rds_access_security_group" {
