@@ -3,7 +3,7 @@
 # CPU Utilization
 # ***************************************
 resource "aws_cloudwatch_metric_alarm" "cpu_utilization" {
-  alarm_name          = "rds-pg-oracle-high-cpu-utilization"
+  alarm_name          = "${var.env}-${var.stage} - RDS - High CPU Utilization"
   alarm_description   = "Average Oracle RDS CPU utilization is above 80%."
   metric_name         = "CPUUtilization"
   comparison_operator = "GreaterThanThreshold"
@@ -25,7 +25,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_utilization" {
 # Disk Utilization
 # ***************************************
 resource "aws_cloudwatch_metric_alarm" "disk_queue_depth" {
-  alarm_name          = "rds-pg-oracle-high-disk-queue-depth"
+  alarm_name          = "${var.env}-${var.stage} - RDS - High Disk Queue Depth"
   alarm_description   = "Average Oracle RDS disk queue depth is above 64."
   metric_name         = "DiskQueueDepth"
   comparison_operator = "GreaterThanThreshold"
@@ -47,7 +47,7 @@ resource "aws_cloudwatch_metric_alarm" "disk_queue_depth" {
 # Disk free storage space
 # ***************************************
 resource "aws_cloudwatch_metric_alarm" "disk_free_storage_space" {
-  alarm_name          = "rds-pg-oracle-low-free-storage-space"
+  alarm_name          = "${var.env}-${var.stage} - RDS - Low Free Storage Space"
   alarm_description   = "Oracle RDS free storage space is below 10GB."
   metric_name         = "FreeStorageSpace" 
   comparison_operator = "LessThanThreshold"
@@ -69,7 +69,7 @@ resource "aws_cloudwatch_metric_alarm" "disk_free_storage_space" {
 # Disk write IOPS
 # ***************************************
 resource "aws_cloudwatch_metric_alarm" "write_iops" {
-  alarm_name          = "rds-pg-oracle-high-write-iops"
+  alarm_name          = "${var.env}-${var.stage} - RDS - High Write IOPS"
   alarm_description   = "Average Oracle RDS write IOPS are above 500."
   metric_name         = "WriteIOPS" 
   comparison_operator = "GreaterThanThreshold"
@@ -91,7 +91,7 @@ resource "aws_cloudwatch_metric_alarm" "write_iops" {
 # Disk read IOPS
 # ***************************************
 resource "aws_cloudwatch_metric_alarm" "read_iops" {
-  alarm_name          = "rds-pg-oracle-high-read-iops"
+  alarm_name          = "${var.env}-${var.stage} - RDS - High Read IOPS"
   alarm_description   = "Average Oracle RDS read IOPS are above 500."
   metric_name         = "ReadIOPS" 
   comparison_operator = "GreaterThanThreshold"
@@ -113,7 +113,7 @@ resource "aws_cloudwatch_metric_alarm" "read_iops" {
 # Disk write throughput
 # ***************************************
 resource "aws_cloudwatch_metric_alarm" "write_throughput" {
-  alarm_name          = "rds-pg-oracle-high-write-throughput"
+  alarm_name          = "${var.env}-${var.stage} - RDS - High Write Throughput"
   alarm_description   = "Average Oracle RDS write throughput is above 300 MB/s."
   metric_name         = "WriteThroughput" 
   comparison_operator = "GreaterThanThreshold"
@@ -135,7 +135,7 @@ resource "aws_cloudwatch_metric_alarm" "write_throughput" {
 # Disk read throughput
 # ***************************************
 resource "aws_cloudwatch_metric_alarm" "read_throughput" {
-  alarm_name          = "rds-pg-oracle-high-read-throughput"
+  alarm_name          = "${var.env}-${var.stage} - RDS - High Read Throughput"
   alarm_description   = "Average Oracle RDS read throughput is above 300 MB/s."
   metric_name         = "ReadThroughput" 
   comparison_operator = "GreaterThanThreshold"
@@ -157,7 +157,7 @@ resource "aws_cloudwatch_metric_alarm" "read_throughput" {
 # Disk write latency
 # ***************************************
 resource "aws_cloudwatch_metric_alarm" "write_latency" {
-  alarm_name          = "rds-pg-oracle-high-write-latency"
+  alarm_name          = "${var.env}-${var.stage} - RDS - High Write Latency"
   alarm_description   = "Average Oracle RDS write latency is above 150 ms."
   metric_name         = "WriteLatency" 
   comparison_operator = "GreaterThanThreshold"
@@ -179,7 +179,7 @@ resource "aws_cloudwatch_metric_alarm" "write_latency" {
 # Disk read latency
 # ***************************************
 resource "aws_cloudwatch_metric_alarm" "read_latency" {
-  alarm_name          = "rds-pg-oracle-high-read-latency"
+  alarm_name          = "${var.env}-${var.stage} - RDS - High Read Latency"
   alarm_description   = "Average Oracle RDS read latency is above 150 ms."
   metric_name         = "ReadLatency" 
   comparison_operator = "GreaterThanThreshold"
@@ -201,7 +201,7 @@ resource "aws_cloudwatch_metric_alarm" "read_latency" {
 # Memory Utilization
 # ***************************************
 resource "aws_cloudwatch_metric_alarm" "memory_freeable" {
-  alarm_name          = "rds-pg-oracle-low-freeable-memory"
+  alarm_name          = "${var.env}-${var.stage} - RDS - Low Freeable Memory"
   alarm_description   = "Average Oracle RDS freeable memory is below 256MB."
   comparison_operator = "LessThanThreshold"
   evaluation_periods  = "2"
@@ -223,7 +223,7 @@ resource "aws_cloudwatch_metric_alarm" "memory_freeable" {
 # Swap Utilization
 # ***************************************
 resource "aws_cloudwatch_metric_alarm" "memory_swap_usage" {
-  alarm_name          = "rds-pg-oracle-high-swap-usage"
+  alarm_name          = "${var.env}-${var.stage} - RDS - High Swap Usage"
   alarm_description   = "Average Oracle RDS swap usage is above 256MB."
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
@@ -246,7 +246,7 @@ resource "aws_cloudwatch_metric_alarm" "memory_swap_usage" {
 # https://aws.amazon.com/blogs/database/implement-an-early-warning-system-for-transaction-id-wraparound-in-amazon-rds-for-postgresql/
 # ***************************************
 resource "aws_cloudwatch_metric_alarm" "maximum_used_transaction_ids" {
-  alarm_name          = "rds-pg-oracle-maximum-use-transaction-ids"
+  alarm_name          = "${var.env}-${var.stage} - RDS - Max Use Transaction IDs"
   alarm_description   = "Nearing a possible critical transaction ID wraparound."
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
