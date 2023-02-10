@@ -6,14 +6,16 @@ Make sure to create bastion ssh key.
 
 ## After initial deployment
 
-- Make sure to add RDS users.
-- Make sure to execute `/scripts/aws_cni_patch.sh` to enable pod-level network interafces for security group assignement.
+- Add uuid-ossp extension
+- Create databases
+- Add RDS users to databases with proper permissions
+- Execute `/scripts/aws_cni_patch.sh` to enable pod-level network interafces for security group assignement.
 
 
 To get the kubeconfig,
 
 ```
-aws eks --region us-east-1 update-kubeconfig  --name helium-prod
+aws eks --region <us-east-1|us-west-2> update-kubeconfig  --name <env>-<stage>
 ```
 
 ## On new cluster create
