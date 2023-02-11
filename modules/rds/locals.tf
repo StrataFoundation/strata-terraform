@@ -27,6 +27,9 @@ locals {
       mobile = { 
         user = "mobile_oracle"
       }
+      iot = {
+        user = "iot_oracle"
+      }
     }
     web = {
       web = { 
