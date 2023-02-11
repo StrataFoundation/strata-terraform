@@ -56,7 +56,7 @@ module "k8s" {
   zone_cert    = var.zone_cert // in tf cloud, create add var: zone_cert = arn:aws:acm:us-east-1:694730983297:certificate/5e357031-0723-40d3-9723-7475c6188824
 }
 
-data "aws_iam_role" "rds_oracle_access_role" {
+data "aws_iam_role" "rds_mobile_oracle_access_role" {
   name = "rds-mobile-oracle-user-access-role" 
 }
 
@@ -64,12 +64,12 @@ data "aws_security_group" "rds_access_security_group" {
   name = "rds-access-security-group"
 }
 
-resource "kubernetes_service_account" "rds_oracle_access" {
+resource "kubernetes_service_account" "rds_mobile_oracle_access" {
   metadata {
-    name        = "rds-oracle-user-access"
+    name        = "rds-mobile-oracle-user-access"
     namespace   = "helium"
     annotations = {
-      "eks.amazonaws.com/role-arn" = data.aws_iam_role.rds_oracle_access_role.arn,
+      "eks.amazonaws.com/role-arn" = data.aws_iam_role.rds_mobile_oracle_access_role.arn,
     }
   }
 }
