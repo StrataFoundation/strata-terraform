@@ -88,20 +88,6 @@ resource "kubernetes_service_account" "rds_iot_oracle_access" {
   }
 }
 
-data "aws_iam_role" "rds_active_device_oracle_access_role" {
-  name = "rds-active-device-oracle-user-access-role" 
-}
-
-resource "kubernetes_service_account" "rds_active_device_oracle_access" {
-  metadata {
-    name        = "rds-active-device-oracle-user-access"
-    namespace   = "helium"
-    annotations = {
-      "eks.amazonaws.com/role-arn" = data.aws_iam_role.rds_active_device_oracle_access_role.arn,
-    }
-  }
-}
-
 resource "kubectl_manifest" "rds-access-security-group-policy" {
     yaml_body = <<YAML
 apiVersion: vpcresources.k8s.aws/v1beta1

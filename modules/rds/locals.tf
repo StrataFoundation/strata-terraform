@@ -21,9 +21,6 @@ locals {
   }
   foundation = {
     oracle = {
-      active-device = { 
-        user = "active_device_oracle"
-      }
       mobile = { 
         user = "mobile_oracle"
       }

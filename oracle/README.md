@@ -9,6 +9,9 @@ Make sure to create bastion ssh key.
 - Add uuid-ossp extension
 - Create databases
 - Add RDS users to databases with proper permissions
+  - `create role iot_oracle with login;`
+  - `grant rds_iam to iot_oracle`
+  - `grant select on table reward_index to iot_oracle`
 - Execute `/scripts/aws_cni_patch.sh` to enable pod-level network interafces for security group assignement.
 
 
