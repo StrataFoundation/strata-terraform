@@ -11,7 +11,7 @@ variable "stage" {
 }
 
 variable "aws_region" {
-  type = string
+  type    = string
   default = "us-west-2"
 }
 
@@ -26,6 +26,10 @@ variable "hf_manifest_bucket" {
   type        = string
 }
 
+variable "hf_poc_data_rp_bucket" {
+  description = "Name of Foundation requester pays bucket for PoC Data"
+  type        = string
+}
 
 # Nova variables
 variable "nova_iot_aws_account_id" {

@@ -23,6 +23,14 @@ resource aws_s3_bucket_versioning version_poc_data_buckets {
   ]
 }
 
+# Publish PoC data bucket events to EventBridge
+resource "aws_s3_bucket_notification" "eventbridge_enabled_poc_data_buckets" {
+  for_each = toset(local.hf_bucket_names)
+
+  bucket = aws_s3_bucket.poc_data_buckets[each.value].id
+  eventbridge = true
+}
+
 # Block public access of PoC data buckets
 resource "aws_s3_bucket_public_access_block" "private_poc_data_buckets" {
   for_each = toset(local.hf_bucket_names)
