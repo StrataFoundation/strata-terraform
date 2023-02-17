@@ -77,7 +77,7 @@ resource "aws_iam_role_policy_attachment" "function_logging_policy_attachment_2"
   policy_arn = aws_iam_policy.iam_s3_policy_for_poc_data_object_replicator_to_S3_rp_lambda.arn
 }
 
-resource "aws_iam_role_policy_attachment" "function_logging_policy_attachment_2" {
+resource "aws_iam_role_policy_attachment" "function_logging_policy_attachment_3" {
   role       = aws_iam_role.iam_role_for_poc_data_object_replicator_to_S3_rp_lambda.id
   policy_arn = aws_iam_policy.iam_sqs_policy_for_poc_data_object_replicator_to_S3_rp_lambda.arn
 }
