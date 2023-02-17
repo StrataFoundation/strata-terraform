@@ -11,5 +11,5 @@ resource "aws_cloudwatch_metric_alarm" "dlq_events" {
   period              = 300
   namespace           = "AWS/SQS"
 
-  alarm_actions       = var.cloudwatch_alarm_action_arns
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
 }
