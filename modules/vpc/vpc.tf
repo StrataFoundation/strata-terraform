@@ -35,9 +35,9 @@ module "vpc" {
   enable_dns_support   = true
 
   # VPC Flow logs to S3 bucket in Log Archive Account
-  enable_flow_log           = true
-  flow_log_destination_type = "s3"
-  flow_log_destination_arn  = "arn:aws:s3:::vpc-flow-logs-${data.aws_caller_identity.current.account_id}"
+  enable_flow_log           = var.enable_flow_log
+  flow_log_destination_type = var.enable_flow_log ? "s3" : null
+  flow_log_destination_arn  = var.enable_flow_log ? "arn:aws:s3:::vpc-flow-logs-${data.aws_caller_identity.current.account_id}" : null
 }
 
 # ***************************************

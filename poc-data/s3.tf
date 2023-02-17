@@ -184,11 +184,11 @@ resource "aws_s3_bucket_request_payment_configuration" "poc_data_bucket_requeste
 
 # Create bucket policy for PoC data requester pays bucket to enable requester pays
 resource "aws_s3_bucket_policy" "poc_data_requester_pays_bucket_final_bucket_policy" {
-  bucket = var.hf_poc_data_rp_bucket
+  bucket = aws_s3_bucket.poc_data_requester_pays_bucket_final.id
   policy = data.aws_iam_policy_document.poc_data_requester_pays_buckets_bucket_final_policy_rules.json
 
   depends_on = [
-    aws_s3_bucket.poc_data_requester_pays_buckets,
+    aws_s3_bucket.poc_data_requester_pays_bucket_final,
     data.aws_iam_policy_document.poc_data_requester_pays_buckets_bucket_final_policy_rules
   ]
 }
@@ -236,7 +236,7 @@ resource "aws_s3_bucket_public_access_block" "private_mainfest_bucket" {
 
 # Create bucket policy for mainfest bucket to receive manifests from Nova
 resource "aws_s3_bucket_policy" "s3_batch_operation_policy" {
-  bucket = aws_s3_bucket.mainfest_bucket.bucket
+  bucket = aws_s3_bucket.mainfest_bucket.id
   policy = data.aws_iam_policy_document.s3_batch_operation_policy_rules.json
 }
 

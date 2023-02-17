@@ -22,7 +22,6 @@ variable "create_nova_dependent_resources" {
   default     = false
 }
 
-
 variable "vpc_name" {
   description = "Name of the VPC"
   type        = string
@@ -63,6 +62,12 @@ variable "private_subnet_tags" {
   description = "Map of tags to apply to private subnets"
   type        = map
   default     = {}
+}
+
+variable "enable_flow_log" {
+  description = "Should VPC flow logs be created?"
+  type        = bool
+  default     = true
 }
 
 variable "nova_iot_aws_account_id" {
