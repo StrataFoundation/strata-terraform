@@ -16,7 +16,7 @@ module "vpc" {
   source = "../modules/vpc"
 
   # Env
-  deploy_cost_infrastructure      = var.deploy_cost_infrastructure
+  deploy_cost_infrastructure = var.deploy_cost_infrastructure
 
   # AWS
   aws_region = var.aws_region
@@ -27,7 +27,6 @@ module "vpc" {
   cidr_block         = var.cidr_block
   public_subnets     = var.public_subnets
   private_subnets    = var.private_subnets
-  database_subnets   = var.database_subnets
 }
 
 # ***************************************
