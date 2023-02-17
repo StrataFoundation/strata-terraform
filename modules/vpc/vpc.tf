@@ -18,7 +18,7 @@ module "vpc" {
   private_subnet_tags = var.private_subnet_tags
 
   # Database subnets
-  database_subnets                   = length(var.database_subnets) > 0 ? var.database_subnets : null
+  database_subnets                   = var.database_subnets
   create_database_subnet_group       = length(var.database_subnets) > 0 ? true : false
   create_database_subnet_route_table = length(var.database_subnets) > 0 ? true : false
 
@@ -61,7 +61,7 @@ resource "aws_vpc_peering_connection" "nova_vpc_peering_connection" {
 # Add route to "availability zone a" route table allowing connection to specified private Nova IoT and Mobile subnets via VPC peering connection
 # ***************************************
 resource "aws_route" "database_route_table_route_to_nova_az_a" {
-  for_each = var.create_nova_dependent_resources ? local.nova : {}
+  for_each = var.create_nova_dependent_resources && length(var.database_subnets) > 0 ? local.nova : {}
 
   route_table_id            = module.vpc.database_route_table_ids[0]
   destination_cidr_block    = each.value.cidr
@@ -73,7 +73,7 @@ resource "aws_route" "database_route_table_route_to_nova_az_a" {
 # Add route to "availability zone b" route table allowing connection to specified private Nova IoT and Mobile subnets via VPC peering connection
 # ***************************************
 resource "aws_route" "database_route_table_route_to_nova_az_b" {
-  for_each = var.create_nova_dependent_resources ? local.nova : {}
+  for_each = var.create_nova_dependent_resources && length(var.database_subnets) > 0 ? local.nova : {}
 
   route_table_id            = module.vpc.database_route_table_ids[1]
   destination_cidr_block    = each.value.cidr

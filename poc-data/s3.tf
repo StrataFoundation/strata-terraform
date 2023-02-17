@@ -23,6 +23,14 @@ resource aws_s3_bucket_versioning version_poc_data_buckets {
   ]
 }
 
+# Publish PoC data bucket events to EventBridge
+resource "aws_s3_bucket_notification" "eventbridge_enabled_poc_data_buckets" {
+  for_each = toset(local.hf_bucket_names)
+
+  bucket = aws_s3_bucket.poc_data_buckets[each.value].id
+  eventbridge = true
+}
+
 # Block public access of PoC data buckets
 resource "aws_s3_bucket_public_access_block" "private_poc_data_buckets" {
   for_each = toset(local.hf_bucket_names)
@@ -108,7 +116,7 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
 }
 
 # ***************************************
-# PoC Data Requester Pays Buckets
+# PoC Data Requester Pays Buckets *** going to be deprecated
 # ***************************************
 
 # Create PoC data requester pays buckets
@@ -139,7 +147,7 @@ resource "aws_s3_bucket_policy" "poc_data_requester_pays_buckets_bucket_policy" 
   ]
 }
 
-# Create bucket policy rules for bucket policies of poc data buckets to enable S3 cross-account replication from Nova and requester pays
+# Create bucket policy rules for bucket policies of poc data buckets to enable requester pays
 data "aws_iam_policy_document" "poc_data_requester_pays_buckets_bucket_policy_rules" {
   for_each = toset(local.hf_bucket_names)
   
@@ -159,6 +167,49 @@ data "aws_iam_policy_document" "poc_data_requester_pays_buckets_bucket_policy_ru
   }
 }
 
+# ***************************************
+# PoC Data Requester Pays Bucket ****
+# ***************************************
+
+# Create PoC data requester pays buckets
+resource "aws_s3_bucket" "poc_data_requester_pays_bucket_final" {
+  bucket = var.hf_poc_data_rp_bucket
+}
+
+# Apply requester pays configuration to PoC data requester pays buckets 
+resource "aws_s3_bucket_request_payment_configuration" "poc_data_bucket_requester_pays_config" {
+  bucket = aws_s3_bucket.poc_data_requester_pays_bucket_final.id
+  payer  = "Requester"
+}
+
+# Create bucket policy for PoC data requester pays bucket to enable requester pays
+resource "aws_s3_bucket_policy" "poc_data_requester_pays_bucket_final_bucket_policy" {
+  bucket = var.hf_poc_data_rp_bucket
+  policy = data.aws_iam_policy_document.poc_data_requester_pays_buckets_bucket_final_policy_rules.json
+
+  depends_on = [
+    aws_s3_bucket.poc_data_requester_pays_buckets,
+    data.aws_iam_policy_document.poc_data_requester_pays_buckets_bucket_final_policy_rules
+  ]
+}
+
+# Create bucket policy rules for bucket policies of poc data buckets to enable requester pays
+data "aws_iam_policy_document" "poc_data_requester_pays_buckets_bucket_final_policy_rules" {
+  statement {
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+    actions = [
+      "s3:GetObject",
+      "s3:ListBucket"
+    ]
+    resources = [
+      "arn:aws:s3:::${var.hf_poc_data_rp_bucket}",
+      "arn:aws:s3:::${var.hf_poc_data_rp_bucket}/*",
+    ]
+  }
+}
 
 # ***************************************
 # Manifest Bucket
