@@ -18,7 +18,7 @@ module "vpc" {
   private_subnet_tags = var.private_subnet_tags
 
   # Database subnets
-  database_subnets                   = length(var.database_subnets) > 0 ? var.database_subnets : null
+  database_subnets                   = var.database_subnets
   create_database_subnet_group       = length(var.database_subnets) > 0 ? true : false
   create_database_subnet_route_table = length(var.database_subnets) > 0 ? true : false
 
