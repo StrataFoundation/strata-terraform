@@ -147,7 +147,7 @@ resource "aws_s3_bucket_policy" "poc_data_requester_pays_buckets_bucket_policy" 
   ]
 }
 
-# Create bucket policy rules for bucket policies of poc data buckets to enable S3 cross-account replication from Nova and requester pays
+# Create bucket policy rules for bucket policies of poc data buckets to enable requester pays
 data "aws_iam_policy_document" "poc_data_requester_pays_buckets_bucket_policy_rules" {
   for_each = toset(local.hf_bucket_names)
   
@@ -182,7 +182,7 @@ resource "aws_s3_bucket_request_payment_configuration" "poc_data_requester_pays_
   payer  = "Requester"
 }
 
-# Create bucket policy for PoC data requester pays bucketss to enable requester pays
+# Create bucket policy for PoC data requester pays bucket to enable requester pays
 resource "aws_s3_bucket_policy" "poc_data_requester_pays_bucket_final_bucket_policy" {
   bucket = var.hf_poc_data_rp_bucket
   policy = data.aws_iam_policy_document.poc_data_requester_pays_buckets_bucket_final_policy_rules.json
@@ -193,7 +193,7 @@ resource "aws_s3_bucket_policy" "poc_data_requester_pays_bucket_final_bucket_pol
   ]
 }
 
-# Create bucket policy rules for bucket policies of poc data buckets to enable S3 cross-account replication from Nova and requester pays
+# Create bucket policy rules for bucket policies of poc data buckets to enable requester pays
 data "aws_iam_policy_document" "poc_data_requester_pays_buckets_bucket_final_policy_rules" {
   statement {
     principals {
