@@ -125,7 +125,7 @@ module "rds" {
   rds_max_storage_size = var.rds_max_storage_size
 
   # Db
-  db_name              = "metadata"
+  db_name              = var.rds_db_name
   db_identifier        = "oracle-rds"
   db_engine            = "postgres"
   db_engine_version    = "14.5"

@@ -134,6 +134,12 @@ variable "rds_max_storage_size" {
   default     = 1000 # 1000
 }
 
+variable "rds_db_name" {
+  description = "Name for database on RDS"
+  type        = string
+  default     = ""
+}
+
 # --- Bastion variables ------------------------------------------------
 variable "ec2_bastion_private_ip" {
   description = "Private IP address to assign to Bastion"

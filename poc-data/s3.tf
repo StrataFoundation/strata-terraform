@@ -177,7 +177,7 @@ resource "aws_s3_bucket" "poc_data_requester_pays_bucket_final" {
 }
 
 # Apply requester pays configuration to PoC data requester pays buckets 
-resource "aws_s3_bucket_request_payment_configuration" "poc_data_requester_pays_config" {
+resource "aws_s3_bucket_request_payment_configuration" "poc_data_bucket_requester_pays_config" {
   bucket = aws_s3_bucket.poc_data_requester_pays_bucket_final.id
   payer  = "Requester"
 }
