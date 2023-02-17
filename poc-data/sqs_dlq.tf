@@ -11,7 +11,7 @@ resource "aws_sqs_queue_policy" "deadletter_queue" {
 data "aws_iam_policy_document" "deadletter_queue" {
   statement {
     effect    = "Allow"
-    resources = [aws_sqs_queue.deadletter_queue.arn]
+    resources = [aws_sqs_queue.poc_data_object_replicator_to_S3_rp_dlq.arn]
     actions = [
       "sqs:SendMessage",
     ]

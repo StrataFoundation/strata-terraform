@@ -17,25 +17,6 @@ resource "aws_iam_role" "iam_role_for_poc_data_object_replicator_to_S3_rp_lambda
   })
 }
 
-# IAM Policy for PoCDataObjectReplicatorToS3RequesterPays for CloudWatch logs
-resource "aws_iam_policy" "iam_logging_policy_for_poc_data_object_replicator_to_S3_rp_lambda" {
-  name   = "PoCDataObjectReplicatorToS3RequesterPaysRole-logging-policy"
-
-  policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        Action : [
-          "logs:CreateLogStream",
-          "logs:PutLogEvents"
-        ],
-        Effect : "Allow",
-        Resource : "arn:aws:logs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:/aws/lambda/${aws_lambda_function.poc_data_object_replicator_to_S3_rp.function_name}"
-      }
-    ]
-  })
-}
-
 # IAM Policy for PoCDataObjectReplicatorToS3RequesterPays for S3
 resource "aws_iam_policy" "iam_s3_policy_for_poc_data_object_replicator_to_S3_rp_lambda" {
   name   = "PoCDataObjectReplicatorToS3RequesterPaysRole-s3-policy"
@@ -94,7 +75,7 @@ resource "aws_iam_policy" "iam_sqs_policy_for_poc_data_object_replicator_to_S3_r
 # Attach IAM Policy to Role
 resource "aws_iam_role_policy_attachment" "function_logging_policy_attachment" {
   for_each = toset([
-    aws_iam_policy.iam_logging_policy_for_poc_data_object_replicator_to_S3_rp_lambda.arn,
+    data.aws_iam_policy.lambda_required_iam_policy.arn,
     aws_iam_policy.iam_s3_policy_for_poc_data_object_replicator_to_S3_rp_lambda.arn,
     aws_iam_policy.iam_sqs_policy_for_poc_data_object_replicator_to_S3_rp_lambda
   ])
