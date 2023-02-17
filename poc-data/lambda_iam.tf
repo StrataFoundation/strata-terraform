@@ -49,7 +49,7 @@ resource "aws_iam_policy" "iam_s3_policy_for_poc_data_object_replicator_to_S3_rp
 
 # IAM Policy for PoCDataObjectReplicatorToS3RequesterPays for SQS
 resource "aws_iam_policy" "iam_sqs_policy_for_poc_data_object_replicator_to_S3_rp_lambda" {
-  name   = "PoCDataObjectReplicatorToS3RequesterPaysRole-s3-policy"
+  name   = "PoCDataObjectReplicatorToS3RequesterPaysRole-sqs-policy"
 
   policy = jsonencode({
     Version   = "2012-10-17",
@@ -67,17 +67,17 @@ resource "aws_iam_policy" "iam_sqs_policy_for_poc_data_object_replicator_to_S3_r
 }
 
 # Attach IAM Policy to Role
-resource "aws_iam_role_policy_attachment" "function_logging_policy_attachment_1" {
+resource "aws_iam_role_policy_attachment" "lambda_required_iam_policy_attachment" {
   role       = aws_iam_role.iam_role_for_poc_data_object_replicator_to_S3_rp_lambda.id
   policy_arn = data.aws_iam_policy.lambda_required_iam_policy.arn
 }
 
-resource "aws_iam_role_policy_attachment" "function_logging_policy_attachment_2" {
+resource "aws_iam_role_policy_attachment" "iam_s3_policy_for_poc_data_object_replicator_to_S3_rp_lambda_attachment" {
   role       = aws_iam_role.iam_role_for_poc_data_object_replicator_to_S3_rp_lambda.id
   policy_arn = aws_iam_policy.iam_s3_policy_for_poc_data_object_replicator_to_S3_rp_lambda.arn
 }
 
-resource "aws_iam_role_policy_attachment" "function_logging_policy_attachment_3" {
+resource "aws_iam_role_policy_attachment" "iam_sqs_policy_for_poc_data_object_replicator_to_S3_rp_lambda_attachment_" {
   role       = aws_iam_role.iam_role_for_poc_data_object_replicator_to_S3_rp_lambda.id
   policy_arn = aws_iam_policy.iam_sqs_policy_for_poc_data_object_replicator_to_S3_rp_lambda.arn
 }
