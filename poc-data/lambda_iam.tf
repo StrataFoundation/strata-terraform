@@ -71,7 +71,7 @@ resource "aws_iam_role_policy_attachment" "function_logging_policy_attachment" {
   for_each = toset([
     data.aws_iam_policy.lambda_required_iam_policy.arn,
     aws_iam_policy.iam_s3_policy_for_poc_data_object_replicator_to_S3_rp_lambda.arn,
-    aws_iam_policy.iam_sqs_policy_for_poc_data_object_replicator_to_S3_rp_lambda
+    aws_iam_policy.iam_sqs_policy_for_poc_data_object_replicator_to_S3_rp_lambda.arn
   ])
 
   role = aws_iam_role.iam_role_for_poc_data_object_replicator_to_S3_rp_lambda.id
