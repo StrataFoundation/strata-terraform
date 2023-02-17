@@ -1,5 +1,5 @@
 resource "aws_sqs_queue" "poc_data_object_replicator_to_S3_rp_dlq" {
-  name                      = "${aws_lambda_function.poc_data_object_replicator_to_S3_rp.function_name}-DLQ"
+  name                      = "PoCDataObjectReplicatorToS3RequesterPaysRole-DLQ"
   message_retention_seconds = 1209600 // 14 days
 }
 
