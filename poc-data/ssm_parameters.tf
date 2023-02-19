@@ -12,6 +12,14 @@ resource "aws_ssm_parameter" "private_subnet_id_b" {
   value       = "${module.vpc.private_subnets[1]}"
 }
 
+resource "aws_ssm_parameter" "s3_replicator_lambda_security_group_id" {
+  name        = "/vpc/s3_replicator_lambda_security_group_id"
+  description = "ID of S3 Replicator Lambda Security Group"
+  type        = "String"
+  value       = "${aws_security_group.s3_replicator_lambda_security_group.id}"
+}
+
+
 resource "aws_ssm_parameter" "dlq_arn" {
   name        = "/sqs/dlq_arn"
   description = "ARN of DLQ for use in Serverless"
