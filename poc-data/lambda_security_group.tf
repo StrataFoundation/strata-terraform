@@ -1,7 +1,7 @@
 resource "aws_security_group" "s3_replicator_lambda_security_group" {
   name        = "s3-replicator-lambda-security-group"
   description = "Security group for S3 Replicator Lambda"
-  vpc_id      = var.vpc_id
+  vpc_id      = module.vpc.vpc_id
 
   egress {
     from_port        = 0
