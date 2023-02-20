@@ -115,6 +115,25 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
   }
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "poc_data_buckets_object_expiration" {
+  for_each = toset(local.hf_bucket_names)
+
+  bucket = each.value
+
+  rule {
+    id      = "all-objects"
+    status  = "Enabled"
+
+    expiration {
+      days = 90
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 30
+    }
+  }
+}
+
 # ***************************************
 # PoC Data Requester Pays Buckets *** going to be deprecated
 # ***************************************
