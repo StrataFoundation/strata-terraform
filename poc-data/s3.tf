@@ -121,7 +121,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "poc_data_buckets_object_expira
   bucket = each.value
 
   rule {
-    id = "all-objects"
+    id      = "all-objects"
+    status  = "Enabled"
 
     expiration {
       days = 90
