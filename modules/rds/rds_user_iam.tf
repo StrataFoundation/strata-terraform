@@ -58,11 +58,11 @@ resource "aws_iam_role" "rds_nova_user_access_role" {
 resource "aws_iam_role" "rds_foundation_user_access_role" {
   for_each = local.foundation[var.env]
 
-  name        = "rds-${each.key}-${var.env}-user-access-role"
+  name        = "${each.value.iam_name}-role"
   description = "IAM Role for a K8s pod to assume to access RDS via the ${each.value.user} user"
 
   inline_policy {
-    name   = "rds-${each.key}-${var.env}-user-access-policy"
+    name   = "${each.value.iam_name}-policy"
     policy = jsonencode({
       Version   = "2012-10-17"
       Statement = [
@@ -91,7 +91,7 @@ resource "aws_iam_role" "rds_foundation_user_access_role" {
         }
         Condition = {
           StringEquals = {
-            "${var.oidc_provider}:sub" = "system:serviceaccount:${var.eks_cluster_name}:rds-${each.key}-${var.env}-user-access"
+            "${var.oidc_provider}:sub" = "system:serviceaccount:helium:${each.value.iam_name}"
           }
         }
       },

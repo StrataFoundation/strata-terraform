@@ -23,14 +23,17 @@ locals {
     oracle = {
       mobile = { 
         user = "mobile_oracle"
+        iam_name = "rds-mobile-oracle-user-access"
       }
       iot = {
         user = "iot_oracle"
+        iam_name = "rds-iot-oracle-user-access"
       }
     }
     web = {
       web = { 
         user = "web"
+        iam_name = "rds-web-user-access"
       }
     }
   }
