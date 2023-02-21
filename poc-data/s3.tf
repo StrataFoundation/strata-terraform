@@ -144,7 +144,7 @@ resource "aws_s3_bucket" "poc_data_requester_pays_bucket_final" {
   bucket = var.hf_poc_data_rp_bucket
 }
 
-# Apply requester pays configuration to PoC data requester pays buckets 
+# Apply requester pays configuration to PoC data requester pays bucket 
 resource "aws_s3_bucket_request_payment_configuration" "poc_data_bucket_requester_pays_config" {
   bucket = aws_s3_bucket.poc_data_requester_pays_bucket_final.id
   payer  = "Requester"
@@ -161,7 +161,7 @@ resource "aws_s3_bucket_policy" "poc_data_requester_pays_bucket_final_bucket_pol
   ]
 }
 
-# Create bucket policy rules for bucket policies of poc data buckets to enable requester pays
+# Create bucket policy rules for bucket policies of poc data bucket to enable requester pays
 data "aws_iam_policy_document" "poc_data_requester_pays_buckets_bucket_final_policy_rules" {
   statement {
     principals {
