@@ -26,13 +26,13 @@ resource "aws_security_group_rule" "ec2_bastion_security_group_ingress_rule_2" {
   from_port         = 41641
   to_port           = 41641
   protocol          = "udp"
-  ipv6_cidr_blocks  = ["0.0.0.0/0"]
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.ec2_bastion_security_group.id
 }
 
 resource "aws_security_group_rule" "ec2_bastion_security_group_ingress_rule_3" {
   count             = var.env == "prod" ? 1 : 0 
-  
+
   type              = "ingress"
   description       = "UPD IPv6 access for Tailscale"
   from_port         = 41641
