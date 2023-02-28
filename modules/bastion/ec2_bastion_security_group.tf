@@ -19,7 +19,7 @@ resource "aws_security_group_rule" "ec2_bastion_security_group_ingress_rule_1" {
 }
 
 resource "aws_security_group_rule" "ec2_bastion_security_group_ingress_rule_2" {
-  count             = var.env == "prod" ? 1 : 0 
+  count             = var.stage == "prod" ? 1 : 0 
 
   type              = "ingress"
   description       = "UPD IPv4 access for Tailscale"
@@ -31,7 +31,7 @@ resource "aws_security_group_rule" "ec2_bastion_security_group_ingress_rule_2" {
 }
 
 resource "aws_security_group_rule" "ec2_bastion_security_group_ingress_rule_3" {
-  count             = var.env == "prod" ? 1 : 0 
+  count             = var.stage == "prod" ? 1 : 0 
 
   type              = "ingress"
   description       = "UPD IPv6 access for Tailscale"
