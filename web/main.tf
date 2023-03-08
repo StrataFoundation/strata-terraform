@@ -48,6 +48,16 @@ module "vpc" {
     "kubernetes.io/cluster/${var.cluster_name}-${var.stage}" = "shared"
     "kubernetes.io/role/internal-elb"             = 1
   }
+
+  # Nova IoT
+  nova_iot_aws_account_id          = var.nova_iot_aws_account_id
+  nova_iot_vpc_id                  = var.nova_iot_vpc_id
+  nova_iot_vpc_private_subnet_cidr = var.nova_iot_vpc_private_subnet_cidr
+
+  # Nova Mobile
+  nova_mobile_aws_account_id          = var.nova_mobile_aws_account_id
+  nova_mobile_vpc_id                  = var.nova_mobile_vpc_id
+  nova_mobile_vpc_private_subnet_cidr = var.nova_mobile_vpc_private_subnet_cidr
 }
 
 # ***************************************
@@ -136,6 +146,18 @@ module "rds" {
   private_subnets        = var.private_subnets
   database_subnet_ids    = module.vpc.database_subnet_ids
   db_subnet_group_name   = module.vpc.database_subnet_group_name
+
+  # Nova IoT
+  nova_iot_aws_account_id            = var.nova_iot_aws_account_id
+  nova_iot_vpc_id                    = var.nova_iot_vpc_id
+  nova_iot_vpc_private_subnet_cidr   = var.nova_iot_vpc_private_subnet_cidr
+  nova_iot_rds_access_security_group = var.nova_iot_rds_access_security_group
+
+  # Nova Mobile
+  nova_mobile_aws_account_id            = var.nova_mobile_aws_account_id
+  nova_mobile_vpc_id                    = var.nova_mobile_vpc_id
+  nova_mobile_vpc_private_subnet_cidr   = var.nova_mobile_vpc_private_subnet_cidr
+  nova_mobile_rds_access_security_group = var.nova_mobile_rds_access_security_group
 
   # Monitoring
   cloudwatch_alarm_action_arns = [module.notify_slack.slack_topic_arn]
