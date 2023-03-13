@@ -52,6 +52,10 @@ locals {
         user = "iot_oracle"
         iam_name = "rds-iot-oracle-user-access"
       }
+      metadata = {
+        user = "metadata"
+        iam_name = "rds-metadata-user-access"
+      }
     }
     web = {
       web = { 
