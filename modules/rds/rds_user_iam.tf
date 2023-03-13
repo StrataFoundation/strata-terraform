@@ -8,7 +8,7 @@
 # nova_<iot/mobile> users.
 # ***************************************
 resource "aws_iam_role" "rds_nova_user_access_role" {
-  for_each = var.create_nova_dependent_resources ? local.nova : {}
+  for_each = var.create_nova_dependent_resources ? local.nova.users : {}
 
   name        = "rds-nova-${each.key}-user-access-role"
   description = "IAM Role for the Nova ${each.value.label} account to assume to access RDS via the ${each.value.user} user"
