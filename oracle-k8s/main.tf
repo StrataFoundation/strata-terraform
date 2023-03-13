@@ -88,6 +88,21 @@ resource "kubernetes_service_account" "rds_iot_oracle_access" {
   }
 }
 
+data "aws_iam_role" "rds_metadata_access_role" {
+  name = "rds-metadata-user-access-role" 
+}
+
+resource "kubernetes_service_account" "rds_metadata_access" {
+  metadata {
+    name        = "rds-iot-oracle-user-access"
+    namespace   = "helium"
+    annotations = {
+      "eks.amazonaws.com/role-arn" = data.aws_iam_role.rds_metadata_access_role.arn,
+    }
+  }
+}
+
+
 resource "kubectl_manifest" "rds-access-security-group-policy" {
     yaml_body = <<YAML
 apiVersion: vpcresources.k8s.aws/v1beta1
