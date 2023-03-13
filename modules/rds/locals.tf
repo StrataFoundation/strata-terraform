@@ -15,12 +15,12 @@ locals {
       mobile = {
         label = "Mobile",
         user = "nova_mobile",
-        account_id = var.nova_iot_aws_account_id,        
+        account_id = var.nova_mobile_aws_account_id,       
       }
       mobile-metadata = {
         label = "Mobile Metadata",
         user = "nova_mobile_meta",
-        account_id = var.nova_iot_aws_account_id,        
+        account_id = var.nova_mobile_aws_account_id,      
       }
     }
     network = {
