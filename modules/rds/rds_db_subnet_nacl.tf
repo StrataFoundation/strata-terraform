@@ -92,7 +92,7 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_5" {
 # Ingress - Nova IoT and Mobile private subnets
 # ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_ingress_6_7" {
-  for_each = var.create_nova_dependent_resources ? local.nova : {}
+  for_each = var.create_nova_dependent_resources ? local.nova.network : {}
 
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = each.value.rule_number
@@ -186,7 +186,7 @@ resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_5" {
 # Egress - Nova IoT and Mobile private subnets
 # ***************************************
 resource "aws_network_acl_rule" "rds_db_subnet_nacl_egress_6_7" {
-  for_each = var.create_nova_dependent_resources ? local.nova : {}
+  for_each = var.create_nova_dependent_resources ? local.nova.network : {}
 
   network_acl_id = aws_network_acl.rds_db_subnet_nacl.id
   rule_number    = each.value.rule_number

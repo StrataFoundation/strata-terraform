@@ -57,7 +57,7 @@ resource "aws_security_group_rule" "rds_security_group_ingress_rule_2" {
 }
 
 resource "aws_security_group_rule" "rds_security_group_ingress_rule_3_4" {
-  for_each = var.create_nova_dependent_resources ? local.nova : {}
+  for_each = var.create_nova_dependent_resources ? local.nova.network : {}
 
   type                     = "ingress"
   description              = "Allow access from Nova ${each.value.label} security group" 
