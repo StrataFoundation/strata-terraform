@@ -94,7 +94,7 @@ data "aws_iam_role" "rds_metadata_access_role" {
 
 resource "kubernetes_service_account" "rds_metadata_access" {
   metadata {
-    name        = "rds-iot-oracle-user-access"
+    name        = "rds-metadata-user-access"
     namespace   = "helium"
     annotations = {
       "eks.amazonaws.com/role-arn" = data.aws_iam_role.rds_metadata_access_role.arn,
