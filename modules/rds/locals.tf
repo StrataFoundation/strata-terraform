@@ -8,7 +8,7 @@ locals {
         account_id = var.nova_iot_aws_account_id,
       }
       iot-metadata = {
-        label = "IoT Metadata",
+        label = "IoT",
         user = "nova_iot_meta",
         account_id = var.nova_iot_aws_account_id,
       }
@@ -18,7 +18,7 @@ locals {
         account_id = var.nova_mobile_aws_account_id,       
       }
       mobile-metadata = {
-        label = "Mobile Metadata",
+        label = "Mobile",
         user = "nova_mobile_meta",
         account_id = var.nova_mobile_aws_account_id,      
       }
