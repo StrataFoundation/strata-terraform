@@ -39,21 +39,22 @@ module "k8s" {
   source = "../modules/k8s"
 
   # Env
-  env   = var.env // in tf cloud, create add var: env = oracle
-  stage = var.stage // in tf cloud, create add var: stage = sdlc
-  cluster_name = var.cluster_name // in tf cloud, create add var: cluster_name = oracle-cluster
+  env   = var.env 
+  stage = var.stage 
+  cluster_name = var.cluster_name 
 
   # AWS
-  aws_region = var.aws_region // in tf cloud, create add var: aws_region = us-east-1
+  aws_region = var.aws_region
 
   # VPC
-  cidr_block = var.cidr_block // in tf cloud, create add var: cidr_block = 10.10.0.0/16
+  cidr_block = var.cidr_block
 
   # EKS/k8s
-  argo_path    = var.argo_path
-  zone_id      = var.zone_id // in tf cloud, create add var: zone_id = Z0569325L7XT2OOHXNLX
-  argo_url     = var.argo_url // in tf cloud, create add var: argo_url = argo.oracle.test-helium.com
-  zone_cert    = var.zone_cert // in tf cloud, create add var: zone_cert = arn:aws:acm:us-east-1:694730983297:certificate/5e357031-0723-40d3-9723-7475c6188824
+  argo_path       = var.argo_path
+  zone_id         = var.zone_id 
+  argo_url        = var.argo_url
+  zone_cert       = var.zone_cert
+  with_autoscaler = var.with_autoscaler
 }
 
 data "aws_security_group" "rds_access_security_group" {
