@@ -51,3 +51,9 @@ variable "cluster_name" {
   type        = string
   default     = "web-cluster"
 }
+
+variable "with_autoscaler" {
+  description = "Deploy cluster autoscaler"
+  type        = boolean
+  default     = true
+}
