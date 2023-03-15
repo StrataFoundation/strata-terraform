@@ -10,6 +10,8 @@ module "eks" {
 
   eks_managed_node_group_defaults = var.eks_managed_node_group_defaults
 
+  enable_irsa = true
+
   # Remove this tag to allow the aws lb to target a single sg using the tag
   # https://github.com/terraform-aws-modules/terraform-aws-eks/issues/2258
   node_security_group_tags = var.node_security_group_tags

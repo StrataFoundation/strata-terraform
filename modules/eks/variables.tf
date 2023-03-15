@@ -93,3 +93,9 @@ variable "manage_aws_auth_configmap" {
   type        = bool
   default     = true
 }
+
+variable "add_cluster_autoscaler" {
+  description = "Add cluster autoscaler to EKS"
+  type        = bool
+  default     = true
+}
