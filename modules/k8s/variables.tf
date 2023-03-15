@@ -54,6 +54,6 @@ variable "cluster_name" {
 
 variable "with_autoscaler" {
   description = "Deploy cluster autoscaler"
-  type        = boolean
+  type        = bool
   default     = true
 }
