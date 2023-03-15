@@ -109,6 +109,12 @@ variable "manage_aws_auth_configmap" {
   default     = true
 }
 
+variable "add_cluster_autoscaler" {
+  description = "Add cluster autoscaler to EKS"
+  type        = bool
+  default     = true
+}
+
 # --- RDS variables ------------------------------------------------
 variable "rds_instance_type" {
   description = "Instance type for RDS"
