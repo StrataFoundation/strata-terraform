@@ -22,6 +22,15 @@ data "kubectl_path_documents" "autoscaler" {
   }
 }
 
+data "kubectl_path_documents" "argocd_cm" {
+  pattern = "${path.module}/argocd/argocd-cm.yaml"
+  vars = {
+    argo_url = var.argo_url
+    google_client_id = var.google_client_id
+    google_client_secret = var.google_client_secret
+  }
+}
+
 data "aws_eks_cluster" "eks" {
   name = local.cluster_name
 }
