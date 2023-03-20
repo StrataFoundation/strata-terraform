@@ -1,5 +1,5 @@
-resource "helm_release" "metric-server" {
-  name       = "metric-server"
+resource "helm_release" "metrics-server" {
+  name       = "metrics-server"
   repository = "https://charts.bitnami.com/bitnami" 
   chart      = "metrics-server"
   namespace  = "kube-system"
@@ -7,5 +7,10 @@ resource "helm_release" "metric-server" {
   set {
     name  = "replicas"
     value = 2
+  }
+
+  set {
+    name  = "fullnameOverride"
+    value = "metrics-server"
   }
 }
