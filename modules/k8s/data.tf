@@ -10,6 +10,9 @@ data "kubectl_path_documents" "application" {
   pattern = "${path.module}/argocd/application.yaml"
   vars = {
     path = var.argo_path
+    argo_url = var.argo_url
+    google_client_id = var.google_client_id
+    google_client_secret = var.google_client_secret
   }
 }
 

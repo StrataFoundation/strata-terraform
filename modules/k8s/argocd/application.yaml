@@ -18,4 +18,20 @@ spec:
     automated:
       prune: false
       selfHeal: false
-         
+---
+apiVersion: 1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+data:
+  url: ${argo_url}
+  dex.config: |
+    connectors:
+    - config:
+        issuer: https://accounts.google.com
+        clientID: ${google_client_id}
+        clientSecret: ${google_client_secret}
+      type: oidc
+      id: google
+      name: Google
