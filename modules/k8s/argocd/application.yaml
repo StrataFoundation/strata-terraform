@@ -25,7 +25,7 @@ metadata:
   name: argocd-cm
   namespace: argocd
 data:
-  url: ${argo_url}
+  url: https://${argo_url}
   dex.config: |
     connectors:
     - config:
