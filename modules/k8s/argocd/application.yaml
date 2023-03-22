@@ -43,6 +43,6 @@ metadata:
   namespace: argocd
 data:
   scopes: email
-  policy.default: role:readonly
+  policy.default: ""
   policy.csv: |
     ${argo_admins}
