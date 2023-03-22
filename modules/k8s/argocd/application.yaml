@@ -42,7 +42,7 @@ metadata:
   name: argocd-rbac-cm
   namespace: argocd
 data:
-  scopes: email
+  scopes: "[email, group]"
   policy.default: ""
   policy.csv: |
     ${argo_admins}
