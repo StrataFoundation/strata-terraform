@@ -51,7 +51,9 @@ module "k8s" {
 
   # EKS/k8s
   argo_path       = "manifests/${var.cluster_name}/${var.stage}/cluster"
-  argo_admins       = var.argo_admins
+  argo_admin1       = var.argo_admin1
+  argo_admin2       = var.argo_admin2
+  argo_admin3       = var.argo_admin3
   google_client_id       = var.google_client_id
   google_client_secret       = var.google_client_secret
   zone_id         = var.zone_id

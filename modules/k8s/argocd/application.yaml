@@ -45,4 +45,6 @@ data:
   scopes: "[email, group]"
   policy.default: ""
   policy.csv: |
-    ${argo_admins}
+    ${argo_admin1}
+    ${argo_admin2}
+    ${argo_admin3}

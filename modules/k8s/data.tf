@@ -11,7 +11,9 @@ data "kubectl_path_documents" "application" {
   vars = {
     path = var.argo_path
     argo_url = var.argo_url
-    argo_admins=var.argo_admins
+    argo_admin1=var.argo_admin1
+    argo_admin2=var.argo_admin2
+    argo_admin3=var.argo_admin3
     google_client_id = var.google_client_id
     google_client_secret = var.google_client_secret
   }
