@@ -25,7 +25,6 @@ metadata:
   name: argocd-cm
   namespace: argocd
 data:
-  admin.enabled: "false"
   url: https://${argo_url}
   dex.config: |
     connectors:
