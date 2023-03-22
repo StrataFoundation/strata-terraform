@@ -45,3 +45,4 @@ data:
   policy.default: role:readonly
   policy.csv: |
     ${argo_admins}
+  scopes: "[email, group]"
