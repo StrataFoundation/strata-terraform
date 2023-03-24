@@ -51,6 +51,11 @@ module "k8s" {
 
   # EKS/k8s
   argo_path       = var.argo_path
+  argo_admin1       = var.argo_admin1
+  argo_admin2       = var.argo_admin2
+  argo_admin3       = var.argo_admin3
+  google_client_id       = var.google_client_id
+  google_client_secret       = var.google_client_secret
   zone_id         = var.zone_id 
   argo_url        = var.argo_url
   zone_cert       = var.zone_cert

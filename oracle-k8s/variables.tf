@@ -40,6 +40,36 @@ variable "argo_url" {
   default     = ""
 }
 
+variable "argo_admin1" {
+  description = "Argo Admin Permissions"
+  type        = string
+  default     = ""
+}
+
+variable "argo_admin2" {
+  description = "Argo Admin Permissions"
+  type        = string
+  default     = ""
+}
+
+variable "argo_admin3" {
+  description = "Argo Admin Permissions"
+  type        = string
+  default     = ""
+}
+
+variable "google_client_id" {
+  description = "Google Credentials Client Id"
+  type        = string
+  default     = ""
+}
+
+variable "google_client_secret" {
+  description = "Google Credentials Client Secret"
+  type        = string
+  default     = ""
+}
+
 variable "zone_cert" {
   description = "ARN of zone certificate"
   type        = string
