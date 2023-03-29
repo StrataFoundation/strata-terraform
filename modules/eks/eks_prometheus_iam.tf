@@ -4,24 +4,6 @@ resource "aws_iam_role" "prometheus_write_access" {
   name        = "EKS-AMP-ServiceAccount-Role"
   description = "IAM role to be used by a K8s service account to assume cross account role"
 
-  inline_policy {
-    name   = "monitoring-role-assumption-policy" 
-    policy = jsonencode({
-      Version   = "2012-10-17"
-      Statement = [
-        {
-          Action   = [
-            "sts:AssumeRole"
-          ]
-          Effect   = "Allow"
-          Resource = [
-            "arn:aws:iam::${var.monitoring_account_id}:role/EKS-AMP-Central-Role"
-          ]
-        },
-      ]
-    })
-  }
-
   assume_role_policy = jsonencode({
     Version   = "2012-10-17"
     Statement = [
@@ -40,4 +22,31 @@ resource "aws_iam_role" "prometheus_write_access" {
       },
     ]
   })
+}
+
+resource "aws_iam_policy" "monitoring_role_assumption_policy" {
+  count = var.monitoring_account_id != "" ? 1 : 0
+
+  name   = "monitoring-role-assumption-policy" 
+  policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [
+      {
+        Action   = [
+          "sts:AssumeRole"
+        ]
+        Effect   = "Allow"
+        Resource = [
+          "arn:aws:iam::${var.monitoring_account_id}:role/EKS-AMP-Central-Role"
+        ]
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "prometheus_required_iam_policy_attachment" {
+  count = var.monitoring_account_id != "" ? 1 : 0
+
+  role       = aws_iam_role.prometheus_write_access[0].id
+  policy_arn = aws_iam_policy.monitoring_role_assumption_policy[0].arn
 }
