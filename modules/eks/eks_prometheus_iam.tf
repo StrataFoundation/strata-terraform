@@ -45,6 +45,8 @@ resource "aws_iam_policy" "monitoring_role_assumption_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "prometheus_required_iam_policy_attachment" {
-  role       = aws_iam_role.prometheus_write_access.id
-  policy_arn = data.aws_iam_policy.monitoring_role_assumption_policy.arn
+  count = var.monitoring_account_id != "" ? 1 : 0
+
+  role       = aws_iam_role.prometheus_write_access[0].id
+  policy_arn = aws_iam_policy.monitoring_role_assumption_policy[0].arn
 }
