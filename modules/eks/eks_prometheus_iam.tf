@@ -31,7 +31,7 @@ resource "aws_iam_role" "prometheus_write_access" {
         }
         Condition = {
           StringEquals = {
-            "${var.oidc_provider}:sub" = "system:serviceaccount:prometheus:amp-iamproxy-ingest-service-account"
+            "${var.oidc_provider}:sub" = "system:serviceaccount:monitoring:prometheus"
           }
         }
       },

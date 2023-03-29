@@ -4,20 +4,9 @@ provider "aws" {
   default_tags {
     tags = {
       Terraform = "true"
-      Environment = var.stage
+      Environment = "all"
     }
   }
-}
-
-# Kubernetes provider
-# https://learn.hashicorp.com/terraform/kubernetes/provision-eks-cluster#optional-configure-terraform-kubernetes-provider
-# To learn how to schedule deployments and services using the provider, go here: https://learn.hashicorp.com/terraform/kubernetes/deploy-nginx-kubernetes
-# The Kubernetes provider is included in this file so the EKS module can complete successfully. Otherwise, it throws an error when creating `kubernetes_config_map.aws_auth`.
-# You should **not** schedule deployments and services in this workspace. This keeps workspaces modular (one for provision EKS, another for scheduling Kubernetes resources) as per best practices.
-provider "kubernetes" {
-  host                   = try(module.eks[0].cluster_endpoint, null)
-  cluster_ca_certificate = try(base64decode(module.eks[0].cluster_certificate_authority_data), null)
-  token                  = try(module.eks[0].aws_eks_cluster_auth, null)
 }
 
 # ***************************************
@@ -36,9 +25,6 @@ resource "aws_prometheus_workspace" "prometheus_eks_metrics" {
   }
 }
 
-# ***************************************
-# IAM
-# ***************************************
 resource "aws_iam_role" "prometheus_write_access" {
   name        = "EKS-AMP-Central-Role"
   description = "IAM Role allowing cross-account write access to Prometheus"
@@ -54,6 +40,38 @@ resource "aws_iam_role" "prometheus_write_access" {
         Sid    = ""
         Principal = {
           AWS = local.iam_roles_receiving_write_permission_to_amp
+        }
+      },
+    ]
+  })
+}
+
+# ***************************************
+# Grafana
+# ***************************************
+resource "aws_grafana_workspace" "grafana" {
+  account_access_type      = "CURRENT_ACCOUNT"
+  authentication_providers = ["SAML"]
+  permission_type          = "SERVICE_MANAGED"
+  data_sources             = ["PROMETHEUS"] 
+  role_arn                 = aws_iam_role.grafana_amp_access.arn
+}
+
+resource "aws_iam_role" "grafana_amp_access" {
+  name        = "Grafana-AMP-Access-Role"
+  description = "IAM Role allowing Grafana to read from AMP"
+
+  managed_policy_arns = ["arn:aws:iam::aws:policy/AmazonPrometheusQueryAccess"]
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "grafana.amazonaws.com"
         }
       },
     ]
