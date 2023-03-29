@@ -15,7 +15,7 @@ resource "aws_iam_role" "prometheus_write_access" {
           ]
           Effect   = "Allow"
           Resource = [
-            "arn:aws:iam:${var.monitoring_account_id}:role/EKS-AMP-Central-Role"
+            "arn:aws:iam::${var.monitoring_account_id}:role/EKS-AMP-Central-Role"
           ]
         },
       ]
