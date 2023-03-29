@@ -27,11 +27,11 @@ resource "aws_iam_role" "prometheus_write_access" {
         Effect = "Allow"
         Sid    = ""
         Principal = {
-          Federated = "${var.oidc_provider_arn}"
+          Federated = "${module.eks.oidc_provider_arn}"
         }
         Condition = {
           StringEquals = {
-            "${var.oidc_provider}:sub" = "system:serviceaccount:monitoring:prometheus"
+            "${module.eks.oidc_provider}:sub" = "system:serviceaccount:monitoring:prometheus"
           }
         }
       },
