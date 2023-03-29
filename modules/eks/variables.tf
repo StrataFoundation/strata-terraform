@@ -99,3 +99,9 @@ variable "add_cluster_autoscaler" {
   type        = bool
   default     = true
 }
+
+variable "monitoring_account_id" {
+  description = "Monitoring Account ID"
+  type        = string
+  default     = ""
+}

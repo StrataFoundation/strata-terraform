@@ -109,11 +109,16 @@ variable "manage_aws_auth_configmap" {
   default     = true
 }
 
-
 variable "add_cluster_autoscaler" {
   description = "Add cluster autoscaler to EKS"
   type        = bool
   default     = true
+}
+
+variable "monitoring_account_id" {
+  description = "Monitoring Account ID"
+  type        = string
+  default     = ""
 }
 
 # --- RDS variables ------------------------------------------------
