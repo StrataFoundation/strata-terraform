@@ -115,6 +115,12 @@ variable "add_cluster_autoscaler" {
   default     = true
 }
 
+variable "monitoring_account_id" {
+  description = "Monitoring Account ID"
+  type        = string
+  default     = ""
+}
+
 # --- RDS variables ------------------------------------------------
 variable "rds_instance_type" {
   description = "Instance type for RDS"

@@ -91,6 +91,9 @@ module "eks" {
   node_security_group_tags        = {
     "kubernetes.io/cluster/${var.cluster_name}-${var.stage}" = null
   }
+
+  # Centralized Monitoring
+  monitoring_account_id = var.monitoring_account_id
 }
 
 # ***************************************
