@@ -12,7 +12,7 @@ resource "helm_release" "prometheus" {
 
 resource "kubectl_manifest" "prometheus" {
   count      = var.with_central_monitoring ? length(data.kubectl_path_documents.prometheus.documents) : 0
-  
+
   depends_on = [helm_release.prometheus]
-  yaml_body  = element(data.kubectl_path_documents.nginx.prometheus, count.index)
+  yaml_body  = element(data.kubectl_path_documents.prometheus.documents, count.index)
 }
