@@ -4,10 +4,6 @@ serviceAccounts:
     namespace: "monitoring"
     annotations:
       eks.amazonaws.com/role-arn: arn:aws:iam::${current_account_id}:role/EKS-AMP-ServiceAccount-Role
-    alertmanager:
-      create: false
-    pushgateway:
-      create: false
 server:
   remoteWrite:
     -
@@ -22,7 +18,3 @@ server:
         role_arn: arn:aws:iam::${monitoring_account_id}:role/EKS-AMP-Central-Role
   statefulSet:
       enabled: "true"
-alertmanager:
-  enabled: false
-pushgateway:
-  enabled: false

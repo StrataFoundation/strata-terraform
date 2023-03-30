@@ -8,6 +8,16 @@ resource "helm_release" "prometheus" {
   repository       = "https://prometheus-community.github.io/helm-charts"
   create_namespace = true
   cleanup_on_fail  = true 
+
+  set {
+    name  = "alertmanager.enabled"
+    value = "false"
+  }
+
+  set {
+    name  = "prometheus-pushgateway.enabled"
+    value = "false"
+  }
 }
 
 resource "kubectl_manifest" "prometheus" {
