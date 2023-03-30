@@ -87,3 +87,27 @@ variable "with_autoscaler" {
   type        = bool
   default     = true
 }
+
+variable "with_central_monitoring" {
+  description = "Deploy Prometheus with central monitoring configured"
+  type        = bool
+  default     = true
+}
+
+variable "monitoring_account_id" {
+  description = "Central monitoring Account ID"
+  type        = string
+  default     = ""
+}
+
+variable "monitoring_account_region" {
+  description = "AWS region of central monitoring account"
+  type        = string
+  default     = ""
+}
+
+variable "prometheus_remote_write_url" {
+  description = "Remote write URL for centralized Prometheus"
+  type        = string
+  default     = ""
+}

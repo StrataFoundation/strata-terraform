@@ -1,0 +1,20 @@
+serviceAccounts:
+  server:
+    name: "prometheus"
+    namespace: "monitoring"
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::${current_account_id}:role/EKS-AMP-ServiceAccount-Role
+server:
+  remoteWrite:
+    -
+      url: ${prometheus_remote_write_url}
+      name: ${current_account_name}
+      queue_config:
+        max_samples_per_send: 1000
+        max_shards: 200
+        capacity: 2500
+      sigv4:
+        region: ${monitoring_account_region}
+        role_arn: arn:aws:iam::${monitoring_account_id}:role/EKS-AMP-Central-Role
+  statefulSet:
+      enabled: "true"
