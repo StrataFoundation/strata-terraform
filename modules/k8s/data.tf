@@ -33,7 +33,7 @@ data "kubectl_path_documents" "prometheus" {
   vars = {
     current_account_name        = "${var.env}-${var.stage}"
     current_account_id          = data.aws_caller_identity.current.account_id
-    current_account_region      = var.aws_region
+    monitoring_account_region   = var.monitoring_account_region
     monitoring_account_id       = var.monitoring_account_id
     prometheus_remote_write_url = var.prometheus_remote_write_url
   }

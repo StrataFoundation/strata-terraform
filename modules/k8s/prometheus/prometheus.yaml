@@ -18,7 +18,7 @@ server:
         max_shards: 200
         capacity: 2500
       sigv4:
-        region: ${current_account_region}
+        region: ${monitoring_account_region}
         role_arn: arn:aws:iam::${monitoring_account_id}:role/EKS-AMP-Central-Role
   statefulSet:
       enabled: "true"

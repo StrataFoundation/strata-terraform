@@ -99,3 +99,9 @@ variable "monitoring_account_id" {
   type        = string
   default     = ""
 }
+
+variable "monitoring_account_region" {
+  description = "AWS region of central monitoring account"
+  type        = string
+  default     = ""
+}

@@ -61,11 +61,12 @@ module "k8s" {
   zone_cert            = var.zone_cert
 
   # K8s -Autoscaling
-  with_autoscaler      = var.with_autoscaler
+  with_autoscaler = var.with_autoscaler
 
   # K8s - Monitoring
   with_central_monitoring   = var.with_central_monitoring
   monitoring_account_id     = var.monitoring_account_id
+  monitoring_account_region = var.monitoring_account_region
 }
 
 data "aws_security_group" "rds_access_security_group" {
