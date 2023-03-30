@@ -105,3 +105,9 @@ variable "monitoring_account_region" {
   type        = string
   default     = ""
 }
+
+variable "prometheus_remote_write_url" {
+  description = "Remote write URL for centralized Prometheus"
+  type        = string
+  default     = ""
+}
