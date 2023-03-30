@@ -25,7 +25,7 @@ resource "helm_release" "prometheus" {
   }
 
   set {
-    name  = "serviceAccounts.server.annotations.\"eks\\.amazonaws\\.com/role-arn\""
+    name  = "serviceAccounts.server.annotations.eks\\.amazonaws\\.com/role-arn"
     value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/EKS-AMP-ServiceAccount-Role"
   }
 
@@ -69,10 +69,3 @@ resource "helm_release" "prometheus" {
     value = true
   }
 }
-
-# resource "kubectl_manifest" "prometheus" {
-#   count      = var.with_central_monitoring ? length(data.kubectl_path_documents.prometheus.documents) : 0
-
-#   depends_on = [helm_release.prometheus]
-#   yaml_body  = element(data.kubectl_path_documents.prometheus.documents, count.index)
-# }
