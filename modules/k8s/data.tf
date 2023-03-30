@@ -28,16 +28,16 @@ data "kubectl_path_documents" "autoscaler" {
   }
 }
 
-data "kubectl_path_documents" "prometheus" {
-  pattern = "${path.module}/prometheus/prometheus.yaml"
-  vars = {
-    current_account_name        = "${var.env}-${var.stage}"
-    current_account_id          = data.aws_caller_identity.current.account_id
-    monitoring_account_region   = var.monitoring_account_region
-    monitoring_account_id       = var.monitoring_account_id
-    prometheus_remote_write_url = var.prometheus_remote_write_url
-  }
-}
+# data "kubectl_path_documents" "prometheus" {
+#   pattern = "${path.module}/prometheus/prometheus.yaml"
+#   vars = {
+#     current_account_name        = "${var.env}-${var.stage}"
+#     current_account_id          = data.aws_caller_identity.current.account_id
+#     monitoring_account_region   = var.monitoring_account_region
+#     monitoring_account_id       = var.monitoring_account_id
+#     prometheus_remote_write_url = var.prometheus_remote_write_url
+#   }
+# }
 
 data "aws_eks_cluster" "eks" {
   name = local.cluster_name
