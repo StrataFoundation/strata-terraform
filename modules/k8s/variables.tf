@@ -87,3 +87,15 @@ variable "with_autoscaler" {
   type        = bool
   default     = true
 }
+
+variable "with_central_monitoring" {
+  description = "Deploy Prometheus with central monitoring configured"
+  type        = bool
+  default     = true
+}
+
+variable "monitoring_account_id" {
+  description = "Central monitoring Account ID"
+  type        = string
+  default     = ""
+}
