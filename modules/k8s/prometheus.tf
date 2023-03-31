@@ -10,16 +10,6 @@ resource "helm_release" "prometheus" {
   cleanup_on_fail  = true 
 
   set {
-    name  = "alertmanager.enabled"
-    value = "false"
-  }
-
-  set {
-    name  = "prometheus-pushgateway.enabled"
-    value = "false"
-  }
-
-  set {
     name  = "forceNamespace"
     value = "monitoring"
   }
@@ -28,58 +18,6 @@ resource "helm_release" "prometheus" {
     name  = "serviceAccounts.server.annotations.eks\\.amazonaws\\.com/role-arn"
     value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/EKS-AMP-ServiceAccount-Role"
   }
-
-  set {
-    name  = "server.remoteWrite[0]"
-    value = yamlencode({
-      url  = var.prometheus_remote_write_url
-      name = "${var.env}-${var.stage}"
-      queue_config = {
-        max_samples_per_send = 1000
-        max_shards = 200
-        capacity = 2500
-      }
-      sigv4 = {
-        region = var.monitoring_account_region
-        role_arn = "arn:aws:iam::${var.monitoring_account_id}:role/EKS-AMP-Central-Role"
-      }
-    })
-  }
-
-  # set {
-  #   name  = "server.remoteWrite[0].url"
-  #   value = var.prometheus_remote_write_url
-  # }
-
-  # set {
-  #   name  = "server.remoteWrite[0].name"
-  #   value = "${var.env}-${var.stage}"
-  # }
-
-  # set {
-  #   name  = "server.remoteWrite[0].queue_config.max_samples_per_send"
-  #   value = 1000
-  # }
-
-  # set {
-  #   name  = "server.remoteWrite[0].queue_config.max_shards"
-  #   value = 200
-  # }
-
-  # set {
-  #   name  = "server.remoteWrite[0].queue_config.capacity"
-  #   value = 2500
-  # }
-
-  # set {
-  #   name  = "server.remoteWrite[0].sigv4.region"
-  #   value = var.monitoring_account_region
-  # }
-
-  # set {
-  #   name  = "server.remoteWrite[0].sigv4.role_arn"
-  #   value = "arn:aws:iam::${var.monitoring_account_id}:role/EKS-AMP-Central-Role"
-  # }
 
   set {
     name  = "server.statefulSet.enabled"
@@ -92,13 +30,43 @@ resource "helm_release" "prometheus" {
   }
 
   set {
-    name  = "server.emptyDir.sizeLimit"
-    value = "2Gi"
+    name  = "server.retention"
+    value = "6h"
   }
 
   set {
-    name  = "server.retention"
-    value = "6h"
+    name  = "server.remoteWrite[0].url"
+    value = var.prometheus_remote_write_url
+  }
+
+  set {
+    name  = "server.remoteWrite[0].name"
+    value = "${var.env}-${var.stage}"
+  }
+
+  set {
+    name  = "server.remoteWrite[0].queue_config.max_samples_per_send"
+    value = 1000
+  }
+
+  set {
+    name  = "server.remoteWrite[0].queue_config.max_shards"
+    value = 200
+  }
+
+  set {
+    name  = "server.remoteWrite[0].queue_config.capacity"
+    value = 2500
+  }
+
+  set {
+    name  = "server.remoteWrite[0].sigv4.region"
+    value = var.monitoring_account_region
+  }
+
+  set {
+    name  = "server.remoteWrite[0].sigv4.role_arn"
+    value = "arn:aws:iam::${var.monitoring_account_id}:role/EKS-AMP-Central-Role"
   }
 
   set {
