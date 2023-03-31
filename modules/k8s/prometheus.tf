@@ -6,8 +6,8 @@ resource "helm_release" "prometheus" {
   version          = "20.0.1"
   namespace        = "monitoring"
   repository       = "https://prometheus-community.github.io/helm-charts"
-  # create_namespace = true
-  # cleanup_on_fail  = true 
+  create_namespace = true
+  cleanup_on_fail  = true 
 
   # set {
   #   name  = "forceNamespace"
@@ -19,10 +19,10 @@ resource "helm_release" "prometheus" {
   #   value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/EKS-AMP-ServiceAccount-Role"
   # }
 
-  # set {
-  #   name  = "server.statefulSet.enabled"
-  #   value = true
-  # }
+  set {
+    name  = "server.statefulSet.enabled"
+    value = true
+  }
 
   # set {
   #   name  = "server.persistentVolume.enabled"
