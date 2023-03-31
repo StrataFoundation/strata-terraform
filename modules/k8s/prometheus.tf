@@ -59,20 +59,20 @@ resource "helm_release" "prometheus" {
     value = "${var.env}-${var.stage}"
   }
 
-  # set {
-  #   name  = "server.remoteWrite[0].queue_config.max_samples_per_send"
-  #   value = 1000
-  # }
+  set {
+    name  = "server.remoteWrite[0].queue_config.max_samples_per_send"
+    value = 1000
+  }
 
-  # set {
-  #   name  = "server.remoteWrite[0].queue_config.max_shards"
-  #   value = 200
-  # }
+  set {
+    name  = "server.remoteWrite[0].queue_config.max_shards"
+    value = 200
+  }
 
-  # set {
-  #   name  = "server.remoteWrite[0].queue_config.capacity"
-  #   value = 2500
-  # }
+  set {
+    name  = "server.remoteWrite[0].queue_config.capacity"
+    value = 2500
+  }
 
   # set {
   #   name  = "server.remoteWrite[0].sigv4.region"
