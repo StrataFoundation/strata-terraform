@@ -49,15 +49,15 @@ resource "helm_release" "prometheus" {
   #   value = "6h"
   # }
 
-  # set {
-  #   name  = "server.remoteWrite[0].url"
-  #   value = var.prometheus_remote_write_url
-  # }
+  set {
+    name  = "server.remoteWrite[0].url"
+    value = var.prometheus_remote_write_url
+  }
 
-  # set {
-  #   name  = "server.remoteWrite[0].name"
-  #   value = "${var.env}-${var.stage}"
-  # }
+  set {
+    name  = "server.remoteWrite[0].name"
+    value = "${var.env}-${var.stage}"
+  }
 
   # set {
   #   name  = "server.remoteWrite[0].queue_config.max_samples_per_send"
