@@ -68,4 +68,33 @@ resource "helm_release" "prometheus" {
     name  = "server.statefulSet.enabled"
     value = true
   }
+
+  set {
+    name  = "server.persistentVolume.enabled"
+    value = false
+  }
+
+  set {
+    name  = "server.emptyDir.sizeLimit"
+    value = "2Gi"
+  }
+
+  set {
+    name  = "server.retention"
+    value = "6h"
+  }
+
+  set {
+    name = "server\\.resources"
+    value = yamlencode({
+      limits = {
+        cpu    = "200m"
+        memory = "50Mi"
+      }
+      requests = {
+        cpu    = "100m"
+        memory = "30Mi"
+      }
+    })
+  }
 }
