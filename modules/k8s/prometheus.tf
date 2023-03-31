@@ -74,15 +74,15 @@ resource "helm_release" "prometheus" {
     value = 2500
   }
 
-  # set {
-  #   name  = "server.remoteWrite[0].sigv4.region"
-  #   value = var.monitoring_account_region
-  # }
+  set {
+    name  = "server.remoteWrite[0].sigv4.region"
+    value = var.monitoring_account_region
+  }
 
-  # set {
-  #   name  = "server.remoteWrite[0].sigv4.role_arn"
-  #   value = "arn:aws:iam::${var.monitoring_account_id}:role/EKS-AMP-Central-Role"
-  # }
+  set {
+    name  = "server.remoteWrite[0].sigv4.role_arn"
+    value = "arn:aws:iam::${var.monitoring_account_id}:role/EKS-AMP-Central-Role"
+  }
 
   # set {
   #   name = "server\\.resources"
