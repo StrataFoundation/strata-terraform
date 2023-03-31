@@ -30,11 +30,6 @@ resource "helm_release" "prometheus" {
   }
 
   set {
-    name  = "server.emptyDir.sizeLimit"
-    value = "2Gi"
-  }
-
-  set {
     name  = "server.retention"
     value = "6h"
   }
