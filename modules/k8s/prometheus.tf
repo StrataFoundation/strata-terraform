@@ -3,11 +3,21 @@ resource "helm_release" "prometheus" {
 
   name             = "prometheus"
   chart            = "prometheus"
-  version          = "20.0.1"
+  version          = "20.0.2"
   namespace        = "monitoring"
   repository       = "https://prometheus-community.github.io/helm-charts"
   create_namespace = true
   cleanup_on_fail  = true 
+
+  set {
+    name  = "alertmanager.enabled"
+    value = "false"
+  }
+
+  set {
+    name  = "prometheus-pushgateway.enabled"
+    value = "false"
+  }
 
   set {
     name  = "forceNamespace"
@@ -27,6 +37,11 @@ resource "helm_release" "prometheus" {
   set {
     name  = "server.persistentVolume.enabled"
     value = false
+  }
+
+  set {
+    name  = "server.emptyDir.sizeLimit"
+    value = "2Gi"
   }
 
   set {
