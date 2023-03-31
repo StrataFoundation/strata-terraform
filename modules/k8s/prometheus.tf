@@ -30,39 +30,56 @@ resource "helm_release" "prometheus" {
   }
 
   set {
-    name  = "server.remoteWrite[0].url"
-    value = var.prometheus_remote_write_url
+    name  = "server.remoteWrite[0]"
+    value = yamlencode({
+      url  = var.prometheus_remote_write_url
+      name = "${var.env}-${var.stage}"
+      queue_config = {
+        max_samples_per_send = 1000
+        max_shards = 200
+        capacity = 2500
+      }
+      sigv4 = {
+        region = var.monitoring_account_region
+        role_arn = "arn:aws:iam::${var.monitoring_account_id}:role/EKS-AMP-Central-Role"
+      }
+    })
   }
 
-  set {
-    name  = "server.remoteWrite[0].name"
-    value = "${var.env}-${var.stage}"
-  }
+  # set {
+  #   name  = "server.remoteWrite[0].url"
+  #   value = var.prometheus_remote_write_url
+  # }
 
-  set {
-    name  = "server.remoteWrite[0].queue_config.max_samples_per_send"
-    value = 1000
-  }
+  # set {
+  #   name  = "server.remoteWrite[0].name"
+  #   value = "${var.env}-${var.stage}"
+  # }
 
-  set {
-    name  = "server.remoteWrite[0].queue_config.max_shards"
-    value = 200
-  }
+  # set {
+  #   name  = "server.remoteWrite[0].queue_config.max_samples_per_send"
+  #   value = 1000
+  # }
 
-  set {
-    name  = "server.remoteWrite[0].queue_config.capacity"
-    value = 2500
-  }
+  # set {
+  #   name  = "server.remoteWrite[0].queue_config.max_shards"
+  #   value = 200
+  # }
 
-  set {
-    name  = "server.remoteWrite[0].sigv4.region"
-    value = var.monitoring_account_region
-  }
+  # set {
+  #   name  = "server.remoteWrite[0].queue_config.capacity"
+  #   value = 2500
+  # }
 
-  set {
-    name  = "server.remoteWrite[0].sigv4.role_arn"
-    value = "arn:aws:iam::${var.monitoring_account_id}:role/EKS-AMP-Central-Role"
-  }
+  # set {
+  #   name  = "server.remoteWrite[0].sigv4.region"
+  #   value = var.monitoring_account_region
+  # }
+
+  # set {
+  #   name  = "server.remoteWrite[0].sigv4.role_arn"
+  #   value = "arn:aws:iam::${var.monitoring_account_id}:role/EKS-AMP-Central-Role"
+  # }
 
   set {
     name  = "server.statefulSet.enabled"
