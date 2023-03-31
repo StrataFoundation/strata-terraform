@@ -34,10 +34,10 @@ resource "helm_release" "prometheus" {
   #   value = "monitoring"
   # }
 
-  # set {
-  #   name  = "serviceAccounts.server.annotations.eks\\.amazonaws\\.com/role-arn"
-  #   value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/EKS-AMP-ServiceAccount-Role"
-  # }
+  set {
+    name  = "serviceAccounts.server.annotations.eks\\.amazonaws\\.com/role-arn"
+    value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/EKS-AMP-ServiceAccount-Role"
+  }
 
   # set {
   #   name  = "server.emptyDir.sizeLimit"
