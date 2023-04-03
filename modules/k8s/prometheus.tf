@@ -35,19 +35,24 @@ resource "helm_release" "prometheus" {
   # }
 
   set {
+    name  = "serviceAccounts.server.name"
+    value = "prometheus"
+  }
+
+  set {
     name  = "serviceAccounts.server.annotations.eks\\.amazonaws\\.com/role-arn"
     value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/EKS-AMP-ServiceAccount-Role"
   }
 
-  # set {
-  #   name  = "server.emptyDir.sizeLimit"
-  #   value = "2Gi"
-  # }
+  set {
+    name  = "server.emptyDir.sizeLimit"
+    value = "2Gi"
+  }
 
-  # set {
-  #   name  = "server.retention"
-  #   value = "6h"
-  # }
+  set {
+    name  = "server.retention"
+    value = "6h"
+  }
 
   set {
     name  = "server.remoteWrite[0].url"
@@ -84,17 +89,17 @@ resource "helm_release" "prometheus" {
     value = "arn:aws:iam::${var.monitoring_account_id}:role/EKS-AMP-Central-Role"
   }
 
-  # set {
-  #   name = "server\\.resources"
-  #   value = yamlencode({
-  #     limits = {
-  #       cpu    = "200m"
-  #       memory = "50Mi"
-  #     }
-  #     requests = {
-  #       cpu    = "100m"
-  #       memory = "30Mi"
-  #     }
-  #   })
-  # }
+  set {
+    name = "server\\.resources"
+    value = yamlencode({
+      limits = {
+        cpu    = "200m"
+        memory = "50Mi"
+      }
+      requests = {
+        cpu    = "100m"
+        memory = "30Mi"
+      }
+    })
+  }
 }
