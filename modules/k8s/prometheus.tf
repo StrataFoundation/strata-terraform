@@ -60,12 +60,12 @@ resource "helm_release" "prometheus" {
   }
 
   set {
-    name = "server.remoteWrite[0].write_relabel_configs.target_label"
+    name = "server.remoteWrite[0].write_relabel_configs[0].target_label"
     value = "account"
   }
 
   set {
-    name = "server.remoteWrite[0].write_relabel_configs.replacement"
+    name = "server.remoteWrite[0].write_relabel_configs[0].replacement"
     value = "${var.env}-${var.stage}"
   }
 
