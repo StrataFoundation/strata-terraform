@@ -76,7 +76,7 @@ resource "helm_release" "prometheus" {
 
   set {
     name  = "server.remoteWrite[0].sigv4.region"
-    value = "us-east-1"
+    value = var.monitoring_account_region
   }
 
   set {
