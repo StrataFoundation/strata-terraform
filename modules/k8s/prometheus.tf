@@ -29,11 +29,6 @@ resource "helm_release" "prometheus" {
     value = true
   }
 
-  # set {
-  #   name  = "forceNamespace"
-  #   value = "monitoring"
-  # }
-
   set {
     name  = "serviceAccounts.server.name"
     value = "prometheus"
