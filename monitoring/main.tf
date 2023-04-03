@@ -61,7 +61,7 @@ resource "aws_iam_role" "grafana_amp_access" {
   name        = "Grafana-AMP-Access-Role"
   description = "IAM Role allowing Grafana to read from AMP"
 
-  managed_policy_arns = ["arn:aws:iam::aws:policy/AmazonPrometheusQueryAccess"]
+  managed_policy_arns = ["arn:aws:iam::aws:policy/AmazonPrometheusFullAccess"]
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
