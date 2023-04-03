@@ -60,6 +60,16 @@ resource "helm_release" "prometheus" {
   }
 
   set {
+    name = "server.remoteWrite[0].write_relabel_configs.target_label"
+    value = "account"
+  }
+
+  set {
+    name = "server.remoteWrite[0].write_relabel_configs.replacement"
+    value = "${var.env}-${var.stage}"
+  }
+
+  set {
     name  = "server.remoteWrite[0].queue_config.max_samples_per_send"
     value = 1000
   }
