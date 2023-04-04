@@ -49,17 +49,25 @@ module "k8s" {
   # VPC
   cidr_block = var.cidr_block
 
-  # EKS/k8s
-  argo_path       = var.argo_path
-  argo_admin1       = var.argo_admin1
-  argo_admin2       = var.argo_admin2
-  argo_admin3       = var.argo_admin3
-  google_client_id       = var.google_client_id
-  google_client_secret       = var.google_client_secret
-  zone_id         = var.zone_id 
-  argo_url        = var.argo_url
-  zone_cert       = var.zone_cert
+  # K8s - Argo
+  argo_path            = var.argo_path
+  argo_admin1          = var.argo_admin1
+  argo_admin2          = var.argo_admin2
+  argo_admin3          = var.argo_admin3
+  google_client_id     = var.google_client_id
+  google_client_secret = var.google_client_secret
+  zone_id              = var.zone_id 
+  argo_url             = var.argo_url
+  zone_cert            = var.zone_cert
+
+  # K8s -Autoscaling
   with_autoscaler = var.with_autoscaler
+
+  # K8s - Monitoring
+  with_central_monitoring     = var.with_central_monitoring
+  monitoring_account_id       = var.monitoring_account_id
+  monitoring_account_region   = var.monitoring_account_region
+  prometheus_remote_write_url = var.prometheus_remote_write_url
 }
 
 data "aws_security_group" "rds_access_security_group" {
