@@ -64,7 +64,7 @@ resource "aws_iam_role" "migration-access-role" {
           ]
           Effect   = "Allow"
           Resource = [
-            "arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${module.rds.rds_id}/migration"
+            "arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${module.rds[0].rds_id}/migration"
           ]
         },
         {
@@ -89,11 +89,11 @@ resource "aws_iam_role" "migration-access-role" {
         Effect = "Allow"
         Sid    = ""
         Principal = {
-          Federated = "${module.eks.oidc_provider_arn}"
+          Federated = "${module.eks[0].oidc_provider_arn}"
         }
         Condition = {
           StringEquals = {
-            "${module.eks.oidc_provider}:sub" = "system:serviceaccount:helium:rds-migration-user-access"
+            "${module.eks[0].oidc_provider}:sub" = "system:serviceaccount:helium:rds-migration-user-access"
           }
         }
       },
