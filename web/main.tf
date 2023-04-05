@@ -94,6 +94,9 @@ module "eks" {
 
   # Centralized Monitoring
   monitoring_account_id = var.monitoring_account_id
+
+  # Migration
+  node_group_for_migration = true
 }
 
 # ***************************************

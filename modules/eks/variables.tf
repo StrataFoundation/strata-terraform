@@ -105,3 +105,9 @@ variable "monitoring_account_id" {
   type        = string
   default     = ""
 }
+
+variable "node_group_for_migration" {
+  description = "Add migration-specific node group"
+  type        = bool
+  default     = false
+}
