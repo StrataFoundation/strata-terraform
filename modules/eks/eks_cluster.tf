@@ -16,7 +16,7 @@ module "eks" {
   # https://github.com/terraform-aws-modules/terraform-aws-eks/issues/2258
   node_security_group_tags = var.node_security_group_tags
 
-  eks_managed_node_groups = locals.node_types[var.node_group_for_migration] 
+  eks_managed_node_groups = local.node_types[var.node_group_for_migration] 
 
   # Allow setting access permissions to the eks cluster (e.g., who can run kubectl commands) via aws-auth configmap
   manage_aws_auth_configmap = var.manage_aws_auth_configmap
