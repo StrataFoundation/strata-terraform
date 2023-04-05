@@ -16,48 +16,8 @@ module "eks" {
   # https://github.com/terraform-aws-modules/terraform-aws-eks/issues/2258
   node_security_group_tags = var.node_security_group_tags
 
-  eks_managed_node_groups = var.node_group_for_migration ? {
-    medium_group = {
-      name                   = var.cluster_node_name
-      instance_types         = [var.eks_instance_type]
-      min_size               = var.cluster_min_size
-      max_size               = var.cluster_max_size
-      desired_size           = var.cluster_desired_size
-      vpc_security_group_ids = [
-        aws_security_group.small_node_group.id
-      ]
-    }
-    
-    migration_group = {
-      name                   = "migration-node"
-      instance_types         = ["r5.xlarge"]
-      min_size               = 1
-      max_size               = 1
-      desired_size           = 1
-      vpc_security_group_ids = [
-        aws_security_group.small_node_group.id
-      ]
-      taints                 = [
-        {
-          key    = "migration_workload"
-          value  = "true"
-          effect = "NO_SCHEDULE"
-        }
-      ]
-    }
-  } : {
-    medium_group = {
-      name                   = var.cluster_node_name
-      instance_types         = [var.eks_instance_type]
-      min_size               = var.cluster_min_size
-      max_size               = var.cluster_max_size
-      desired_size           = var.cluster_desired_size
-      vpc_security_group_ids = [
-        aws_security_group.small_node_group.id
-      ]
-    }
-  }
-  
+  eks_managed_node_groups = locals.node_types[var.node_group_for_migration] 
+
   # Allow setting access permissions to the eks cluster (e.g., who can run kubectl commands) via aws-auth configmap
   manage_aws_auth_configmap = var.manage_aws_auth_configmap
 
