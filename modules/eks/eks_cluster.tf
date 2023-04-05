@@ -28,7 +28,7 @@ module "eks" {
       ]
     }
 
-    medium_group = var.node_group_for_migration ? {
+    migration_group = var.node_group_for_migration ? {
       name                   = "migration-node"
       instance_types         = ["r5.xlarge"]
       min_size               = 1
