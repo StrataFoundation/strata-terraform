@@ -27,6 +27,25 @@ module "eks" {
         aws_security_group.small_node_group.id
       ]
     }
+
+    medium_group = var.node_group_for_migration ? {
+      name                   = "migration-node"
+      instance_types         = ["r5.xlarge"]
+      min_size               = 1
+      max_size               = 1
+      desired_size           = 1
+      vpc_security_group_ids = [
+        aws_security_group.small_node_group.id
+      ]
+      taints                 = [
+        {
+          key    = "migration_workload"
+          value  = "true"
+          effect = "NO_SCHEDULE"
+        }
+      ]
+
+    } : {}
   }
 
   # Allow setting access permissions to the eks cluster (e.g., who can run kubectl commands) via aws-auth configmap
