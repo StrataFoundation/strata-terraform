@@ -45,7 +45,7 @@ module "eks" {
         }
       ]
 
-    } : tomap()
+    } : null
   }
 
   # Allow setting access permissions to the eks cluster (e.g., who can run kubectl commands) via aws-auth configmap
