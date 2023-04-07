@@ -158,7 +158,8 @@ spec:
             - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/${cluster_id}
           ports:
             - name: app
-              containerPort: 8185
+              containerPort: 8085
+              protocol: TCP
           volumeMounts:
             - name: ssl-certs
               mountPath: /etc/ssl/certs/ca-certificates.crt
@@ -177,11 +178,11 @@ metadata:
     name: cluster-autoscaler
   annotations:
     prometheus.io/scrape: 'true'
-    prometheus.io/port: '8185'
+    prometheus.io/port: '8085'
 spec:
   ports:
     - name: http
-      port: 8185
+      port: 8085
       targetPort: app
   selector:
     app: cluster-autoscaler
