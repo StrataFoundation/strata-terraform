@@ -70,6 +70,16 @@ resource "helm_release" "prometheus" {
   }
 
   set {
+    name = "server.remoteWrite[0].write_relabel_configs[1].action"
+    value = "labeldrop"
+  }
+
+  set {
+    name = "server.remoteWrite[0].write_relabel_configs[1].regex"
+    value = "^(os|browser|engine|device)$"
+  }
+
+  set {
     name  = "server.remoteWrite[0].queue_config.max_samples_per_send"
     value = 1000
   }
