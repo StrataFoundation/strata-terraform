@@ -9,24 +9,6 @@ metadata:
   annotations:
     eks.amazonaws.com/role-arn: ${iam_role_arn}
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: cluster-autoscaler
-  namespace: kube-system
-  labels:
-    name: cluster-autoscaler
-  annotations:
-    prometheus.io/scrape: 'true'
-    prometheus.io/port: '8185'
-spec:
-  ports:
-    - name: http
-      port: 8185
-      targetPort: app
-  selector:
-    app: cluster-autoscaler
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -185,3 +167,21 @@ spec:
         - name: ssl-certs
           hostPath:
             path: "/etc/ssl/certs/ca-bundle.crt"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cluster-autoscaler
+  namespace: kube-system
+  labels:
+    name: cluster-autoscaler
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: '8185'
+spec:
+  ports:
+    - name: http
+      port: 8185
+      targetPort: app
+  selector:
+    app: cluster-autoscaler
