@@ -156,6 +156,9 @@ spec:
             - --skip-nodes-with-local-storage=false
             - --expander=least-waste
             - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/${cluster_id}
+          ports:
+            - name: app
+              containerPort: 8185
           volumeMounts:
             - name: ssl-certs
               mountPath: /etc/ssl/certs/ca-certificates.crt
@@ -164,3 +167,21 @@ spec:
         - name: ssl-certs
           hostPath:
             path: "/etc/ssl/certs/ca-bundle.crt"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cluster-autoscaler
+  namespace: kube-system
+  labels:
+    name: cluster-autoscaler
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: '8185'
+spec:
+  ports:
+    - name: http
+      port: 8185
+      targetPort: app
+  selector:
+    app: cluster-autoscaler
