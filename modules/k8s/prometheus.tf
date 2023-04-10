@@ -76,7 +76,7 @@ resource "helm_release" "prometheus" {
 
   set {
     name = "server.remoteWrite[0].write_relabel_configs[1].regex"
-    value = "^(solana_|cluster_autoscaler|container_|kube_horizontalpodautoscaler)$"
+    value = "(solana_|cluster_autoscaler|container_|kube_horizontalpodautoscaler)"
   }
 
   set {
