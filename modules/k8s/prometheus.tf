@@ -70,8 +70,8 @@ resource "helm_release" "prometheus" {
   }
 
   set {
-    name = "server.remoteWrite[0].write_relabel_configs[1].source_labels"
-    value = "[__name__]"
+    name = "server.remoteWrite[0].write_relabel_configs[1].source_labels[0]"
+    value = "__name__"
   }
 
   set {
