@@ -149,6 +149,46 @@ module "rds" {
 }
 
 # ***************************************
+# Public Monitoring RDS
+# ***************************************
+module "rds_public" {
+  count = var.deploy_cost_infrastructure ? 1 : 0
+
+  source = "../modules/rds-public"
+
+  # Env
+  env   = var.env
+  stage = var.stage
+
+  # AWS
+  aws_region = var.aws_region
+
+  # RDS
+  rds_instance_type    = var.rds_instance_type
+  rds_storage_type     = var.rds_storage_type
+  rds_storage_size     = var.rds_storage_size
+  rds_max_storage_size = var.rds_max_storage_size
+
+  # Db
+  db_name              = "monitoring"
+  db_identifier        = "monitoring-rds"
+  db_engine            = "postgres"
+  db_engine_version    = "14.5"
+  db_username          = "monitoring_admin"
+  db_multi_az          = false
+  db_log_exports       = ["postgresql"]
+  db_port              = 5432
+
+  # IAM
+  oidc_provider     = module.eks[0].oidc_provider
+  oidc_provider_arn = module.eks[0].oidc_provider_arn
+
+  # Networking & Security
+  vpc_id               = module.vpc.vpc_id
+  public_subnet_ids    = module.vpc.public_subnets
+}
+
+# ***************************************
 # Bastion
 # ***************************************
 module "bastion" {
@@ -167,7 +207,7 @@ module "bastion" {
   # Networking & Security
   vpc_id             = module.vpc.vpc_id
   public_subnet_id   = module.vpc.public_subnets[0]
-  security_group_ids = [module.rds[0].rds_access_security_group_id]
+  security_group_ids = [module.rds[0].rds_access_security_group_id, module.rds_public[0].public_rds_access_security_group_id]
 
   # EC2
   ec2_bastion_ssh_key_name = var.ec2_bastion_ssh_key_name
