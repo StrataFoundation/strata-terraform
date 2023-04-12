@@ -70,20 +70,22 @@ module "k8s" {
   prometheus_remote_write_url = var.prometheus_remote_write_url
 }
 
-data "aws_iam_role" "rds_web_access_role" {
-  name = "rds-web-user-access-role" 
-}
-
-data "aws_security_group" "rds_access_security_group" {
-  name = "rds-access-security-group"
-}
-
 resource "kubernetes_service_account" "rds_web_access" {
   metadata {
     name        = "rds-web-user-access"
     namespace   = "helium"
     annotations = {
       "eks.amazonaws.com/role-arn" = data.aws_iam_role.rds_web_access_role.arn,
+    }
+  }
+}
+
+resource "kubernetes_service_account" "public_monitoring_rds_monitoring_user_access" {
+  metadata {
+    name        = "public-monitoring-rds-monitoring-user-access"
+    namespace   = "helium"
+    annotations = {
+      "eks.amazonaws.com/role-arn" = data.aws_iam_role.public_monitoring_rds_access_role.arn,
     }
   }
 }
@@ -102,6 +104,24 @@ spec:
   securityGroups:
     groupIds:
       - "${data.aws_security_group.rds_access_security_group.id}"
+      - "${data.aws_eks_cluster.eks.vpc_config[0].cluster_security_group_id}"
+YAML
+}
+
+resource "kubectl_manifest" "public-rds-access-security-group-policy" {
+    yaml_body = <<YAML
+apiVersion: vpcresources.k8s.aws/v1beta1
+kind: SecurityGroupPolicy
+metadata:
+  name: public-rds-access-security-group-policy
+  namespace: helium
+spec:
+  podSelector: 
+    matchLabels: 
+      security-group: public-rds-access
+  securityGroups:
+    groupIds:
+      - "${data.aws_security_group.public_rds_access_security_group.id}"
       - "${data.aws_eks_cluster.eks.vpc_config[0].cluster_security_group_id}"
 YAML
 }
