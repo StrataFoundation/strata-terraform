@@ -52,7 +52,7 @@ resource "aws_db_parameter_group" "public_rds_parameter_group" {
 # ***************************************
 resource "aws_db_subnet_group" "public_subnet_group" {
   name       = "public_subnet_group"
-  subnet_ids = [var.public_subnet_ids]
+  subnet_ids = var.public_subnet_ids
 
   tags = {
     Name = "Public Subnet Group"
