@@ -58,13 +58,3 @@ resource "aws_db_subnet_group" "public_subnet_group" {
     Name = "Public Subnet Group"
   }
 }
-
-# ***************************************
-# RDS password
-# ***************************************
-resource "random_password" "public_monitoring_pg_admin_password" {
-  length           = 40
-  special          = true
-  min_special      = 5
-  override_special = "!#$%^&*()-_=+[]{}<>:?"
-}
