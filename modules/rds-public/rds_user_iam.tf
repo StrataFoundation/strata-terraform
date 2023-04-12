@@ -3,7 +3,7 @@
 #
 # Public Monitoring RDS access
 # ***************************************
-resource "aws_iam_role" "rds_foundation_user_access_role" {
+resource "aws_iam_role" "rds_monitoring_user_access_role" {
   name        = "public-monitoring-rds-access-role"
   description = "IAM Role for a K8s pod to assume to access the public monitoring RDS via the monitoring user"
 

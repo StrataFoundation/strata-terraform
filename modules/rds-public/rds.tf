@@ -37,7 +37,7 @@ resource "aws_db_parameter_group" "public_rds_parameter_group" {
   count = var.ssl_required && var.db_engine == "postgres" ? 1 : 0
   
   name        = "public-monitoring-rds-parameter-group"
-  description = "Oracle RDS parameter group forcing SSL on Public RDS"
+  description = "RDS parameter group forcing SSL on Public RDS"
   family      = "postgres14"
 
   parameter {
