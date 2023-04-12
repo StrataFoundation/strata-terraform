@@ -18,6 +18,7 @@ resource "aws_db_instance" "public_monitoring_rds" {
   db_subnet_group_name                = aws_db_subnet_group.public_subnet_group.name
   vpc_security_group_ids              = concat([aws_security_group.public_rds_security_group.id], var.vpc_security_group_ids)
   iam_database_authentication_enabled = var.iam_database_authentication_enabled
+  publicly_accessible                 = true
 
   # Hardware, Storage & Backup
   storage_type            = var.rds_storage_type
