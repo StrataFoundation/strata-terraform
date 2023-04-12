@@ -206,7 +206,7 @@ module "bastion" {
 
   # Networking & Security
   vpc_id             = module.vpc.vpc_id
-  public_subnet_id   = module.vpc.public_subnets[0]
+  public_subnet_id   = module.vpc.public_subnets
   security_group_ids = [module.rds[0].rds_access_security_group_id, module.rds_public[0].public_rds_access_security_group_id]
 
   # EC2
