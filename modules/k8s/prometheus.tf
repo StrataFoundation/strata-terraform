@@ -70,6 +70,21 @@ resource "helm_release" "prometheus" {
   }
 
   set {
+    name = "server.remoteWrite[0].write_relabel_configs[1].source_labels[0]"
+    value = "__name__"
+  }
+
+  set {
+    name = "server.remoteWrite[0].write_relabel_configs[1].regex"
+    value = "(?i)(solana_.*|cluster_autoscaler.*|container_.*|kube_horizontalpodautoscaler.*|machine_.*)"
+  }
+
+  set {
+    name = "server.remoteWrite[0].write_relabel_configs[1].action"
+    value = "keep"
+  }
+
+  set {
     name  = "server.remoteWrite[0].queue_config.max_samples_per_send"
     value = 1000
   }

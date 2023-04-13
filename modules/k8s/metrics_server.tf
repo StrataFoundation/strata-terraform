@@ -13,4 +13,9 @@ resource "helm_release" "metrics-server" {
     name  = "fullnameOverride"
     value = "metrics-server"
   }
+
+  set {
+    name  = "apiService.create"
+    value = "true"
+  }
 }
