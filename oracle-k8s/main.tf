@@ -54,6 +54,9 @@ module "k8s" {
   argo_admin1          = var.argo_admin1
   argo_admin2          = var.argo_admin2
   argo_admin3          = var.argo_admin3
+  argo_admin4          = var.argo_admin4
+  argo_admin5          = var.argo_admin5
+  argo_admin6          = var.argo_admin6
   google_client_id     = var.google_client_id
   google_client_secret = var.google_client_secret
   zone_id              = var.zone_id 

@@ -58,6 +58,24 @@ variable "argo_admin3" {
   default     = ""
 }
 
+variable "argo_admin4" {
+  description = "Argo Admin Permissions"
+  type        = string
+  default     = ""
+}
+
+variable "argo_admin5" {
+  description = "Argo Admin Permissions"
+  type        = string
+  default     = ""
+}
+
+variable "argo_admin6" {
+  description = "Argo Admin Permissions"
+  type        = string
+  default     = ""
+}
+
 variable "google_client_id" {
   description = "Google Credentials Client Id"
   type        = string
