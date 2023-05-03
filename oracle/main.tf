@@ -101,10 +101,6 @@ module "eks" {
 
   # Centralized Monitoring
   monitoring_account_id = var.monitoring_account_id
-
-  # Not really for migration, need to update naming, but don't have time to assess
-  # consequences of doing so rn
-  node_group_for_migration = true
 }
 
 # ***************************************
