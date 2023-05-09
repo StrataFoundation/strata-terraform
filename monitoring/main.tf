@@ -127,14 +127,13 @@ resource "aws_cloudwatch_metric_alarm" "rpc_proxy_prod_errors_alarm" {
   namespace           = "CloudFlare-Prod"
 
   alarm_actions       = [module.notify_slack.slack_topic_arn]
-  ok_actions          = [module.notify_slack.slack_topic_arn]
 }
 
 resource "aws_cloudwatch_metric_alarm" "rpc_proxy_staging_errors_alarm" {
   alarm_name          = "Monitoring - RPC Proxy Staging - HTTPS Errors"
   alarm_description   = ">= 400 HTTPS status codes being received from Helius."
   metric_name         = "HttpsErrors"
-  threshold           = "100"
+  threshold           = "10"
   statistic           = "Sum"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "1"
@@ -142,7 +141,6 @@ resource "aws_cloudwatch_metric_alarm" "rpc_proxy_staging_errors_alarm" {
   namespace           = "CloudFlare-Staging"
 
   alarm_actions       = [module.notify_slack.slack_topic_arn]
-  ok_actions          = [module.notify_slack.slack_topic_arn]
 }
 
 
