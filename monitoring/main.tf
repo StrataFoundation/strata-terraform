@@ -77,3 +77,16 @@ resource "aws_iam_role" "grafana_amp_access" {
     ]
   })
 }
+
+# ***************************************
+# CloudWatch - RPC Proxy
+# ***************************************
+resource "aws_cloudwatch_log_group" "rpc_proxy_prod_errors" {
+  name = "/CloudFlare/RPCProxy/Production/Errors"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "rpc_proxy_stagging_errors" {
+  name = "/CloudFlare/RPCProxy/Stagging/Errors"
+  retention_in_days = 14
+}
