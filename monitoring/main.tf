@@ -105,7 +105,7 @@ resource "aws_cloudwatch_log_metric_filter" "rpc_proxy_prod_errors_metrics_filte
 
 resource "aws_cloudwatch_log_metric_filter" "rpc_proxy_staging_errors_metrics_filter" {
   name           = "cloudflare-rpc-staging-errors"
-  pattern        = "Error"
+  pattern        = "[ message!=\"*empty rpc batch*\" ]"
   log_group_name = aws_cloudwatch_log_group.rpc_proxy_staging_errors.name
 
   metric_transformation {
