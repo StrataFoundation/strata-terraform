@@ -87,6 +87,6 @@ resource "aws_cloudwatch_log_group" "rpc_proxy_prod_errors" {
 }
 
 resource "aws_cloudwatch_log_group" "rpc_proxy_stagging_errors" {
-  name = "/CloudFlare/RPCProxy/Stagging/Errors"
+  name = "/CloudFlare/RPCProxy/Staging/Errors"
   retention_in_days = 14
 }
