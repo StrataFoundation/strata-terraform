@@ -11,3 +11,10 @@ variable "account_ids" {
   type        = list(string)
   default     = []
 }
+
+# --- Slack ------------------------------------------------
+variable "slack_webhook_url" {
+  description = "Slack Webhook URL for alerting."
+  type        = string
+  default     = ""
+}
