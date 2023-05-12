@@ -39,14 +39,7 @@ resource "aws_db_instance" "oracle_rds_read_replica" {
   replicate_source_db = aws_db_instance.oracle_rds.id
 
   # RDS info
-  db_name                         = var.db_name
-  identifier                      = var.db_identifier
-  engine                          = var.db_engine
-  engine_version                  = var.db_engine_version
-  username                        = var.db_username
-  password                        = random_password.oracle_pg_admin_password.result
-  parameter_group_name            = var.ssl_required && var.db_engine == "postgres" ? aws_db_parameter_group.oracle_rds_parameter_group[0].name : null
-  multi_az                        = var.db_multi_az
+  identifier                      = "${var.db_identifier}-read-replica"
   enabled_cloudwatch_logs_exports = var.db_log_exports
 
   # Networking & Security
