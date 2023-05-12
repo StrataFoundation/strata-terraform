@@ -220,3 +220,9 @@ variable "nova_mobile_vpc_private_subnet_cidr" {
   type        = string
   default     = ""
 }
+
+variable "rds_read_replica" {
+  description = "Create read replica of primary DB."
+  type        = bool
+  default     = false
+}

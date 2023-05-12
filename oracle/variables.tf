@@ -152,6 +152,12 @@ variable "rds_db_name" {
   default     = ""
 }
 
+variable "rds_read_replica" {
+  description = "Create read replica of primary DB."
+  type        = bool
+  default     = false
+}
+
 # --- Bastion variables ------------------------------------------------
 variable "ec2_bastion_private_ip" {
   description = "Private IP address to assign to Bastion"
