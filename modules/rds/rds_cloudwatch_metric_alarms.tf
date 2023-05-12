@@ -36,7 +36,7 @@ resource "aws_cloudwatch_metric_alarm" "cpu_utilization_rr" {
   ok_actions          = var.cloudwatch_alarm_action_arns
 
   dimensions = {
-    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica.id
+    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica[0].id
   }
 }
 
@@ -79,7 +79,7 @@ resource "aws_cloudwatch_metric_alarm" "disk_queue_depth_rr" {
 
 
   dimensions = {
-    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica.id
+    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica[0].id
   }
 }
 
@@ -122,7 +122,7 @@ resource "aws_cloudwatch_metric_alarm" "disk_free_storage_space_rr" {
   ok_actions          = var.cloudwatch_alarm_action_arns
 
   dimensions = {
-    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica.id
+    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica[0].id
   }
 }
 
@@ -164,7 +164,7 @@ resource "aws_cloudwatch_metric_alarm" "write_iops_rr" {
   ok_actions          = var.cloudwatch_alarm_action_arns
 
   dimensions = {
-    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica.id
+    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica[0].id
   }
 }
 
@@ -206,7 +206,7 @@ resource "aws_cloudwatch_metric_alarm" "read_iops_rr" {
   ok_actions          = var.cloudwatch_alarm_action_arns
 
   dimensions = {
-    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica.id
+    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica[0].id
   }
 }
 
@@ -248,7 +248,7 @@ resource "aws_cloudwatch_metric_alarm" "write_throughput_rr" {
   ok_actions          = var.cloudwatch_alarm_action_arns
 
   dimensions = {
-    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica.id
+    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica[0].id
   }
 }
 
@@ -291,7 +291,7 @@ resource "aws_cloudwatch_metric_alarm" "read_throughput_rr" {
   ok_actions          = var.cloudwatch_alarm_action_arns
 
   dimensions = {
-    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica.id
+    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica[0].id
   }
 }
 
@@ -333,7 +333,7 @@ resource "aws_cloudwatch_metric_alarm" "write_latency_rr" {
   ok_actions          = var.cloudwatch_alarm_action_arns
 
   dimensions = {
-    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica.id
+    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica[0].id
   }
 }
 
@@ -376,7 +376,7 @@ resource "aws_cloudwatch_metric_alarm" "read_latency_rr" {
   ok_actions          = var.cloudwatch_alarm_action_arns
 
   dimensions = {
-    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica.id
+    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica[0].id
   }
 }
 
@@ -418,7 +418,7 @@ resource "aws_cloudwatch_metric_alarm" "memory_freeable_rr" {
   ok_actions          = var.cloudwatch_alarm_action_arns
 
   dimensions = {
-    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica.id
+    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica[0].id
   }
 }
 
@@ -460,7 +460,7 @@ resource "aws_cloudwatch_metric_alarm" "memory_swap_usage_rr" {
   ok_actions          = var.cloudwatch_alarm_action_arns
 
   dimensions = {
-    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica.id
+    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica[0].id
   }
 }
 
@@ -503,6 +503,6 @@ resource "aws_cloudwatch_metric_alarm" "maximum_used_transaction_ids_rr" {
   ok_actions          = var.cloudwatch_alarm_action_arns
 
   dimensions = {
-    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica.id
+    DBInstanceIdentifier = aws_db_instance.oracle_rds_read_replica[0].id
   }
 }
