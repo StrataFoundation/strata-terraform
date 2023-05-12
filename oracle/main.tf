@@ -124,6 +124,7 @@ module "rds" {
   rds_storage_type     = var.rds_storage_type
   rds_storage_size     = var.rds_storage_size
   rds_max_storage_size = var.rds_max_storage_size
+  rds_read_replica     = var.rds_read_replica
 
   # Db
   db_name              = var.rds_db_name

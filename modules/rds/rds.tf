@@ -30,6 +30,35 @@ resource "aws_db_instance" "oracle_rds" {
 }
 
 # ***************************************
+# RDS - Read Replica
+# ***************************************
+resource "aws_db_instance" "oracle_rds_read_replica" {
+  count = var.rds_read_replica ? 1 : 0
+
+  # Replica ID
+  replicate_source_db = aws_db_instance.oracle_rds.id
+
+  # RDS info
+  identifier                      = "${var.db_identifier}-read-replica"
+  enabled_cloudwatch_logs_exports = var.db_log_exports
+
+  # Networking & Security
+  port                                = var.db_port
+  db_subnet_group_name                = var.db_subnet_group_name
+  vpc_security_group_ids              = concat([aws_security_group.rds_security_group.id], var.vpc_security_group_ids)
+  iam_database_authentication_enabled = var.iam_database_authentication_enabled
+
+  # Hardware, Storage & Backup
+  storage_type            = var.rds_storage_type
+  allocated_storage       = var.rds_storage_size 
+  max_allocated_storage   = var.rds_max_storage_size
+  instance_class          = var.rds_instance_type
+  storage_encrypted       = true
+  skip_final_snapshot     = true
+  backup_retention_period = 30
+}
+
+# ***************************************
 # RDS Parameter Group
 # Custom group to force SSL connections to Postgres database
 # ***************************************
