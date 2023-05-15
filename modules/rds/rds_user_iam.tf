@@ -31,8 +31,6 @@ resource "aws_iam_role" "rds_nova_user_access_role" {
               "arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.oracle_rds_read_replica[0].resource_id}/${each.value.user}"
             ] : []
           )
-          
-          local.rds_users_with_rr[var.rds_read_replica]
         },
       ]
     })
