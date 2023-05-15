@@ -127,6 +127,7 @@ resource "aws_cloudwatch_metric_alarm" "rpc_proxy_prod_errors_alarm" {
   namespace           = "CloudFlare-Prod"
 
   alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 }
 
 resource "aws_cloudwatch_metric_alarm" "rpc_proxy_staging_errors_alarm" {
@@ -141,6 +142,7 @@ resource "aws_cloudwatch_metric_alarm" "rpc_proxy_staging_errors_alarm" {
   namespace           = "CloudFlare-Staging"
 
   alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 }
 
 
