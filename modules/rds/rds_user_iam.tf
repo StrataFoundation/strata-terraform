@@ -23,9 +23,14 @@ resource "aws_iam_role" "rds_nova_user_access_role" {
             "rds-db:connect"
           ]
           Effect   = "Allow"
-          Resource = [
+          Resource = concat(
+            [
             "arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.oracle_rds.resource_id}/${each.value.user}"
-          ]
+            ],
+            var.rds_read_replica ? [
+              "arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.oracle_rds_read_replica[0].resource_id}/${each.value.user}"
+            ] : []
+          )
         },
       ]
     })
