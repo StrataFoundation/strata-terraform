@@ -7,18 +7,6 @@
 # IoT and Mobile AWS accounts can assume these roles in order to access the postgres db as the db-defined 
 # nova_<iot/mobile> users.
 # ***************************************
-locals {
-  rds_users_with_rr = {
-    true = [
-      "arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.oracle_rds.resource_id}/${each.value.user}",
-      "arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.oracle_rds_read_replica[0].resource_id}/${each.value.user}"
-    ]
-    false = [
-      "arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.oracle_rds.resource_id}/${each.value.user}"
-    ]
-  }
-}
-
 resource "aws_iam_role" "rds_nova_user_access_role" {
   for_each = var.create_nova_dependent_resources ? local.nova.users : {}
 
