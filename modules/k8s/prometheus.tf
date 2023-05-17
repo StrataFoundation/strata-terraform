@@ -74,9 +74,12 @@ resource "helm_release" "prometheus" {
     value = "__name__"
   }
 
+  // Limit the metrics exported by Prometheus via remote write so we don't light money on fire
+  // If you need a new metric, first check Grafana explorer on monitoring.helium.io. If not present,
+  // add here with the restrictive regex convention used below
   set {
     name = "server.remoteWrite[0].write_relabel_configs[1].regex"
-    value = "(?i)(solana_.*|cluster_autoscaler.*|container_.*|kube_horizontalpodautoscaler.*|machine_.*)"
+    value = "(?i)(solana_.*|cluster_autoscaler.*|container_.*|kube_horizontalpodautoscaler.*|machine_.*|kube_pod_.*|kube_node_.*|kube_persistentvolume.*|kubelet_volume_.*|node_*)"
   }
 
   set {

@@ -125,8 +125,10 @@ resource "aws_cloudwatch_metric_alarm" "rpc_proxy_prod_errors_alarm" {
   evaluation_periods  = "1"
   period              = "900" // 15 minutes
   namespace           = "CloudFlare-Prod"
+  treat_missing_data  = "notBreaching"
 
   alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 }
 
 resource "aws_cloudwatch_metric_alarm" "rpc_proxy_staging_errors_alarm" {
@@ -139,8 +141,10 @@ resource "aws_cloudwatch_metric_alarm" "rpc_proxy_staging_errors_alarm" {
   evaluation_periods  = "1"
   period              = "900" // 15 minutes
   namespace           = "CloudFlare-Staging"
+  treat_missing_data  = "notBreaching"
 
   alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
 }
 
 
