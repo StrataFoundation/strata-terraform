@@ -210,5 +210,5 @@ groups:
         annotations:
           title: KubernetesHpaUnderutilized
           account: '{{ $labels.account }}'
-          description: "HPA `{{ $lables.horizontalpodautoscaler }}` is constantly at minimum replicas for 50% of the time. Potential cost saving here."
+          description: "HPA `{{ $labels.horizontalpodautoscaler }}` is constantly at minimum replicas for 50% of the time. Potential cost saving here."
 
