@@ -129,9 +129,6 @@ groups:
         annotations:
           title: KubernetesPersistentvolumeclaimPending
           account: '{{ $labels.account }}'
-          instance: '{{ $labels.instance }}'
-          pod: '{{ $labels.pod }}'
-          container: '{{ $labels.container }}'
           description: "PersistentVolumeClaim {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is pending."
       - alert: KubernetesVolumeOutOfDiskSpace
         expr: kubelet_volume_stats_available_bytes / kubelet_volume_stats_capacity_bytes * 100 < 10
@@ -206,15 +203,12 @@ groups:
           container: '{{ $labels.container }}'
           description: "The maximum number of desired Pods has been hit."
       - alert: KubernetesHpaUnderutilized
-        expr: max(quantile_over_time(0.5, kube_horizontalpodautoscaler_status_desired_replicas[1d]) == kube_horizontalpodautoscaler_spec_min_replicas) by (horizontalpodautoscaler) > 3
+        expr: max(quantile_over_time(0.5, kube_horizontalpodautoscaler_status_desired_replicas[1d]) == kube_horizontalpodautoscaler_spec_min_replicas) by (account, horizontalpodautoscaler) > 3
         for: 0m
         labels:
           severity: info
         annotations:
           title: KubernetesHpaUnderutilized
           account: '{{ $labels.account }}'
-          instance: '{{ $labels.instance }}'
-          pod: '{{ $labels.pod }}'
-          container: '{{ $labels.container }}'
-          description: "HPA is constantly at minimum replicas for 50% of the time. Potential cost saving here."
+          description: "HPA `{{ $lables.horizontalpodautoscaler }}` is constantly at minimum replicas for 50% of the time. Potential cost saving here."
 

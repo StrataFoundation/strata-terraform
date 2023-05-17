@@ -42,9 +42,11 @@ alertmanager_config: |
             channel: 'oracle-alerts'
             text: >-
               {{ range .Alerts -}}
-                *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+                *Alert:* `{{ .Annotations.title }}`{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
                 {{ if .Annotations.account }}*Account:* `{{ .Annotations.account }}`{{ end }}
-                {{ if .Annotations.name }}*Name:* `{{ .Annotations.name }}`{{ end }}
+                {{ if .Annotations.instance }}*Instance:* `{{ .Annotations.instance }}`{{ end }}
+                {{ if .Annotations.pod }}*Pod:* `{{ .Annotations.pod }}`{{ end }}
+                {{ if .Annotations.container }}*Container:* `{{ .Annotations.container }}`{{ end }}
                 *Description:* {{ .Annotations.description }}
                 
               {{ end }}
