@@ -1,0 +1,13 @@
+groups:
+  - name: k8s-alerts
+    rules:
+      - alert: KubernetesPodCrashLooping
+        expr: increase(kube_pod_container_status_restarts_total[5m]) > 3
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          title: Kubernetes Pod Crash Looping
+          account: '{{ $labels.account }}'
+          pod: '{{ $labels.pod }}'
+          description: "Pod `{{ $labels.pod }}` is in `CrashLoopBackOff`"

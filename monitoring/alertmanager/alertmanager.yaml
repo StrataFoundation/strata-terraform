@@ -1,0 +1,54 @@
+alertmanager_config: |
+  global:
+  templates:
+  route:
+    receiver: prometheus-sns
+    group_by: ['alertname', 'severity']
+    group_wait: 30s
+    group_interval: 15m
+    repeat_interval: 1h    
+    routes:
+      - receiver: 'oracle-sns'
+        matchers:
+        - alertname=~"Kubernetes.*"
+  receivers:
+    - name: prometheus-sns
+      sns_configs:
+        - topic_arn: arn:aws:sns:us-west-2:315657680256:prometheus-alerts
+          send_resolved: true
+          sigv4:
+            region: us-west-2
+          message: |
+            channel: 'prometheus-alerts'
+            text: >-
+              {{ range .Alerts -}}
+                *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+                {{ if .Annotations.account }}*Account:* `{{ .Annotations.account }}`{{ end }}
+                {{ if .Annotations.name }}*Name:* `{{ .Annotations.name }}`{{ end }}
+                {{ if .Annotations.address }}*Address:* <https://explorer.solana.com/address/{{ .Annotations.address }}|{{ .Annotations.address }}>{{ end }}
+                *Description:* {{ .Annotations.description }}
+                
+              {{ end }}
+          attributes:
+            key: severity
+            value: SEV
+    - name: oracle-sns
+      sns_configs:
+        - topic_arn: arn:aws:sns:us-west-2:315657680256:eks-alerts
+          send_resolved: true
+          sigv4:
+            region: us-west-2
+          message: |
+            channel: 'oracle-alerts'
+            text: >-
+              {{ range .Alerts -}}
+                *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+                {{ if .Annotations.account }}*Account:* `{{ .Annotations.account }}`{{ end }}
+                {{ if .Annotations.name }}*Name:* `{{ .Annotations.name }}`{{ end }}
+                *Description:* {{ .Annotations.description }}
+                
+              {{ end }}
+          attributes:
+            key: severity
+            value: SEV
+
