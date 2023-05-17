@@ -227,6 +227,12 @@ variable "nova_mobile_vpc_private_subnet_cidr" {
   default     = ""
 }
 
+variable "nova_sns_email" {
+  description = "Nova email for SNS alerting."
+  type        = string
+  default     = ""
+}
+
 # --- Slack ------------------------------------------------
 variable "slack_webhook_url" {
   description = "Slack Webhook URL for RDS alerting."
