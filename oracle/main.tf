@@ -162,7 +162,7 @@ module "rds" {
   nova_mobile_rds_access_security_group = var.nova_mobile_rds_access_security_group
 
   # Monitoring
-  cloudwatch_alarm_action_arns = [module.notify_slack.slack_topic_arn]
+  cloudwatch_alarm_action_arns = concat([module.notify_slack.slack_topic_arn], var.stage === "prod" ? aws_sns_topic.nova_topic[0].arn : [])
 }
 
 # ***************************************
@@ -208,4 +208,21 @@ module "notify_slack" {
   slack_webhook_url = var.slack_webhook_url
   slack_channel     = "oracle-alerts"
   slack_username    = "reporter"
+}
+
+# ***************************************
+# SNS
+# ***************************************
+resource "aws_sns_topic" "nova_topic" {
+  count = var.stage === "prod" ? 1 : 0
+
+  name = "nova-topic"
+}
+
+resource "aws_sns_topic_subscription" "nova_target" {
+  count = var.stage === "prod" ? 1 : 0
+
+  topic_arn = aws_sns_topic.nova_topic[0].arn
+  protocol  = "email"
+  endpoint  = var.nova_sns_email
 }
