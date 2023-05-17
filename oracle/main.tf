@@ -214,13 +214,13 @@ module "notify_slack" {
 # SNS
 # ***************************************
 resource "aws_sns_topic" "nova_topic" {
-  count = var.stage === "prod" ? 1 : 0
+  count = var.stage == "prod" ? 1 : 0
 
   name = "nova-topic"
 }
 
 resource "aws_sns_topic_subscription" "nova_target" {
-  count = var.stage === "prod" ? 1 : 0
+  count = var.stage == "prod" ? 1 : 0
 
   topic_arn = aws_sns_topic.nova_topic[0].arn
   protocol  = "email"
