@@ -162,7 +162,7 @@ module "rds" {
   nova_mobile_rds_access_security_group = var.nova_mobile_rds_access_security_group
 
   # Monitoring
-  cloudwatch_alarm_action_arns = concat([module.notify_slack.slack_topic_arn], var.stage === "prod" ? aws_sns_topic.nova_topic[0].arn : [])
+  cloudwatch_alarm_action_arns = concat([module.notify_slack.slack_topic_arn], var.stage == "prod" ? aws_sns_topic.nova_topic[0].arn : [])
 }
 
 # ***************************************
