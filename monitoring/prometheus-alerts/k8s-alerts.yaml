@@ -85,7 +85,7 @@ groups:
           pod: '{{ $labels.pod }}'
           container: '{{ $labels.container }}'
           description: "{{ $labels.node }} has DiskPressure condition"
-      - alert: KubernetesNetworkUnavailable
+      - alert: KubrnetesNetworkUnavailable
         expr: kube_node_status_condition{condition="NetworkUnavailable",status="true"} == 1
         for: 2m
         labels:
@@ -211,4 +211,3 @@ groups:
           title: KubernetesHpaUnderutilized
           account: '{{ $labels.account }}'
           description: "HPA `{{ $labels.horizontalpodautoscaler }}` is constantly at minimum replicas for 50% of the time. Potential cost saving here."
-
