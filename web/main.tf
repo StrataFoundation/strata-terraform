@@ -221,7 +221,7 @@ module "bastion" {
 # ***************************************
 module "notify_slack" {
   source  = "terraform-aws-modules/notify-slack/aws"
-  version = "<= 5.0"
+  version = "6.0.0"
 
   sns_topic_name = "slack-topic"
 
