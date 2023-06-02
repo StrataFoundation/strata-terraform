@@ -1,16 +1,8 @@
 terraform {
-  cloud {
-    organization = "helium-foundation"
-
-    workspaces {
-      name = "oracle-sdlc-aws"
-    }
-  }
-
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      version = "<= 5.0"
+      version = ">= 4.47.0"
     }
     kubernetes = {
       source = "hashicorp/kubernetes"
