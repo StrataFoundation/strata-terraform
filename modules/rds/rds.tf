@@ -36,7 +36,7 @@ resource "aws_db_instance" "oracle_rds_read_replica" {
   count = var.rds_read_replica ? 1 : 0
 
   # Replica ID
-  replicate_source_db = aws_db_instance.oracle_rds.id
+  replicate_source_db = aws_db_instance.oracle_rds.identifier
 
   # RDS info
   identifier                      = "${var.db_identifier}-read-replica"
