@@ -29,6 +29,61 @@ variable "deploy_cost_infrastructure" {
   default     = false
 }
 
+# --- EKS variables ------------------------------------------------
+variable "cluster_name" {
+  description = "Name of EKS cluster"
+  type        = string
+  default     = "helium"
+}
+
+variable "eks_instance_type" {
+  description = "EC2 instance type for EKS nodes"
+  type        = string
+  default     = ""
+}
+
+variable "cluster_version" {
+  description = "K8s Version of EKS cluster"
+  type        = string
+  default     = "" // 1.24
+}
+
+variable "cluster_min_size" {
+  description = "Minimum number of nodes in EKS cluster"
+  type        = number
+  default     = 1
+}
+
+variable "cluster_max_size" { 
+  description = "Minimum number of nodes in EKS cluster"
+  type        = number
+  default     = 3
+}
+
+variable "cluster_desired_size" { 
+  description = "Desired number of nodes in EKS cluster"
+  type        = number
+  default     = 2
+}
+
+variable "manage_aws_auth_configmap" {
+  description = "Manage AWS auth configmap"
+  type        = bool
+  default     = true
+}
+
+variable "add_cluster_autoscaler" {
+  description = "Add cluster autoscaler to EKS"
+  type        = bool
+  default     = true
+}
+
+variable "monitoring_account_id" {
+  description = "Monitoring Account ID"
+  type        = string
+  default     = ""
+}
+
 # --- VPC variables ------------------------------------------------
 variable "vpc_name" {
   description = "Name of the VPC"
