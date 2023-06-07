@@ -193,6 +193,16 @@ resource "aws_s3_bucket_request_payment_configuration" "data_lake_bucket_request
   payer  = "Requester"
 }
 
+# Allow public access
+resource "aws_s3_bucket_public_access_block" "data_lake_bucket_requester_pays_public_access" {
+  bucket = aws_s3_bucket.data_lake_requester_pays_bucket.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
 # Create bucket policy for Data Lake requester pays bucket to enable requester pays
 resource "aws_s3_bucket_policy" "data_lake_requester_pays_bucket_bucket_policy" {
   bucket = aws_s3_bucket.data_lake_requester_pays_bucket.id
@@ -230,9 +240,6 @@ data "aws_iam_policy_document" "data_lake_requester_pays_buckets_bucket_policy_r
     actions = [
       "s3:PutObject",
       "s3:PutObjectTagging",
-      "s3:GetObject",
-      "s3:GetObjectTagging",
-      "s3:ListBucket"
     ]
     resources = [
       "arn:aws:s3:::${var.hf_data_lake_rp_bucket}",
