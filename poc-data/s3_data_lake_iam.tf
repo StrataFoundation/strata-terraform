@@ -34,9 +34,6 @@ resource "aws_iam_policy" "s3_data_lake_bucket_iam_policy" {
         Action = [
           "s3:PutObject",
           "s3:PutObjectTagging",
-          "s3:GetObject",
-          "s3:GetObjectTagging",
-          "s3:ListBucket"
         ]
         Resource = [
           "arn:aws:s3:::${var.hf_data_lake_rp_bucket}",
