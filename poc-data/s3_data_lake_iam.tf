@@ -10,11 +10,11 @@ resource "aws_iam_role" "s3_data_lake_bucket_iam_role" {
         Effect = "Allow"
         Sid    = ""
         Principal = {
-          Federated = "${module.eks.oidc_provider_arn}"
+          Federated = "${module.eks[0].oidc_provider_arn}"
         }
         Condition = {
           StringEquals = {
-            "${module.eks.oidc_provider}:sub" = "system:serviceaccount:helium:s3-data-lake-bucket-access"
+            "${module.eks[0].oidc_provider}:sub" = "system:serviceaccount:helium:s3-data-lake-bucket-access"
           }
         }
       },
