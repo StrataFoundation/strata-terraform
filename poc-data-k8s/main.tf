@@ -72,3 +72,17 @@ module "k8s" {
   monitoring_account_region   = var.monitoring_account_region
   prometheus_remote_write_url = var.prometheus_remote_write_url
 }
+
+data "aws_iam_role" "s3_data_lake_bucket_access_role" {
+  name = "s3-data-lake-bucket-access-role" 
+}
+
+resource "kubernetes_service_account" "s3_data_lake_bucket_access" {
+  metadata {
+    name        = "s3-data-lake-bucket-access"
+    namespace   = "helium"
+    annotations = {
+      "eks.amazonaws.com/role-arn" = data.aws_iam_role.s3_data_lake_bucket_access_role.arn,
+    }
+  }
+}
