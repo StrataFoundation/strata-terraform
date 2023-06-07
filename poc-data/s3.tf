@@ -179,6 +179,68 @@ data "aws_iam_policy_document" "poc_data_requester_pays_buckets_bucket_final_pol
 }
 
 # ***************************************
+# Data Lake Requester Pays Bucket 
+# ***************************************
+
+# Create Data Lake requester pays buckets
+resource "aws_s3_bucket" "data_lake_requester_pays_bucket" {
+  bucket = var.hf_data_lake_rp_bucket
+}
+
+# Apply requester pays configuration to Data Lake requester pays bucket 
+resource "aws_s3_bucket_request_payment_configuration" "data_lake_bucket_requester_pays_config" {
+  bucket = aws_s3_bucket.data_lake_requester_pays_bucket.id
+  payer  = "Requester"
+}
+
+# Create bucket policy for Data Lake requester pays bucket to enable requester pays
+resource "aws_s3_bucket_policy" "data_lake_requester_pays_bucket_bucket_policy" {
+  bucket = aws_s3_bucket.data_lake_requester_pays_bucket.id
+  policy = data.aws_iam_policy_document.data_lake_requester_pays_buckets_bucket_policy_rules.json
+
+  depends_on = [
+    aws_s3_bucket.data_lake_requester_pays_bucket,
+    data.aws_iam_policy_document.data_lake_requester_pays_buckets_bucket_policy_rules
+  ]
+}
+
+# Create bucket policy rules for bucket policies of Data Lake bucket to enable requester pays
+data "aws_iam_policy_document" "data_lake_requester_pays_buckets_bucket_policy_rules" {
+  statement {
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+    actions = [
+      "s3:GetObject",
+      "s3:ListBucket"
+    ]
+    resources = [
+      "arn:aws:s3:::${var.hf_data_lake_rp_bucket}",
+      "arn:aws:s3:::${var.hf_data_lake_rp_bucket}/*",
+    ]
+  }
+  statement {
+    principals {
+      type        = "AWS"
+      identifiers = [
+        aws_iam_role.s3_data_lake_iam_role.arn,
+      ]
+    }
+    actions = [
+      "s3:PutObject",
+      "s3:PutObjectTagging",
+      "s3:GetObject",
+      "s3:GetObjectTagging",
+      "s3:ListBucket"
+    ]
+    resources = [
+      "arn:aws:s3:::${var.hf_data_lake_rp_bucket}/*",
+    ]
+  }
+}
+
+# ***************************************
 # Manifest Bucket
 # ***************************************
 
