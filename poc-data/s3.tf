@@ -224,7 +224,7 @@ data "aws_iam_policy_document" "data_lake_requester_pays_buckets_bucket_policy_r
     principals {
       type        = "AWS"
       identifiers = [
-        aws_iam_role.s3_data_lake_iam_role.arn,
+        aws_iam_role.s3_data_lake_bucket_iam_role.arn,
       ]
     }
     actions = [
