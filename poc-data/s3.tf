@@ -187,13 +187,13 @@ resource "aws_s3_bucket" "data_lake_requester_pays_bucket" {
   bucket = var.hf_data_lake_rp_bucket
 }
 
-# Apply requester pays configuration to PoC data requester pays bucket 
+# Apply requester pays configuration to Data Lake requester pays bucket 
 resource "aws_s3_bucket_request_payment_configuration" "data_lake_bucket_requester_pays_config" {
   bucket = aws_s3_bucket.data_lake_requester_pays_bucket.id
   payer  = "Requester"
 }
 
-# Create bucket policy for PoC data requester pays bucket to enable requester pays
+# Create bucket policy for Data Lake requester pays bucket to enable requester pays
 resource "aws_s3_bucket_policy" "data_lake_requester_pays_bucket_bucket_policy" {
   bucket = aws_s3_bucket.data_lake_requester_pays_bucket.id
   policy = data.aws_iam_policy_document.data_lake_requester_pays_buckets_bucket_policy_rules.json
@@ -204,7 +204,7 @@ resource "aws_s3_bucket_policy" "data_lake_requester_pays_bucket_bucket_policy" 
   ]
 }
 
-# Create bucket policy rules for bucket policies of poc data bucket to enable requester pays
+# Create bucket policy rules for bucket policies of Data Lake bucket to enable requester pays
 data "aws_iam_policy_document" "data_lake_requester_pays_buckets_bucket_policy_rules" {
   statement {
     principals {
