@@ -217,7 +217,7 @@ data "aws_iam_policy_document" "data_lake_requester_pays_buckets_bucket_policy_r
     ]
     resources = [
       "arn:aws:s3:::${var.hf_data_lake_rp_bucket}",
-      "arn:aws:s3:::${var.hf_data_lake_rp_bucket}/*",
+      "arn:aws:s3:::${var.hf_data_lake_rp_bucket}/*"
     ]
   }
   statement {
@@ -235,7 +235,8 @@ data "aws_iam_policy_document" "data_lake_requester_pays_buckets_bucket_policy_r
       "s3:ListBucket"
     ]
     resources = [
-      "arn:aws:s3:::${var.hf_data_lake_rp_bucket}/*",
+      "arn:aws:s3:::${var.hf_data_lake_rp_bucket}",
+      "arn:aws:s3:::${var.hf_data_lake_rp_bucket}/*"
     ]
   }
 }
