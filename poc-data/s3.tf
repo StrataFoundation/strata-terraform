@@ -238,8 +238,7 @@ data "aws_iam_policy_document" "data_lake_requester_pays_buckets_bucket_policy_r
       ]
     }
     actions = [
-      "s3:PutObject",
-      "s3:PutObjectTagging",
+      "s3:*"
     ]
     resources = [
       "arn:aws:s3:::${var.hf_data_lake_rp_bucket}",
