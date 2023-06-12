@@ -18,7 +18,8 @@ resource "aws_iam_policy" "ecr_access_iam_policy" {
           "ecr-public:InitiateLayerUpload",
           "ecr-public:BatchCheckLayerAvailability",
           "ecr-public:PutImage",
-          "sts:GetServiceBearerToken"
+          "sts:GetServiceBearerToken",
+          "ecr-public:DescribeRegistries"
         ],
         Effect   = "Allow",
         Resource = "*"
