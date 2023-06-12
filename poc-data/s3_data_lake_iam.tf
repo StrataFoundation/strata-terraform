@@ -32,8 +32,7 @@ resource "aws_iam_policy" "s3_data_lake_bucket_iam_policy" {
       {
         Effect = "Allow",
         Action = [
-          "s3:PutObject",
-          "s3:PutObjectTagging",
+          "s3:*"
         ]
         Resource = [
           "arn:aws:s3:::${var.hf_data_lake_rp_bucket}",
