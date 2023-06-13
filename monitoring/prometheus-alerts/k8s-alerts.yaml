@@ -14,7 +14,7 @@ groups:
           container: '{{ $labels.container }}'
           description: "Pod `{{ $labels.pod }}` is in `CrashLoopBackOff`"
       - alert: KubernetesContainerCpuUsage
-        expr: (sum(rate(container_cpu_usage_seconds_total{name!=""}[3m])) BY (instance, name) * 100) > 80
+        expr: (sum(rate(container_cpu_usage_seconds_total{name!=""}[3m])) BY (account, instance, pod, container) * 100) > 80
         for: 2m
         labels:
           severity: warning
@@ -26,7 +26,7 @@ groups:
           container: '{{ $labels.container }}'
           description: "Container CPU usage is above 80%\n  VALUE = {{ $value }}\n"
       - alert: KubernetesContainerMemoryUsage
-        expr: (sum(container_memory_working_set_bytes{name!=""}) BY (instance, name) / sum(container_spec_memory_limit_bytes > 0) BY (instance, name) * 100) > 80
+        expr: (sum(container_memory_working_set_bytes{name!=""}) BY (account, instance, pod, container) / sum(container_spec_memory_limit_bytes > 0) BY (account, instance, pod, container) * 100) > 80
         for: 2m
         labels:
           severity: warning
@@ -38,7 +38,7 @@ groups:
           container: '{{ $labels.container }}'
           description: "Container Memory usage is above 80%\n  VALUE = {{ $value }}"
       - alert: KubernetesContainerVolumeUsage
-        expr: (1 - (sum(container_fs_inodes_free{name!=""}) BY (instance) / sum(container_fs_inodes_total) BY (instance))) * 100 > 80
+        expr: (1 - (sum(container_fs_inodes_free{name!=""}) BY (account, instance, pod, container) / sum(container_fs_inodes_total) BY (account, instance, pod, container))) * 100 > 80
         for: 2m
         labels:
           severity: warning
