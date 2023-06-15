@@ -26,7 +26,7 @@ groups:
           container: '{{ $labels.container }}'
           description: "Container CPU usage is above 80%\n  VALUE = {{ $value }}\n"
       - alert: KubernetesContainerMemoryUsage
-        expr: (sum(container_memory_working_set_bytes{name!=""}) BY (account, instance, pod, container) / sum(container_spec_memory_limit_bytes > 0) BY (account, instance, pod, container) * 100) > 80
+        expr: (sum(container_memory_working_set_bytes{name!="",container!="iot-poc-delta-lake-sink"}) BY (account, instance, pod, container) / sum(container_spec_memory_limit_bytes > 0) BY (account, instance, pod, container) * 100) > 80
         for: 2m
         labels:
           severity: warning
