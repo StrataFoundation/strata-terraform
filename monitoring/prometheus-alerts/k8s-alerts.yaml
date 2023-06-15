@@ -62,7 +62,7 @@ groups:
           container: '{{ $labels.container }}'
           description: "Container is being throttled"
       - alert: KubernetesMemoryPressure
-        expr: kube_node_status_condition{condition="MemoryPressure",status="true"} == 1
+        expr: kube_node_status_condition{condition="MemoryPressure",status="true",account!="poc-data-prod"} == 1
         for: 2m
         labels:
           severity: critical
@@ -110,7 +110,7 @@ groups:
           container: '{{ $labels.container }}'
           description: "{{ $labels.node }} is out of capacity"
       - alert: KubernetesContainerOomKiller
-        expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
+        expr: (kube_pod_container_status_restarts_total{account!="poc-data-prod"} - kube_pod_container_status_restarts_total{account!="poc-data-prod"} offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
         for: 0m
         labels:
           severity: warning
