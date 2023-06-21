@@ -14,7 +14,7 @@ groups:
           container: '{{ $labels.container }}'
           description: "Pod `{{ $labels.pod }}` is in `CrashLoopBackOff`"
       - alert: KubernetesContainerCpuUsage
-        expr: (sum(rate(container_cpu_usage_seconds_total{name!=""}[3m])) BY (instance, name) * 100) > 80
+        expr: (sum(rate(container_cpu_usage_seconds_total{name!="",container!="iot-poc-delta-lake-sink"}[3m])) BY (account, instance, pod, container) * 100) > 80
         for: 2m
         labels:
           severity: warning
@@ -26,7 +26,7 @@ groups:
           container: '{{ $labels.container }}'
           description: "Container CPU usage is above 80%\n  VALUE = {{ $value }}\n"
       - alert: KubernetesContainerMemoryUsage
-        expr: (sum(container_memory_working_set_bytes{name!=""}) BY (instance, name) / sum(container_spec_memory_limit_bytes > 0) BY (instance, name) * 100) > 80
+        expr: (sum(container_memory_working_set_bytes{name!="",container!="iot-poc-delta-lake-sink"}) BY (account, instance, pod, container) / sum(container_spec_memory_limit_bytes > 0) BY (account, instance, pod, container) * 100) > 80
         for: 2m
         labels:
           severity: warning
@@ -38,7 +38,7 @@ groups:
           container: '{{ $labels.container }}'
           description: "Container Memory usage is above 80%\n  VALUE = {{ $value }}"
       - alert: KubernetesContainerVolumeUsage
-        expr: (1 - (sum(container_fs_inodes_free{name!=""}) BY (instance) / sum(container_fs_inodes_total) BY (instance))) * 100 > 80
+        expr: (1 - (sum(container_fs_inodes_free{name!=""}) BY (account, instance, pod, container) / sum(container_fs_inodes_total) BY (account, instance, pod, container))) * 100 > 80
         for: 2m
         labels:
           severity: warning
@@ -62,7 +62,7 @@ groups:
           container: '{{ $labels.container }}'
           description: "Container is being throttled"
       - alert: KubernetesMemoryPressure
-        expr: kube_node_status_condition{condition="MemoryPressure",status="true"} == 1
+        expr: kube_node_status_condition{condition="MemoryPressure",status="true",account!="poc-data-prod"} == 1
         for: 2m
         labels:
           severity: critical
@@ -110,7 +110,7 @@ groups:
           container: '{{ $labels.container }}'
           description: "{{ $labels.node }} is out of capacity"
       - alert: KubernetesContainerOomKiller
-        expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
+        expr: (kube_pod_container_status_restarts_total{account!="poc-data-prod"} - kube_pod_container_status_restarts_total{account!="poc-data-prod"} offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
         for: 0m
         labels:
           severity: warning
