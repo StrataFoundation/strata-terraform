@@ -8,6 +8,7 @@ locals {
     for bucket_name in var.hf_buckets : "arn:aws:s3:::${bucket_name}"
   ]
   hf_manifest_bucket_arn = ["arn:aws:s3:::${var.hf_manifest_bucket}/*"]
+  hf_poc_data_rp_bucket_arn = ["arn:aws:s3:::${var.hf_poc_data_rp_bucket}/*"]
   nova_account_ids = [
     "${var.nova_iot_aws_account_id}",
     "${var.nova_mobile_aws_account_id}"
