@@ -41,7 +41,8 @@ resource "aws_iam_policy" "foundation_batch_operations_policy" {
         Resource = concat(
           local.hf_bucket_arns_with_slash,
           local.hf_manifest_bucket_arn,
-          local.nova_bucket_arns
+          local.nova_bucket_arns,
+          local.hf_poc_data_rp_bucket_arn,
         )
       }
     ]
