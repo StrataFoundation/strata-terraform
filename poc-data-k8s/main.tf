@@ -87,7 +87,7 @@ resource "kubernetes_service_account" "s3_data_lake_bucket_access" {
   }
 }
 
-resource "kubernetes_service_account" "s3_data_lake_bucket_access" {
+resource "kubernetes_service_account" "s3_data_lake_bucket_access_spark" {
   metadata {
     name        = "s3-data-lake-bucket-access"
     namespace   = "spark"
