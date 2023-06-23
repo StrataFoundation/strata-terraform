@@ -86,3 +86,13 @@ resource "kubernetes_service_account" "s3_data_lake_bucket_access" {
     }
   }
 }
+
+resource "helm_release" "spark_on_k8s" {
+  name  = "spark-operator"
+
+  repository       = "https://googlecloudplatform.github.io/spark-on-k8s-operator"
+  chart            = "spark-operator"
+  namespace        = "spark"
+  version          = "1.1.27"
+  create_namespace = true
+}
