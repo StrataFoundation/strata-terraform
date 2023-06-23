@@ -87,6 +87,16 @@ resource "kubernetes_service_account" "s3_data_lake_bucket_access" {
   }
 }
 
+resource "kubernetes_service_account" "s3_data_lake_bucket_access" {
+  metadata {
+    name        = "s3-data-lake-bucket-access"
+    namespace   = "spark"
+    annotations = {
+      "eks.amazonaws.com/role-arn" = data.aws_iam_role.s3_data_lake_bucket_access_role.arn,
+    }
+  }
+}
+
 resource "helm_release" "spark_on_k8s" {
   name  = "spark-operator"
 
