@@ -22,7 +22,7 @@ resource "aws_iam_role" "spark_data_lake_iam_role" {
   })
 }
 
-resource "aws_iam_policy" "spark_data_lake__iam_policy" {
+resource "aws_iam_policy" "spark_data_lake_iam_policy" {
   name        = "spark-data-lake-access-policy"
   description = "Policy that allows access to S3 bucket ${var.hf_data_lake_rp_bucket}"
 
