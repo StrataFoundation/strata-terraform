@@ -77,6 +77,10 @@ data "aws_iam_role" "s3_data_lake_bucket_access_role" {
   name = "s3-data-lake-bucket-access-role" 
 }
 
+data "aws_iam_role" "spark_data_lake_access_role" {
+  name = "spark-data-lake-access-role" 
+}
+
 resource "kubernetes_service_account" "s3_data_lake_bucket_access" {
   metadata {
     name        = "s3-data-lake-bucket-access"
@@ -92,7 +96,7 @@ resource "kubernetes_service_account" "spark_data_lake_access" {
     name        = "spark-data-lake-access"
     namespace   = "spark"
     annotations = {
-      "eks.amazonaws.com/role-arn" = data.aws_iam_role.s3_data_lake_bucket_access_role.arn,
+      "eks.amazonaws.com/role-arn" = data.aws_iam_role.spark_data_lake_access_role.arn,
     }
   }
 }
