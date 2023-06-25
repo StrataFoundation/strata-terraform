@@ -111,12 +111,12 @@ resource "helm_release" "spark_on_k8s" {
   create_namespace = true
 
   set {
-    name = "enableWebhook"
-    value = "true"
+    name = "webhook.enabled"
+    value = true
   }
 
   set {
-    name = "webhookPort"
-    value = "443"
+    name = "webhook.port"
+    value = 443
   }
 }
