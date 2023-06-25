@@ -109,7 +109,7 @@ resource "kubernetes_role" "spark_data_lake_access" {
 
   rule {
     api_groups = [""]
-    resources  = ["pods"]
+    resources  = ["pods", "persistentvolumeclaims"]
     verbs      = ["get", "list", "create", "delete"]
   }
 }
