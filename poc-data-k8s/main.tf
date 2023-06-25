@@ -111,7 +111,7 @@ resource "helm_release" "spark_on_k8s" {
   create_namespace = true
 
   set {
-    name = "webhook.enabled"
+    name = "webhook.enable"
     value = true
   }
 
