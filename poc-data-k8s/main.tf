@@ -101,6 +101,38 @@ resource "kubernetes_service_account" "spark_data_lake_access" {
   }
 }
 
+resource "kubernetes_role" "spark_data_lake_access" {
+  metadata {
+    name      = "spark-data-lake-access-role"
+    namespace = "spark"
+  }
+
+  rule {
+    api_groups = [""]
+    resources  = ["pods"]
+    verbs      = ["get", "list", "create", "delete"]
+  }
+}
+
+resource "kubernetes_role_binding" "spark_data_lake_access_rb" {
+  metadata {
+    name      = "spakr-data-lake-access-rb"
+    namespace = "spark"
+  }
+
+  role_ref {
+    kind     = "Role"
+    name     = kubernetes_role.spark_data_lake_access.metadata[0].name
+    api_group = "rbac.authorization.k8s.io"
+  }
+
+  subject {
+    kind      = "ServiceAccount"
+    name      = kubernetes_service_account.spark_data_lake_access.metadata[0].name
+    namespace = kubernetes_service_account.spark_data_lake_access.metadata[0].namespace
+  }
+}
+
 resource "helm_release" "spark_on_k8s" {
   name  = "spark-operator"
 
