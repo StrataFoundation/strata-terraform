@@ -156,7 +156,7 @@ resource "helm_release" "jupyterhub" {
 
   set {
     name = "hub.config.GoogleOAuthenticator.hosted_domain[0]"
-    value = "${var.jupyter_uri}"
+    value = "dewi.org"
   }
 
   set {
