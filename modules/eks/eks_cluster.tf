@@ -12,6 +12,12 @@ module "eks" {
 
   enable_irsa = true
 
+  cluster_addons = {
+    aws-ebs-csi-driver = {
+      most_recent = true
+    }
+  }
+
   # Remove this tag to allow the aws lb to target a single sg using the tag
   # https://github.com/terraform-aws-modules/terraform-aws-eks/issues/2258
   node_security_group_tags = var.node_security_group_tags
