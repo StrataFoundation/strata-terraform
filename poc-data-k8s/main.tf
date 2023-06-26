@@ -141,12 +141,12 @@ resource "helm_release" "jupyterhub" {
 
   set {
     name = "hub.config.GoogleOAuthenticator.client_id"
-    value = var.google_client_id
+    value = var.jupyter_google_client_id
   }
 
   set {
     name = "hub.config.GoogleOAuthenticator.client_secret"
-    value = var.google_client_secret
+    value = var.jupyter_google_client_secret
   }
 
   set {
