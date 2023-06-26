@@ -175,6 +175,11 @@ resource "helm_release" "jupyterhub" {
   }
 
   set {
+    name = "ingress.ingressClassName"
+    value = "nginx"
+  }
+  
+  set {
     name = "ingress.hosts[0]"
     value = "${var.jupyter_uri}"
   }
