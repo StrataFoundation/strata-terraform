@@ -43,6 +43,9 @@ locals {
         vpc_security_group_ids = [
           aws_security_group.small_node_group.id
         ]
+        iam_role_additional_policies = { 
+          AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
+        }
       }
     }
   }
