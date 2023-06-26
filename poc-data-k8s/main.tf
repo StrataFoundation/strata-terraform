@@ -165,7 +165,7 @@ resource "helm_release" "jupyterhub" {
   }
 
   set {
-    name = "hub.config.GoogleOAuthenticator.JupyterHub.authenticator_class"
+    name = "hub.config.JupyterHub.authenticator_class"
     value = "google"
   }
 
@@ -178,7 +178,7 @@ resource "helm_release" "jupyterhub" {
     name = "ingress.ingressClassName"
     value = "nginx"
   }
-  
+
   set {
     name = "ingress.hosts[0]"
     value = "${var.jupyter_uri}"
