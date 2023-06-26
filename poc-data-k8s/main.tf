@@ -120,6 +120,66 @@ resource "kubernetes_role_binding" "spark_data_lake_access_rb" {
   }
 }
 
+resource "helm_release" "jupyterhub" {
+  name  = "jupyterhub"
+
+  repository       = "https://jupyterhub.github.io/helm-chart"
+  chart            = "jupyterhub"
+  namespace        = "spark"
+  version          = "1.1.27"
+  create_namespace = true
+
+  set {
+    name = "singleuser.image.name"
+    value = "jupyter/all-spark-notebook"
+  }
+
+  set {
+    name = "singleuser.image.tag"
+    value = "latest"
+  }
+
+  set {
+    name = "hub.config.GoogleOAuthenticator.client_id"
+    value = var.google_client_id
+  }
+
+  set {
+    name = "hub.config.GoogleOAuthenticator.client_secret"
+    value = var.google_client_secret
+  }
+
+  set {
+    name = "hub.config.GoogleOAuthenticator.oauth_callback_url"
+    value = "https://${var.jupyter_uri}"
+  }
+
+  set {
+    name = "hub.config.GoogleOAuthenticator.hosted_domain"
+    value = ["${var.jupyter_uri}"]
+  }
+
+  set {
+    name = "hub.config.GoogleOAuthenticator.login_service"
+    value = "Helium Inc"
+  }
+
+  set {
+    name = "hub.config.GoogleOAuthenticator.JupyterHub.authenticator_class"
+    value = "google"
+  }
+
+  set {
+    name = "ingress.enabled"
+    value = "true"
+  }
+
+  set {
+    name = "ingress.hosts"
+    value = ["${var.jupyter_uri}"]
+  }
+}
+
 resource "helm_release" "spark_on_k8s" {
   name  = "spark-operator"
 

@@ -129,3 +129,9 @@ variable "prometheus_remote_write_url" {
   type        = string
   default     = ""
 }
+
+variable "jupyter_uri" {
+  description = "URI for jupyter hub"
+  type = string
+  default = ""
+}
