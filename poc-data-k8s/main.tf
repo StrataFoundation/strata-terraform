@@ -161,7 +161,7 @@ resource "helm_release" "jupyterhub" {
 
   set {
     name = "hub.config.GoogleOAuthenticator.login_service"
-    value = "Helium Inc"
+    value = "Helium Foundation"
   }
 
   set {
