@@ -126,7 +126,7 @@ resource "helm_release" "jupyterhub" {
   repository       = "https://jupyterhub.github.io/helm-chart"
   chart            = "jupyterhub"
   namespace        = "spark"
-  version          = "1.1.27"
+  version          = "2.0.0"
   create_namespace = true
 
   set {
