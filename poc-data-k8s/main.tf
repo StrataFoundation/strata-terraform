@@ -155,8 +155,8 @@ resource "helm_release" "jupyterhub" {
   }
 
   set_list {
-    name = "hub.config.GoogleOAuthenticator.hosted_domain"
-    value = ["${var.jupyter_uri}"]
+    name = "hub.config.GoogleOAuthenticator.hosted_domain[0]"
+    value = "${var.jupyter_uri}"
   }
 
   set {
@@ -174,9 +174,9 @@ resource "helm_release" "jupyterhub" {
     value = "true"
   }
 
-  set_list {
-    name = "ingress.hosts"
-    value = ["${var.jupyter_uri}"]
+  set {
+    name = "ingress.hosts[0]"
+    value = "${var.jupyter_uri}"
   }
 }
 
