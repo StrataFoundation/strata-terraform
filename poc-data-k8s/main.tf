@@ -151,7 +151,7 @@ resource "helm_release" "jupyterhub" {
 
   set {
     name = "hub.config.GoogleOAuthenticator.oauth_callback_url"
-    value = "https://${var.jupyter_uri}"
+    value = "https://${var.jupyter_uri}/hub/oauth_callback"
   }
 
   set {
