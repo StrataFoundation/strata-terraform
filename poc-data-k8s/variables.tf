@@ -129,27 +129,3 @@ variable "prometheus_remote_write_url" {
   type        = string
   default     = ""
 }
-
-variable "jupyter_google_client_id" {
-  description = "Jupyterhub Google Credentials Client Id"
-  type        = string
-  default     = ""
-}
-
-variable "jupyter_google_client_secret" {
-  description = "Jupyterhub Google Credentials Client Secret"
-  type        = string
-  default     = ""
-}
-
-variable "jupyter_uri" {
-  description = "URI for jupyter hub"
-  type = string
-  default = ""
-}
-
-variable "jupyter_image_tag" {
-  description = "Image tag for jupyter hub"
-  type = string
-  default = "0.0.2"
-}
