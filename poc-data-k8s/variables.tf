@@ -147,3 +147,9 @@ variable "jupyter_uri" {
   type = string
   default = ""
 }
+
+variable "jupyter_image_tag" {
+  description = "Image tag for jupyter hub"
+  type = string
+  default = "0.0.2"
+}

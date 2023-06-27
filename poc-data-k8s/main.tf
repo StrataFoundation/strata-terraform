@@ -130,16 +130,6 @@ resource "helm_release" "jupyterhub" {
   create_namespace = true
 
   set {
-    name = "singleuser.image.name"
-    value = "jupyter/all-spark-notebook"
-  }
-
-  set {
-    name = "singleuser.image.tag"
-    value = "latest"
-  }
-
-  set {
     name = "hub.config.GoogleOAuthenticator.client_id"
     value = var.jupyter_google_client_id
   }
@@ -176,7 +166,7 @@ resource "helm_release" "jupyterhub" {
 
   set {
     name = "singleuser.image.tag"
-    value = "latest"
+    value = var.jupyter_image_tag
   }
 
   set {
