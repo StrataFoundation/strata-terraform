@@ -170,6 +170,16 @@ resource "helm_release" "jupyterhub" {
   }
 
   set {
+    name = "singleuser.image.name"
+    value = "public.ecr.aws/k0m1p4t7/jupyter"
+  }
+
+  set {
+    name = "singleuser.image.tag"
+    vaue = "latest"
+  }
+
+  set {
     name = "ingress.enabled"
     value = "true"
   }
