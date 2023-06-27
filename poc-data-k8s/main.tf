@@ -176,7 +176,7 @@ resource "helm_release" "jupyterhub" {
 
   set {
     name = "singleuser.image.tag"
-    vaue = "latest"
+    value = "latest"
   }
 
   set {
