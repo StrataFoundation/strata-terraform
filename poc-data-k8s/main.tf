@@ -165,6 +165,31 @@ resource "helm_release" "jupyterhub" {
   } 
 
   set {
+    name = "proxy.chp.nodeSelector.node\\.kubernetes\\.io/instance-type"
+    value = "m5.large"
+  } 
+
+  set {
+    name = "proxy.traefik.nodeSelector.node\\.kubernetes\\.io/instance-type"
+    value = "m5.large"
+  } 
+
+  set {
+    name = "singleuser.nodeSelector.node\\.kubernetes\\.io/instance-type"
+    value = "m5.large"
+  } 
+
+  set {
+    name = "scheduling.userScheduler.nodeSelector.node\\.kubernetes\\.io/instance-type"
+    value = "m5.large"
+  } 
+
+  set {
+    name = "prePuller.hook.nodeSelector.node\\.kubernetes\\.io/instance-type"
+    value = "m5.large"
+  } 
+
+  set {
     name = "singleuser.image.name"
     value = "public.ecr.aws/k0m1p4t7/jupyter"
   }
