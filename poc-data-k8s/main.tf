@@ -77,6 +77,10 @@ data "aws_iam_role" "s3_data_lake_bucket_access_role" {
   name = "s3-data-lake-bucket-access-role" 
 }
 
+data "aws_iam_role" "spark_data_lake_access_role" {
+  name = "spark-data-lake-access-role" 
+}
+
 resource "kubernetes_service_account" "s3_data_lake_bucket_access" {
   metadata {
     name        = "s3-data-lake-bucket-access"
@@ -84,5 +88,119 @@ resource "kubernetes_service_account" "s3_data_lake_bucket_access" {
     annotations = {
       "eks.amazonaws.com/role-arn" = data.aws_iam_role.s3_data_lake_bucket_access_role.arn,
     }
+  }
+}
+
+resource "kubernetes_service_account" "spark_data_lake_access" {
+  metadata {
+    name        = "spark-data-lake-access"
+    namespace   = "spark"
+    annotations = {
+      "eks.amazonaws.com/role-arn" = data.aws_iam_role.spark_data_lake_access_role.arn,
+    }
+  }
+}
+
+resource "kubernetes_role_binding" "spark_data_lake_access_rb" {
+  metadata {
+    name      = "spakr-data-lake-access-rb"
+    namespace = "spark"
+  }
+
+  role_ref {
+    kind     = "Role"
+    name     = "spark-role"
+    api_group = "rbac.authorization.k8s.io"
+  }
+
+  subject {
+    kind      = "ServiceAccount"
+    name      = kubernetes_service_account.spark_data_lake_access.metadata[0].name
+    namespace = kubernetes_service_account.spark_data_lake_access.metadata[0].namespace
+  }
+}
+
+resource "helm_release" "jupyterhub" {
+  name  = "jupyterhub"
+
+  repository       = "https://jupyterhub.github.io/helm-chart"
+  chart            = "jupyterhub"
+  namespace        = "spark"
+  version          = "2.0.0"
+  create_namespace = true
+
+  set {
+    name = "hub.config.GoogleOAuthenticator.client_id"
+    value = var.jupyter_google_client_id
+  }
+
+  set {
+    name = "hub.config.GoogleOAuthenticator.client_secret"
+    value = var.jupyter_google_client_secret
+  }
+
+  set {
+    name = "hub.config.GoogleOAuthenticator.oauth_callback_url"
+    value = "https://${var.jupyter_uri}/hub/oauth_callback"
+  }
+
+  set {
+    name = "hub.config.GoogleOAuthenticator.hosted_domain[0]"
+    value = "dewi.org"
+  }
+
+  set {
+    name = "hub.config.GoogleOAuthenticator.login_service"
+    value = "Helium Foundation"
+  }
+
+  set {
+    name = "hub.config.JupyterHub.authenticator_class"
+    value = "google"
+  }
+
+  set {
+    name = "singleuser.image.name"
+    value = "public.ecr.aws/k0m1p4t7/jupyter"
+  }
+
+  set {
+    name = "singleuser.image.tag"
+    value = var.jupyter_image_tag
+  }
+
+  set {
+    name = "ingress.enabled"
+    value = "true"
+  }
+
+  set {
+    name = "ingress.ingressClassName"
+    value = "nginx"
+  }
+
+  set {
+    name = "ingress.hosts[0]"
+    value = "${var.jupyter_uri}"
+  }
+}
+
+resource "helm_release" "spark_on_k8s" {
+  name  = "spark-operator"
+
+  repository       = "https://googlecloudplatform.github.io/spark-on-k8s-operator"
+  chart            = "spark-operator"
+  namespace        = "spark"
+  version          = "1.1.27"
+  create_namespace = true
+
+  set {
+    name = "webhook.enable"
+    value = true
+  }
+
+  set {
+    name = "webhook.port"
+    value = 443
   }
 }
