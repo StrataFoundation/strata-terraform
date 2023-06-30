@@ -160,6 +160,11 @@ resource "helm_release" "jupyterhub" {
   }
 
   set {
+    name = "hub.nodeSelector.node\\.kubernetes\\.io/instance-type"
+    value = "m5.large"
+  } 
+
+  set {
     name = "singleuser.image.name"
     value = "public.ecr.aws/k0m1p4t7/jupyter"
   }
@@ -194,6 +199,10 @@ resource "helm_release" "spark_on_k8s" {
   version          = "1.1.27"
   create_namespace = true
 
+  set {
+    name = "nodeSelector.node\\.kubernetes\\.io/instance-type"
+    value = "m5.large"
+  }
   set {
     name = "webhook.enable"
     value = true

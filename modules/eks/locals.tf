@@ -43,7 +43,8 @@ locals {
         ]
       }
     }
-    web = {      medium_group = {
+    web = {      
+      medium_group = {
         name                         = var.cluster_node_name
         instance_types               = [var.eks_instance_type]
         min_size                     = var.cluster_min_size
