@@ -26,6 +26,10 @@ locals {
         iam_role_additional_policies = [
           "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
         ]
+        labels = {
+          nodegroup-type = "job"
+          node-type      = "job"
+        }
       }
       spot_group = {
         name                         = var.cluster_spot_node_name
@@ -40,13 +44,21 @@ locals {
         iam_role_additional_policies = [
           "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
         ]
-        
         labels = {
           lifecycle             = "Ec2Spot"
           "aws.amazon.com/spot" = "true"
           nodegroup-type        = "spot"
           node-type             = "spot"
         }
+        # Aligned with Lighter executor pod definition
+        # https://github.com/exacaster/lighter/blob/master/k8s/executor_pod_template.yaml
+        taints = [ 
+          {
+            key    = "dedicated"
+            value  = "spark"
+            effect = "NoSchedule"
+          }
+        ]
       }
     }
     oracle = {
