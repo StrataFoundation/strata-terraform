@@ -40,13 +40,19 @@ locals {
         iam_role_additional_policies = [
           "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
         ]
-        
         labels = {
           lifecycle             = "Ec2Spot"
           "aws.amazon.com/spot" = "true"
           nodegroup-type        = "spot"
           node-type             = "spot"
         }
+        taints                  = [
+          {
+            key    = "dedicated"
+            value  = "spark"
+            effect = "NoSchedule"
+          }
+        ]
       }
     }
     oracle = {
