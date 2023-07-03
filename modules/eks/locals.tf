@@ -26,6 +26,10 @@ locals {
         iam_role_additional_policies = [
           "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
         ]
+        labels = {
+          nodegroup-type = "job"
+          node-type      = "job"
+        }
       }
       spot_group = {
         name                         = var.cluster_spot_node_name
