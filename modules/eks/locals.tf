@@ -13,6 +13,10 @@ locals {
         iam_role_additional_policies = [
           "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
         ]
+        labels = {
+          nodegroup-type = "medium"
+          node-type      = "medium"
+        }
       }
       job_group = {
         name                         = var.cluster_job_node_name
@@ -45,8 +49,6 @@ locals {
           "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
         ]
         labels = {
-          lifecycle             = "Ec2Spot"
-          "aws.amazon.com/spot" = "true"
           nodegroup-type        = "spot"
           node-type             = "spot"
         }
@@ -56,7 +58,7 @@ locals {
           {
             key    = "dedicated"
             value  = "spark"
-            effect = "NoSchedule"
+            effect = "NO_SCHEDULE"
           }
         ]
       }
