@@ -50,7 +50,9 @@ locals {
           nodegroup-type        = "spot"
           node-type             = "spot"
         }
-        taints                  = [
+        # Aligned with Lighter executor pod definition
+        # https://github.com/exacaster/lighter/blob/master/k8s/executor_pod_template.yaml
+        taints = [ 
           {
             key    = "dedicated"
             value  = "spark"
