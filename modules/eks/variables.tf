@@ -107,7 +107,7 @@ variable "monitoring_account_id" {
 }
 
 variable "eks_job_instance_type" {
-  description = "EC2 instance type for EKS nodes. MAKE SURE YOU PICK ONE WITH TRUNK COMPATIBILITY!!" // https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go
+  description = "EC2 instance type for EKS job nodes. MAKE SURE YOU PICK ONE WITH TRUNK COMPATIBILITY!!" // https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go
   type        = string
   default     = "m5.xlarge"
 }
@@ -132,6 +132,36 @@ variable "cluster_job_max_size" {
 
 variable "cluster_job_desired_size" { 
   description = "Desired number of job nodes in EKS cluster"
+  type        = number
+  default     = 0
+}
+
+variable "eks_spot_instance_type" {
+  description = "EC2 instance type for EKS spot nodes. MAKE SURE YOU PICK ONE WITH TRUNK COMPATIBILITY!!" // https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go
+  type        = string
+  default     = "m5.xlarge"
+}
+
+variable "cluster_spot_node_name" {
+  description = "Name of spot nodes in EKS cluster"
+  type        = string
+  default     = "spot-group"
+}
+
+variable "cluster_spot_min_size" {
+  description = "Minimum number of spot nodes in EKS cluster"
+  type        = number
+  default     = 0
+}
+
+variable "cluster_spot_max_size" { 
+  description = "Maximum number of spot nodes in EKS cluster"
+  type        = number
+  default     = 20
+}
+
+variable "cluster_spot_desired_size" { 
+  description = "Desired number of spot nodes in EKS cluster"
   type        = number
   default     = 0
 }
