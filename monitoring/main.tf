@@ -81,6 +81,8 @@ resource "aws_iam_role" "grafana_amp_access" {
 # ***************************************
 # CloudWatch - RPC Proxy
 # ***************************************
+
+// legacy, kept for bw compatability-----
 resource "aws_cloudwatch_log_group" "rpc_proxy_prod_errors" {
   name = "/CloudFlare/RPCProxy/Production/Errors"
   retention_in_days = 14
@@ -119,7 +121,7 @@ resource "aws_cloudwatch_metric_alarm" "rpc_proxy_prod_errors_alarm" {
   alarm_name          = "Monitoring - RPC Proxy Prod - HTTPS Errors"
   alarm_description   = ">= 400 HTTPS status codes being received from Helius."
   metric_name         = "HttpsErrors"
-  threshold           = "250"
+  threshold           = "500"
   statistic           = "Sum"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "1"
@@ -131,21 +133,154 @@ resource "aws_cloudwatch_metric_alarm" "rpc_proxy_prod_errors_alarm" {
   ok_actions          = [module.notify_slack.slack_topic_arn]
 }
 
-# resource "aws_cloudwatch_metric_alarm" "rpc_proxy_staging_errors_alarm" {
-#   alarm_name          = "Monitoring - RPC Proxy Staging - HTTPS Errors"
-#   alarm_description   = ">= 400 HTTPS status codes being received from Helius."
-#   metric_name         = "HttpsErrors"
-#   threshold           = "250"
-#   statistic           = "Sum"
-#   comparison_operator = "GreaterThanThreshold"
-#   evaluation_periods  = "1"
-#   period              = "900" // 15 minutes
-#   namespace           = "CloudFlare-Staging"
-#   treat_missing_data  = "notBreaching"
+resource "aws_cloudwatch_metric_alarm" "rpc_proxy_staging_errors_alarm" {
+  alarm_name          = "Monitoring - RPC Proxy Staging - HTTPS Errors"
+  alarm_description   = ">= 400 HTTPS status codes being received from Helius."
+  metric_name         = "HttpsErrors"
+  threshold           = "500"
+  statistic           = "Sum"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "1"
+  period              = "900" // 15 minutes
+  namespace           = "CloudFlare-Staging"
+  treat_missing_data  = "notBreaching"
 
-#   alarm_actions       = [module.notify_slack.slack_topic_arn]
-#   ok_actions          = [module.notify_slack.slack_topic_arn]
-# }
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
+}
+// -----
+
+resource "aws_cloudwatch_log_group" "helius_rpc_proxy_prod_errors" {
+  name = "/CloudFlare/HeliusRPCProxy/Production/Errors"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "helius_rpc_proxy_staging_errors" {
+  name = "/CloudFlare/HeliusRPCProxy/Staging/Errors"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "triton_rpc_proxy_prod_errors" {
+  name = "/CloudFlare/TritonRPCProxy/Production/Errors"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "triton_rpc_proxy_staging_errors" {
+  name = "/CloudFlare/TritonRPCProxy/Staging/Errors"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_metric_filter" "helius_rpc_proxy_prod_errors_metrics_filter" {
+  name           = "helius-rpc-prod-errors"
+  pattern        = "[ message!=\"*exceeded airdrop rate limit*\" ]"
+  log_group_name = aws_cloudwatch_log_group.helius_rpc_proxy_prod_errors.name
+
+  metric_transformation {
+    name         = "HttpsErrors"
+    namespace    = "Helius-Prod"
+    value        = 1
+  }
+}
+
+resource "aws_cloudwatch_log_metric_filter" "helius_rpc_proxy_staging_errors_metrics_filter" {
+  name           = "helius-rpc-staging-errors"
+  pattern        = "[ message!=\"*exceeded airdrop rate limit*\" ]"
+  log_group_name = aws_cloudwatch_log_group.helius_rpc_proxy_staging_errors.name
+
+  metric_transformation {
+    name         = "HttpsErrors"
+    namespace    = "Helius-Staging"
+    value        = 1
+  }
+}
+
+resource "aws_cloudwatch_log_metric_filter" "triton_rpc_proxy_prod_errors_metrics_filter" {
+  name           = "triton-rpc-prod-errors"
+  pattern        = "Error"
+  log_group_name = aws_cloudwatch_log_group.triton_rpc_proxy_prod_errors.name
+
+  metric_transformation {
+    name         = "HttpsErrors"
+    namespace    = "Triton-Prod"
+    value        = 1
+  }
+}
+
+resource "aws_cloudwatch_log_metric_filter" "triton_rpc_proxy_staging_errors_metrics_filter" {
+  name           = "triton-rpc-staging-errors"
+  pattern        = "Error"
+  log_group_name = aws_cloudwatch_log_group.triton_rpc_proxy_staging_errors.name
+
+  metric_transformation {
+    name         = "HttpsErrors"
+    namespace    = "Triton-Staging"
+    value        = 1
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "helius_rpc_proxy_prod_errors_alarm" {
+  alarm_name          = "Monitoring - Helius RPC Proxy Prod - HTTPS Errors"
+  alarm_description   = ">= 400 HTTPS status codes being received from Helius."
+  metric_name         = "HttpsErrors"
+  threshold           = "500"
+  statistic           = "Sum"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "1"
+  period              = "900" // 15 minutes
+  namespace           = "Helius-Prod"
+  treat_missing_data  = "notBreaching"
+
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
+}
+
+resource "aws_cloudwatch_metric_alarm" "helius_rpc_proxy_staging_errors_alarm" {
+  alarm_name          = "Monitoring - Helius RPC Proxy Staging - HTTPS Errors"
+  alarm_description   = ">= 400 HTTPS status codes being received from Helius."
+  metric_name         = "HttpsErrors"
+  threshold           = "500"
+  statistic           = "Sum"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "1"
+  period              = "900" // 15 minutes
+  namespace           = "Helius-Staging"
+  treat_missing_data  = "notBreaching"
+
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
+}
+
+resource "aws_cloudwatch_metric_alarm" "triton_rpc_proxy_prod_errors_alarm" {
+  alarm_name          = "Monitoring - Triton RPC Proxy Prod - HTTPS Errors"
+  alarm_description   = ">= 400 HTTPS status codes being received from Triton."
+  metric_name         = "HttpsErrors"
+  threshold           = "500"
+  statistic           = "Sum"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "1"
+  period              = "900" // 15 minutes
+  namespace           = "Triton-Prod"
+  treat_missing_data  = "notBreaching"
+
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
+}
+
+resource "aws_cloudwatch_metric_alarm" "triton_rpc_proxy_staging_errors_alarm" {
+  alarm_name          = "Monitoring - Triton RPC Proxy Staging - HTTPS Errors"
+  alarm_description   = ">= 400 HTTPS status codes being received from Triton."
+  metric_name         = "HttpsErrors"
+  threshold           = "500"
+  statistic           = "Sum"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "1"
+  period              = "900" // 15 minutes
+  namespace           = "Triton-Staging"
+  treat_missing_data  = "notBreaching"
+
+  alarm_actions       = [module.notify_slack.slack_topic_arn]
+  ok_actions          = [module.notify_slack.slack_topic_arn]
+}
 
 
 # ***************************************
