@@ -196,6 +196,7 @@ resource "aws_cloudwatch_log_metric_filter" "helius_rpc_proxy_staging_errors_met
 
 resource "aws_cloudwatch_log_metric_filter" "triton_rpc_proxy_prod_errors_metrics_filter" {
   name           = "triton-rpc-prod-errors"
+  pattern        = "Error"
   log_group_name = aws_cloudwatch_log_group.triton_rpc_proxy_prod_errors.name
 
   metric_transformation {
@@ -207,6 +208,7 @@ resource "aws_cloudwatch_log_metric_filter" "triton_rpc_proxy_prod_errors_metric
 
 resource "aws_cloudwatch_log_metric_filter" "triton_rpc_proxy_staging_errors_metrics_filter" {
   name           = "triton-rpc-staging-errors"
+  pattern        = "Error"
   log_group_name = aws_cloudwatch_log_group.triton_rpc_proxy_staging_errors.name
 
   metric_transformation {
