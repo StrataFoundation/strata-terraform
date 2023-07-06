@@ -172,7 +172,7 @@ resource "aws_cloudwatch_metric_alarm" "helius_rpc_proxy_staging_errors_alarm" {
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "1"
   period              = "900" // 15 minutes
-  namespace           = "Triton"
+  namespace           = "Helius-Staging"
   treat_missing_data  = "notBreaching"
 
   alarm_actions       = [module.notify_slack.slack_topic_arn]
