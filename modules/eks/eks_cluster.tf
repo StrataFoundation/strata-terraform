@@ -13,8 +13,21 @@ module "eks" {
   enable_irsa = true
 
   cluster_addons = {
+    coredns = {
+      addon_version     = "v1.9.3-eksbuild.5"
+      resolve_conflicts = "OVERWRITE"
+    }
+    kube-proxy = {
+      addon_version     = "v1.25.6-minimal-eksbuild.2"
+      resolve_conflicts = "OVERWRITE"
+    }
+    vpc-cni = {
+      addon_version     = "v1.13.2-eksbuild.1"
+      resolve_conflicts = "OVERWRITE"
+    }
     aws-ebs-csi-driver = {
-      most_recent = true
+      addon_version     = "v1.19.0-eksbuild.2"
+      resolve_conflicts = "OVERWRITE"
     }
   }
 
