@@ -22,7 +22,7 @@ module "eks" {
     }
     # https://docs.aws.amazon.com/eks/latest/userguide/managing-kube-proxy.html
     kube-proxy = {
-      addon_version               = "v1.25.6-minimal-eksbuild.2"
+      addon_version               = "v1.25.6-eksbuild.1"
       resolve_conflicts_on_create = "OVERWRITE"
       resolve_conflicts_on_update = "OVERWRITE"
     }
