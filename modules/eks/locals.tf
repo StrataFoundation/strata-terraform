@@ -10,9 +10,9 @@ locals {
         vpc_security_group_ids       = [
           aws_security_group.small_node_group.id
         ]
-        iam_role_additional_policies = [
-          "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
-        ]
+        iam_role_additional_policies = {
+          AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
+        }
         labels = {
           nodegroup-type = "medium"
           node-type      = "medium"
@@ -27,9 +27,9 @@ locals {
         vpc_security_group_ids       = [
           aws_security_group.small_node_group.id
         ]
-        iam_role_additional_policies = [
-          "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
-        ]
+        iam_role_additional_policies = {
+          AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
+        }
         labels = {
           nodegroup-type = "job"
           node-type      = "job"
@@ -45,9 +45,9 @@ locals {
         vpc_security_group_ids       = [
           aws_security_group.small_node_group.id
         ]
-        iam_role_additional_policies = [
-          "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
-        ]
+        iam_role_additional_policies = {
+          AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
+        }
         labels = {
           nodegroup-type        = "spot"
           node-type             = "spot"
@@ -73,9 +73,9 @@ locals {
         vpc_security_group_ids       = [
           aws_security_group.small_node_group.id
         ]
-        iam_role_additional_policies = [
-          "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
-        ]
+        iam_role_additional_policies = {
+          AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
+        }
       }
     }
     web = {      
@@ -88,9 +88,9 @@ locals {
         vpc_security_group_ids       = [
           aws_security_group.small_node_group.id
         ]
-        iam_role_additional_policies = [
-          "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
-        ]
+        iam_role_additional_policies = {
+          AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
+        }
       }
     }
   }
