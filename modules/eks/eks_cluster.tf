@@ -9,7 +9,8 @@ module "eks" {
   subnet_ids = var.subnet_ids
 
   enable_irsa                     = true
-
+  cluster_endpoint_public_access  = true
+  cluster_endpoint_private_access = false
 
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
