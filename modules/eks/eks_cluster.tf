@@ -17,16 +17,19 @@ cluster_addons = {
     coredns = {
       addon_version               = "v1.9.3-eksbuild.2"
       resolve_conflicts_on_update = "OVERWRITE"
+      resolve_conflicts_on_create = "OVERWRITE"
     }
     # aws eks describe-addon-versions --addon-name kube-proxy
     kube-proxy = {
       addon_version               = "v1.25.6-eksbuild.1"
       resolve_conflicts_on_update = "OVERWRITE"
+      resolve_conflicts_on_create = "OVERWRITE"
     }
     # aws eks describe-addon-versions --addon-name vpc-cni
     vpc-cni = {
       addon_version               = "v1.12.2-eksbuild.1"
       resolve_conflicts_on_update = "OVERWRITE"
+      resolve_conflicts_on_create = "OVERWRITE"
       configuration_values = jsonencode({
         initenv = {
           DISABLE_TCP_EARLY_DEMUX = "true"
