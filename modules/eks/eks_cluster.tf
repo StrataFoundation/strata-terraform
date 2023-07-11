@@ -1,6 +1,6 @@
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "18.31.2"
+  version = "19.15.3"
 
   cluster_name    = "${var.cluster_name}-${var.stage}"
   cluster_version = var.cluster_version
@@ -12,7 +12,7 @@ module "eks" {
 
   enable_irsa = true
 
-cluster_addons = {
+  cluster_addons = {
     # aws eks describe-addon-versions --addon-name coredns
     coredns = {
       addon_version               = "v1.9.3-eksbuild.2"
@@ -44,7 +44,6 @@ cluster_addons = {
       addon_version               = "v1.20.0-eksbuild.1"
     }
   }
-
 
   # Remove this tag to allow the aws lb to target a single sg using the tag
   # https://github.com/terraform-aws-modules/terraform-aws-eks/issues/2258
