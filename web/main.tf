@@ -87,6 +87,9 @@ module "eks" {
 
     # Disabling and using externally provided security groups
     create_security_group = false
+    iam_role_additional_policies = {
+      AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
+    }
   }
   node_security_group_tags        = {
     "kubernetes.io/cluster/${var.cluster_name}-${var.stage}" = null
