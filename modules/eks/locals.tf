@@ -11,7 +11,7 @@ locals {
           aws_security_group.small_node_group.id
         ]
         iam_role_additional_policies = {
-          AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
+          additional = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
         }
         labels = {
           nodegroup-type = "medium"
@@ -28,7 +28,7 @@ locals {
           aws_security_group.small_node_group.id
         ]
         iam_role_additional_policies = {
-          AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
+          additional = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
         }
         labels = {
           nodegroup-type = "job"
@@ -46,7 +46,7 @@ locals {
           aws_security_group.small_node_group.id
         ]
         iam_role_additional_policies = {
-          AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
+          additional = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
         }
         labels = {
           nodegroup-type        = "spot"
@@ -74,7 +74,7 @@ locals {
           aws_security_group.small_node_group.id
         ]
         iam_role_additional_policies = {
-          AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
+          additional = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
         }
       }
     }
@@ -89,7 +89,7 @@ locals {
           aws_security_group.small_node_group.id
         ]
         iam_role_additional_policies = {
-          AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
+          additional = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy" 
         }
       }
     }
