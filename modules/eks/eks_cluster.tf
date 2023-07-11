@@ -13,6 +13,29 @@ module "eks" {
   enable_irsa = true
 
 cluster_addons = {
+    # aws eks describe-addon-versions --addon-name coredns
+    coredns = {
+      addon_version               = "v1.9.3-eksbuild.2"
+      resolve_conflicts_on_update = "PRESERVE"
+    }
+    # aws eks describe-addon-versions --addon-name kube-proxy
+    kube-proxy = {
+      addon_version               = "v1.25.6-eksbuild.1"
+      resolve_conflicts_on_update = "PRESERVE"
+    }
+    # aws eks describe-addon-versions --addon-name vpc-cni
+    vpc-cni = {
+      addon_version               = "v1.12.2-eksbuild.1"
+      resolve_conflicts_on_update = "PRESERVE"
+      configuration_values = jsonencode({
+        initenv = {
+          DISABLE_TCP_EARLY_DEMUX = "true"
+        }
+        env = {
+          ENABLE_POD_ENI = "true"
+        }
+      })
+    }
     # aws eks describe-addon-versions --addon-name aws-ebs-csi-driver
     aws-ebs-csi-driver = {
       addon_version               = "v1.20.0-eksbuild.1"
