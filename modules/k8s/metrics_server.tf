@@ -4,7 +4,7 @@ resource "helm_release" "metrics-server" {
   repository = "https://charts.bitnami.com/bitnami" 
   chart      = "metrics-server"
   namespace  = "kube-system"
-  version    = "3.10.0"
+  version    = "6.4.3"
 
   set {
     name  = "replicas"
