@@ -287,7 +287,7 @@ data "aws_iam_policy_document" "data_lake_development_bucket_bucket_policy_rules
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "data_lake_development_object_expiration" {
-  bucket = aws_s3_bucket.data_lake_development_bucket.arn
+  bucket = aws_s3_bucket.data_lake_development_bucket.id
 
   rule {
     id      = "all-objects"
