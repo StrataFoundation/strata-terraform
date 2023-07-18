@@ -248,6 +248,58 @@ data "aws_iam_policy_document" "data_lake_requester_pays_buckets_bucket_policy_r
 }
 
 # ***************************************
+# Data Lake Development Bucket 
+# ***************************************
+
+# Create Data Lake development buckets
+resource "aws_s3_bucket" "data_lake_development_bucket" {
+  bucket = var.hf_data_lake_dev_bucket
+}
+
+# Create bucket policy for Data Lake development bucket
+resource "aws_s3_bucket_policy" "data_lake_development_bucket_bucket_policy" {
+  bucket = aws_s3_bucket.data_lake_development_bucket.id
+  policy = data.aws_iam_policy_document.data_lake_development_bucket_bucket_policy_rules.json
+
+  depends_on = [
+    aws_s3_bucket.data_lake_development_bucket,
+    data.aws_iam_policy_document.data_lake_development_bucket_bucket_policy_rules
+  ]
+}
+
+# Create bucket policy rules for bucket policies of Data Lake development bucket
+data "aws_iam_policy_document" "data_lake_development_bucket_bucket_policy_rules" {
+  statement {
+    principals {
+      type        = "AWS"
+      identifiers = [
+        aws_iam_role.s3_data_lake_bucket_iam_role.arn,
+      ]
+    }
+    actions = [
+      "s3:*"
+    ]
+    resources = [
+      "arn:aws:s3:::${var.hf_data_lake_dev_bucket}",
+      "arn:aws:s3:::${var.hf_data_lake_dev_bucket}/*"
+    ]
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "data_lake_development_object_expiration" {
+  bucket = aws_s3_bucket.data_lake_development_bucket.arn
+
+  rule {
+    id      = "all-objects"
+    status  = "Enabled"
+
+    expiration {
+      days = 14
+    }
+  }
+}
+
+# ***************************************
 # Manifest Bucket
 # ***************************************
 

@@ -1,6 +1,6 @@
 resource "aws_iam_role" "s3_data_lake_bucket_iam_role" {
   name        = "s3-data-lake-bucket-access-role"
-  description = "IAM role that allows access to S3 bucekt ${var.hf_data_lake_rp_bucket}"
+  description = "IAM role that allows access to S3 buckets ${var.hf_data_lake_rp_bucket} and ${var.hf_data_lake_dev_bucket}"
 
   assume_role_policy = jsonencode({
     Version   = "2012-10-17"
@@ -24,7 +24,7 @@ resource "aws_iam_role" "s3_data_lake_bucket_iam_role" {
 
 resource "aws_iam_policy" "s3_data_lake_bucket_iam_policy" {
   name        = "s3-data-lake-bucket-access-policy"
-  description = "Policy that allows access to S3 bucket ${var.hf_data_lake_rp_bucket}"
+  description = "Policy that allows access to S3 buckets ${var.hf_data_lake_rp_bucket} and ${var.hf_data_lake_dev_bucket}"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -37,6 +37,8 @@ resource "aws_iam_policy" "s3_data_lake_bucket_iam_policy" {
         Resource = [
           "arn:aws:s3:::${var.hf_data_lake_rp_bucket}",
           "arn:aws:s3:::${var.hf_data_lake_rp_bucket}/*",
+          "arn:aws:s3:::${var.hf_data_lake_dev_bucket}",
+          "arn:aws:s3:::${var.hf_data_lake_dev_bucket}/*",
         ]
       }
     ]
