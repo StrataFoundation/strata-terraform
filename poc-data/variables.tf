@@ -134,6 +134,12 @@ variable "hf_data_lake_rp_bucket" {
   default     = ""
 }
 
+variable "hf_data_lake_dev_bucket" {
+  description = "Name of Foundation development bucket for Data Lake"
+  type        = string
+  default     = ""
+}
+
 # --- Nova variables ------------------------------------------------
 variable "nova_iot_aws_account_id" {
   description = "The AWS account ID for the Nova IoT environment (e.g., dev or prod)."
