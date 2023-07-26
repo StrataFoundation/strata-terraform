@@ -39,6 +39,8 @@ resource "aws_iam_policy" "s3_data_lake_bucket_iam_policy" {
           "arn:aws:s3:::${var.hf_data_lake_rp_bucket}/*",
           "arn:aws:s3:::${var.hf_data_lake_dev_bucket}",
           "arn:aws:s3:::${var.hf_data_lake_dev_bucket}/*",
+          "arn:aws:s3:::foundation-iot-metrics",
+          "arn:aws:s3:::foundation-iot-metrics/*",
         ]
       }
     ]
