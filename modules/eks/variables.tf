@@ -139,7 +139,7 @@ variable "cluster_job_desired_size" {
 variable "eks_spot_instance_type" {
   description = "EC2 instance type for EKS spot nodes. MAKE SURE YOU PICK ONE WITH TRUNK COMPATIBILITY!!" // https://github.com/aws/amazon-vpc-resource-controller-k8s/blob/master/pkg/aws/vpc/limits.go
   type        = string
-  default     = "m5.xlarge"
+  default     = "r5.large"
 }
 
 variable "cluster_spot_node_name" {
