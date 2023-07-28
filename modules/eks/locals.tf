@@ -15,33 +15,8 @@ locals {
           node-type      = "medium"
         }
       }
-      spot_group_a = {
-        name                   = "spot-group-a"
-        capacity_type          = "SPOT"
-        subnet_ids             = var.subnet_ids[0]
-        instance_types         = ["r5.large", "r4.large"]
-        min_size               = var.cluster_spot_min_size
-        max_size               = var.cluster_spot_max_size
-        desired_size           = var.cluster_spot_desired_size
-        vpc_security_group_ids = [
-          aws_security_group.small_node_group.id
-        ]
-        labels = {
-          nodegroup-type = "spot-a"
-          node-type      = "spot-a"
-        }
-        # Aligned with Lighter executor pod definition
-        # https://github.com/exacaster/lighter/blob/master/k8s/executor_pod_template.yaml
-        taints = [ 
-          {
-            key    = "dedicated"
-            value  = "spot-a"
-            effect = "NO_SCHEDULE"
-          }
-        ]
-      }
-      spot_group_b = {
-        name                   = "spot-group-b"
+      spot_group_spark = {
+        name                   = "spot-group-spark"
         capacity_type          = "SPOT"
         subnet_ids             = var.subnet_ids[1]
         instance_types         = ["r5.large", "r4.large"]
@@ -52,15 +27,40 @@ locals {
           aws_security_group.small_node_group.id
         ]
         labels = {
-          nodegroup-type = "spot-b"
-          node-type      = "spot-b"
+          nodegroup-type = "spot-spark"
+          node-type      = "spot-spark"
         }
         # Aligned with Lighter executor pod definition
         # https://github.com/exacaster/lighter/blob/master/k8s/executor_pod_template.yaml
         taints = [ 
           {
             key    = "dedicated"
-            value  = "spot-b"
+            value  = "spot-spark"
+            effect = "NO_SCHEDULE"
+          }
+        ]
+      }
+      spot_group_helium = {
+        name                   = "spot-group-helium"
+        capacity_type          = "SPOT"
+        subnet_ids             = var.subnet_ids[0]
+        instance_types         = ["r7g.medium", "r6g.medium"]
+        min_size               = var.cluster_spot_min_size
+        max_size               = var.cluster_spot_max_size
+        desired_size           = var.cluster_spot_desired_size
+        vpc_security_group_ids = [
+          aws_security_group.small_node_group.id
+        ]
+        labels = {
+          nodegroup-type = "spot-helium"
+          node-type      = "spot-helium"
+        }
+        # Aligned with Lighter executor pod definition
+        # https://github.com/exacaster/lighter/blob/master/k8s/executor_pod_template.yaml
+        taints = [ 
+          {
+            key    = "dedicated"
+            value  = "spot-helium"
             effect = "NO_SCHEDULE"
           }
         ]
