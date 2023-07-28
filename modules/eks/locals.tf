@@ -43,7 +43,7 @@ locals {
       spot_group_helium = {
         name                   = "spot-group-helium"
         capacity_type          = "SPOT"
-        subnet_ids             = [var.subnet_ids[2]]
+        subnet_ids             = [var.subnet_ids[0]]
         instance_types         = ["r5.large", "r4.large"]
         min_size               = var.cluster_spot_min_size
         max_size               = var.cluster_spot_max_size
