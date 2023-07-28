@@ -4,6 +4,7 @@ locals {
       medium_group = {
         name                   = var.cluster_node_name
         instance_types         = [var.eks_instance_type]
+        subnet_ids             = [var.subnet_ids[0]]
         min_size               = var.cluster_min_size
         max_size               = var.cluster_max_size
         desired_size           = var.cluster_desired_size
