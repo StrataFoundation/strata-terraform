@@ -162,7 +162,7 @@ module "rds_public" {
   db_name              = "monitoring"
   db_identifier        = "monitoring-rds"
   db_engine            = "postgres"
-  db_engine_version    = "14.5"
+  db_engine_version    = var.rds_engine_version
   db_username          = "monitoring_admin"
   db_multi_az          = false
   db_log_exports       = ["postgresql"]
