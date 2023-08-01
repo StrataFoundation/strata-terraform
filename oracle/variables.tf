@@ -164,6 +164,12 @@ variable "rds_engine_version" {
   default     = "" # 14.7 Latest available
 }
 
+variable "rds_multi_az" {
+  description = "Multi-az deployment"
+  type        = bool
+  default     = true
+}
+
 # --- Bastion variables ------------------------------------------------
 variable "ec2_bastion_private_ip" {
   description = "Private IP address to assign to Bastion"
