@@ -73,7 +73,7 @@ variable "db_engine" {
 variable "db_engine_version" {
   description = "Database engine version"
   type        = string
-  default     = "" # 14.5 Latest available
+  default     = "" # 14.7 Latest available
 }
 
 variable "db_username" {

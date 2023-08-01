@@ -158,6 +158,12 @@ variable "rds_read_replica" {
   default     = false
 }
 
+variable "rds_engine_version" {
+  description = "Database engine version"
+  type        = string
+  default     = "" # 14.7 Latest available
+}
+
 # --- Bastion variables ------------------------------------------------
 variable "ec2_bastion_private_ip" {
   description = "Private IP address to assign to Bastion"
