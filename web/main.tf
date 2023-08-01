@@ -111,14 +111,14 @@ module "rds" {
   rds_max_storage_size = var.rds_max_storage_size
 
   # Db
-  db_name              = "web"
-  db_identifier        = "web-rds"
-  db_engine            = "postgres"
-  db_engine_version    = var.rds_engine_version
-  db_username          = "web_admin"
-  db_multi_az          = false
-  db_log_exports       = ["postgresql"]
-  db_port              = 5432
+  db_name           = "web"
+  db_identifier     = "web-rds"
+  db_engine         = "postgres"
+  db_username       = "web_admin"
+  db_log_exports    = ["postgresql"]
+  db_port           = 5432
+  db_engine_version = var.rds_engine_version
+  db_multi_az       = var.rds_multi_az
 
   # IAM
   oidc_provider     = module.eks[0].oidc_provider
@@ -159,14 +159,14 @@ module "rds_public" {
   rds_max_storage_size = var.rds_max_storage_size
 
   # Db
-  db_name              = "monitoring"
-  db_identifier        = "monitoring-rds"
-  db_engine            = "postgres"
-  db_engine_version    = var.rds_engine_version
-  db_username          = "monitoring_admin"
-  db_multi_az          = false
-  db_log_exports       = ["postgresql"]
-  db_port              = 5432
+  db_name           = "monitoring"
+  db_identifier     = "monitoring-rds"
+  db_engine         = "postgres"
+  db_username       = "monitoring_admin"
+  db_log_exports    = ["postgresql"]
+  db_port           = 5432
+  db_engine_version = var.rds_engine_version
+  db_multi_az       = var.rds_multi_az
 
   # IAM
   oidc_provider     = module.eks[0].oidc_provider

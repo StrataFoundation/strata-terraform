@@ -122,14 +122,14 @@ module "rds" {
   rds_read_replica     = var.rds_read_replica
 
   # Db
-  db_name              = var.rds_db_name
-  db_identifier        = "oracle-rds"
-  db_engine            = "postgres"
-  db_engine_version    = var.rds_engine_version
-  db_username          = "oracle_admin"
-  db_multi_az          = true
-  db_log_exports       = ["postgresql"]
-  db_port              = 5432
+  db_identifier     = "oracle-rds"
+  db_engine         = "postgres"
+  db_username       = "oracle_admin"
+  db_log_exports    = ["postgresql"]
+  db_port           = 5432
+  db_name           = var.rds_db_name
+  db_engine_version = var.rds_engine_version
+  db_multi_az       = var.rds_multi_az
 
   # IAM
   oidc_provider     = module.eks[0].oidc_provider
