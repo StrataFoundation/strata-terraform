@@ -146,6 +146,12 @@ variable "rds_max_storage_size" {
   default     = 1000 # 1000
 }
 
+variable "rds_engine_version" {
+  description = "Database engine version"
+  type        = string
+  default     = "" # 14.7 Latest available
+}
+
 # --- Bastion variables ------------------------------------------------
 variable "ec2_bastion_private_ip" {
   description = "Private IP address to assign to Bastion"

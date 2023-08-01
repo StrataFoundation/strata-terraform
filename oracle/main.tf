@@ -125,7 +125,7 @@ module "rds" {
   db_name              = var.rds_db_name
   db_identifier        = "oracle-rds"
   db_engine            = "postgres"
-  db_engine_version    = "14.5"
+  db_engine_version    = var.rds_engine_version
   db_username          = "oracle_admin"
   db_multi_az          = true
   db_log_exports       = ["postgresql"]

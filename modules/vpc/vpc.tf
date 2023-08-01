@@ -80,3 +80,22 @@ resource "aws_route" "database_route_table_route_to_nova_az_b" {
   destination_cidr_block    = each.value.cidr
   vpc_peering_connection_id = aws_vpc_peering_connection.nova_vpc_peering_connection[each.key].id
 }
+
+# ***************************************
+# VPC Endpoint - S3
+# Add VPC Enpoint to S3 (save $$$ by not using NAT Gateway)
+# ***************************************
+resource "aws_vpc_endpoint" "s3_vpc_endpoint" {
+  vpc_id       = module.vpc.vpc_id
+  service_name = "com.amazonaws.${var.aws_region}.s3"
+}
+
+resource "aws_vpc_endpoint_route_table_association" "route_table_entry_for_s3_vpc_endpoint_1" {
+  route_table_id  = module.vpc.private_route_table_ids[0]
+  vpc_endpoint_id = aws_vpc_endpoint.s3_vpc_endpoint.id
+}
+
+resource "aws_vpc_endpoint_route_table_association" "route_table_entry_for_s3_vpc_endpoint_2" {
+  route_table_id  = module.vpc.private_route_table_ids[1]
+  vpc_endpoint_id = aws_vpc_endpoint.s3_vpc_endpoint.id
+}
