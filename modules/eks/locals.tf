@@ -20,7 +20,7 @@ locals {
         name                   = "spot-group-spark"
         capacity_type          = "SPOT"
         subnet_ids             = [var.subnet_ids[1]]
-        instance_types         = ["r5.large", "r4.large"]
+        instance_types         = ["r5.large"]
         min_size               = var.cluster_spot_min_size
         max_size               = var.cluster_spot_max_size
         desired_size           = var.cluster_spot_desired_size
@@ -45,7 +45,7 @@ locals {
         name                   = "spot-group-helium"
         capacity_type          = "SPOT"
         subnet_ids             = [var.subnet_ids[0]]
-        instance_types         = ["r5.large", "r4.large"]
+        instance_types         = ["r5.large"]
         min_size               = var.cluster_spot_min_size
         max_size               = var.cluster_spot_max_size
         desired_size           = var.cluster_spot_desired_size
