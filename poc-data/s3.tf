@@ -115,6 +115,7 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
   }
 }
 
+# Create lifecycle policy to delete objects in replica buckets after 21 days
 resource "aws_s3_bucket_lifecycle_configuration" "poc_data_buckets_object_expiration" {
   for_each = toset(local.hf_bucket_names)
 
@@ -125,7 +126,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "poc_data_buckets_object_expira
     status  = "Enabled"
 
     expiration {
-      days = 90
+      days = 21
     }
 
     noncurrent_version_expiration {
