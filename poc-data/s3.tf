@@ -127,7 +127,7 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
     ]
     resources = [
       "arn:aws:s3:::${each.value}",
-      "arn:aws:s3:::${each.value}/*",
+      "arn:aws:s3:::${each.value}/*"
     ]
   }
 }
