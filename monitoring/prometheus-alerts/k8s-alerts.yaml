@@ -180,7 +180,7 @@ groups:
           description: "Pod is unable to scale."
       - alert: KubernetesHpaMetricAvailability
         expr: kube_horizontalpodautoscaler_status_condition{status="false", condition="ScalingActive"} == 1
-        for: 0m
+        for: 5m
         labels:
           severity: warning
         annotations:
