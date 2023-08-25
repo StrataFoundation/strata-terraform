@@ -118,7 +118,7 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
     principals {
       type        = "AWS"
       identifiers = [
-        "${var.top_ledger_aws_account_id}"
+        "arn:aws:iam::${var.top_ledger_aws_account_id}:root"
       ]
     }
     actions = [
