@@ -188,7 +188,8 @@ data "aws_iam_policy_document" "poc_data_requester_pays_buckets_bucket_final_pol
     }
     actions = [
       "s3:GetObject",
-      "s3:ListBucket"
+      "s3:ListBucket",
+      "s3:GetObjectTagging"
     ]
     resources = [
       "arn:aws:s3:::${var.hf_poc_data_rp_bucket}",
