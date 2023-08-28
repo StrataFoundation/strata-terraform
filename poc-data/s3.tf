@@ -123,7 +123,8 @@ data "aws_iam_policy_document" "poc_data_buckets_bucket_policy_for_s3_cross_acco
     }
     actions = [
       "s3:GetObject",
-      "s3:ListBucket"
+      "s3:ListBucket",
+      "s3:GetObjectTagging"
     ]
     resources = [
       "arn:aws:s3:::${each.value}",
@@ -241,7 +242,8 @@ data "aws_iam_policy_document" "data_lake_requester_pays_buckets_bucket_policy_r
     }
     actions = [
       "s3:GetObject",
-      "s3:ListBucket"
+      "s3:ListBucket",
+      "s3:GetObjectTagging"
     ]
     resources = [
       "arn:aws:s3:::${var.hf_data_lake_rp_bucket}",
