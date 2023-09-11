@@ -34,12 +34,6 @@ variable "public_subnet_id" {
   default     = ""
 }
 
-variable "user_data" {
-  description = "User data to pass to Bastion during boot process"
-  type        = string
-  default     = ""
-}
-
 variable "vpc_id" {
   description = "ID of VPC Bastion will be deployed into"
   type        = string
