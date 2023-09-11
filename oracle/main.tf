@@ -183,7 +183,6 @@ module "bastion" {
 
   # EC2
   ec2_bastion_ssh_key_name = var.ec2_bastion_ssh_key_name
-  user_data                = "${path.module}/scripts/ec2_bastion_user_data.sh"
   ec2_bastion_access_ips   = var.ec2_bastion_access_ips
   ec2_bastion_private_ip   = var.ec2_bastion_private_ip
 
