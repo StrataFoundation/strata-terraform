@@ -26,7 +26,8 @@ resource "aws_db_instance" "public_monitoring_rds" {
   max_allocated_storage   = var.rds_max_storage_size
   instance_class          = var.rds_instance_type
   storage_encrypted       = true
-  skip_final_snapshot     = true
+  skip_final_snapshot       = false
+  final_snapshot_identifier = "${var.db_identifier}-final-snap"
   backup_retention_period = 30
 }
 
