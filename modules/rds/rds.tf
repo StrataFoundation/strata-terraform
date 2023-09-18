@@ -20,13 +20,14 @@ resource "aws_db_instance" "oracle_rds" {
   iam_database_authentication_enabled = var.iam_database_authentication_enabled
 
   # Hardware, Storage & Backup
-  storage_type            = var.rds_storage_type
-  allocated_storage       = var.rds_storage_size 
-  max_allocated_storage   = var.rds_max_storage_size
-  instance_class          = var.rds_instance_type
-  storage_encrypted       = true
-  skip_final_snapshot     = true
-  backup_retention_period = 30
+  storage_type              = var.rds_storage_type
+  allocated_storage         = var.rds_storage_size 
+  max_allocated_storage     = var.rds_max_storage_size
+  instance_class            = var.rds_instance_type
+  storage_encrypted         = true
+  skip_final_snapshot       = false
+  final_snapshot_identifier = "${var.db_identifier}-final-snap"
+  backup_retention_period   = 30
 }
 
 # ***************************************

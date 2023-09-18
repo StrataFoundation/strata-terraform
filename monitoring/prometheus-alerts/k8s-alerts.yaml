@@ -2,7 +2,7 @@ groups:
   - name: k8s-alerts
     rules:
       - alert: KubernetesPodCrashLooping
-        expr: increase(kube_pod_container_status_restarts_total{account!="poc-data-prod"}[5m]) > 3
+        expr: increase(kube_pod_container_status_restarts_total[5m]) > 3
         for: 2m
         labels:
           severity: critical
