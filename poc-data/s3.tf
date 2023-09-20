@@ -7,6 +7,10 @@ resource "aws_s3_bucket" "poc_data_buckets" {
   for_each = toset(local.hf_bucket_names)
 
   bucket = each.value
+
+  tags = {
+    S3Bucket = "${each.value}"
+  }
 }
 
 # Make PoC data buckets versioned
