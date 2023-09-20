@@ -1,18 +1,42 @@
 groups:
   - name: k8s-alerts
     rules:
-      - alert: KubernetesPodCrashLooping
+      - alert: KubernetesPodCrashLoopBackOff
         expr: increase(kube_pod_container_status_restarts_total[5m]) > 3
         for: 2m
         labels:
           severity: critical
         annotations:
-          title: KubernetesPodCrashLooping
+          title: KubernetesPodCrashLoopBackOff
           account: '{{ $labels.account }}'
           instance: '{{ $labels.instance }}'
           pod: '{{ $labels.pod }}'
           container: '{{ $labels.container }}'
           description: "Pod `{{ $labels.pod }}` is in `CrashLoopBackOff`"
+      - alert: KubernetesPodImagePullBackOff
+        expr: kube_pod_container_status_waiting_reason{reason="ImagePullBackOff"}
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          title: KubernetesPodImagePullBackOff
+          account: '{{ $labels.account }}'
+          instance: '{{ $labels.instance }}'
+          pod: '{{ $labels.pod }}'
+          container: '{{ $labels.container }}'
+          description: "Pod `{{ $labels.pod }}` is in `ImagePullBackOff`"
+      - alert: KubernetesPodNotHealthy
+        expr: sum by (namespace, pod, account, instance, container) (kube_pod_status_phase{phase=~"Pending|Unknown|Failed"}) > 0
+        for: 15m
+        labels:
+          severity: critical
+        annotations:
+          title: KubernetesPodNotHealthy
+          account: '{{ $labels.account }}'
+          instance: '{{ $labels.instance }}'
+          pod: '{{ $labels.pod }}'
+          container: '{{ $labels.container }}'
+          description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-running state for longer than 15 minutes."
       - alert: KubernetesContainerCpuUsage
         expr: (sum(rate(container_cpu_usage_seconds_total{name!="",account!="poc-data-prod"}[3m])) BY (account, instance, pod, container) * 100) > 80
         for: 2m
