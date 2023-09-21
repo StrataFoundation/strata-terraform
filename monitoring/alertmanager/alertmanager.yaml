@@ -11,7 +11,7 @@ alertmanager_config: |
       - receiver: 'prometheus-sns'
         repeat_interval: 24h
         matchers:
-        - alertname=~"CircuitBreaker"
+        - alertname=~"CircuitBreaker.*"
       - receiver: 'oracle-sns'
         matchers:
         - alertname=~"Kubernetes.*"
