@@ -6,8 +6,12 @@ alertmanager_config: |
     group_by: ['alertname', 'severity']
     group_wait: 30s
     group_interval: 15m
-    repeat_interval: 1h    
+    repeat_interval: 1h
     routes:
+      - reciever: 'prometheus-sns'
+        repeat_interval: 24h
+        matches:
+        - alertname=~"CircuitBreaker"
       - receiver: 'oracle-sns'
         matchers:
         - alertname=~"Kubernetes.*"
@@ -15,7 +19,7 @@ alertmanager_config: |
     - name: prometheus-sns
       sns_configs:
         - topic_arn: arn:aws:sns:us-west-2:315657680256:prometheus-alerts
-          send_resolved: true
+          send_resolved: false
           sigv4:
             region: us-west-2
           message: |
@@ -27,7 +31,7 @@ alertmanager_config: |
                 {{ if .Annotations.name }}*Name:* `{{ .Annotations.name }}`{{ end }}
                 {{ if .Annotations.address }}*Address:* <https://explorer.solana.com/address/{{ .Annotations.address }}|{{ .Annotations.address }}>{{ end }}
                 *Description:* {{ .Annotations.description }}
-                
+
               {{ end }}
           attributes:
             key: severity
@@ -48,7 +52,7 @@ alertmanager_config: |
                 {{ if .Annotations.pod }}*Pod:* `{{ .Annotations.pod }}`{{ end }}
                 {{ if .Annotations.container }}*Container:* `{{ .Annotations.container }}`{{ end }}
                 *Description:* {{ .Annotations.description }}
-                
+
               {{ end }}
           attributes:
             key: severity

@@ -1,6 +1,16 @@
 groups:
   - name: solana-alerts
     rules:
+      - alert: IntegrityCheckCorrectedRecords
+        expr: round(increase(integrity_check{account="oracle-prod"}[5m])) > 0
+        labels:
+          severity: warning
+        annotations:
+          title: 'Integrity Check Corrected Records!'
+          account: '{{ $labels.account }}'
+          name: '{{ $labels.name }}'
+          description: 'Integrity Check Corrected {{ $value }} Records'
+
       - alert: SolanaBalanceThreasholdCatchAll
         expr: solana_account_balance{type="sol",account="web-prod",is_maker="false"} < 1
         labels:
@@ -12,7 +22,7 @@ groups:
           address: '{{ $labels.address }}'
           description: 'SOL Balance has reached critical threshold of 1. Currently - ({{ $value }}) SOL'
 
-      - alert: LazySignerSolanaBalanceThreashold
+      - alert: SolanaBalanceThreasholdLazySigner
         expr: solana_account_balance{type="sol",name="lazy_signer",account="web-prod"} < 250
         labels:
           severity: warning
@@ -23,7 +33,7 @@ groups:
           address: '{{ $labels.address }}'
           description: 'SOL balance has reached warning threshold of 500. Currently - ({{ $value }}) Sol'
 
-      - alert: OracleSolanaBalanceThreashold
+      - alert: SolanaBalanceThreasholdOracle
         expr: solana_account_balance{type="sol",name="oracle",account="web-prod"} < 20
         labels:
           severity: warning
@@ -34,7 +44,7 @@ groups:
           address: '{{ $labels.address }}'
           description: 'SOL Balance has reached warning threshold of 20. Currently - ({{ $value }}) SOL'
 
-      - alert: CircuteBreakerCatchAllGreaterThan50
+      - alert: CircuitBreakerCatchAllGreaterThan50
         expr: solana_circuit_breaker_level{account="web-prod"} / solana_circuit_breaker_limit{account="web-prod"} * 100 > 50 and solana_circuit_breaker_level{account="web-prod"} / solana_circuit_breaker_limit{account="web-prod"} * 100 < 75
         labels:
           severity: warning
@@ -44,7 +54,7 @@ groups:
           name: '{{ $labels.name }}'
           description: 'Circuit Breaker has reached warning threshold of > 50%! Currently - ({{ $value }})%'
 
-      - alert: CircuteBreakerCatchAllGreaterThan75
+      - alert: CircuitBreakerCatchAllGreaterThan75
         expr: solana_circuit_breaker_level{account="web-prod"} / solana_circuit_breaker_limit{account="web-prod"} * 100 > 75 and solana_circuit_breaker_level{account="web-prod"} / solana_circuit_breaker_limit{account="web-prod"} * 100 < 100
         labels:
           severity: warning
@@ -54,7 +64,7 @@ groups:
           name: '{{ $labels.name }}'
           description: 'Circuit Breaker has reached warning threshold of > 75%! Currently - ({{ $value }})%'
 
-      - alert: CircuteBreakerCatchAllGreaterThan100
+      - alert: CircuitBreakerCatchAllGreaterThan100
         expr: solana_circuit_breaker_level{account="web-prod"} / solana_circuit_breaker_limit{account="web-prod"} * 100 > 100
         labels:
           severity: critical
