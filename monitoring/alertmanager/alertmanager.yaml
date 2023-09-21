@@ -8,7 +8,7 @@ alertmanager_config: |
     group_interval: 15m
     repeat_interval: 1h
     routes:
-      - reciever: 'prometheus-sns'
+      - receiver: 'prometheus-sns'
         repeat_interval: 24h
         matches:
         - alertname=~"CircuitBreaker"
