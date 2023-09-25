@@ -121,6 +121,8 @@ resource "kubernetes_role_binding" "spark_data_lake_access_rb" {
 }
 
 resource "helm_release" "jupyterhub" {
+  count = var.include_jupyter ? 1 : 0
+
   name  = "jupyterhub"
 
   repository       = "https://jupyterhub.github.io/helm-chart"
