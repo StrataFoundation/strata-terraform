@@ -44,6 +44,16 @@ groups:
           address: '{{ $labels.address }}'
           description: 'SOL Balance has reached warning threshold of 20. Currently - ({{ $value }}) SOL'
 
+      - alert: CircuitBreakerEnsureEndEpoch
+        expr: count(delta(solana_circuit_breaker_level{account="web-prod", name=~"iot_mint|mobile_mint"}[25h]) < 0)
+        labels:
+          severity: critical
+        annotations:
+          title: 'End Epoch Never Moved Circuit Breaker'
+          account: '{{ $labels.account }}'
+          name: '{{ $labels.name }}'
+          description: 'Circuit Breaker has not increased within the last 25hrs. Ensure End Epoch was successful'
+
       - alert: CircuitBreakerCatchAllGreaterThan50
         expr: solana_circuit_breaker_level{account="web-prod"} / solana_circuit_breaker_limit{account="web-prod"} * 100 > 50 and solana_circuit_breaker_level{account="web-prod"} / solana_circuit_breaker_limit{account="web-prod"} * 100 < 75
         labels:
