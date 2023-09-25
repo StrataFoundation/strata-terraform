@@ -144,12 +144,18 @@ variable "jupyter_google_client_secret" {
 
 variable "jupyter_uri" {
   description = "URI for jupyter hub"
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }
 
 variable "jupyter_image_tag" {
   description = "Image tag for jupyter hub"
-  type = string
-  default = "0.0.2"
+  type        = string
+  default     = "0.0.2"
+}
+
+variable "include_jupyter" {
+  description = "Include jupyter hub in deployment"
+  type        = bool
+  default     = false
 }
