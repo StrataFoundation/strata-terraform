@@ -3,7 +3,7 @@ groups:
     rules:
       - alert: IntegrityCheckCorrectedRecords
         expr: round(increase(integrity_check{account="oracle-prod"}[5m])) > 0
-        # labels:
+        labels:
           severity: warning
         annotations:
           title: 'Integrity Check Corrected Records!'
