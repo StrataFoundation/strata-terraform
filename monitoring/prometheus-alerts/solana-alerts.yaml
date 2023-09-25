@@ -3,7 +3,7 @@ groups:
     rules:
       - alert: IntegrityCheckCorrectedRecords
         expr: round(increase(integrity_check{account="oracle-prod"}[5m])) > 0
-        labels:
+        # labels:
           severity: warning
         annotations:
           title: 'Integrity Check Corrected Records!'
@@ -45,7 +45,7 @@ groups:
           description: 'SOL Balance has reached warning threshold of 20. Currently - ({{ $value }}) SOL'
 
       - alert: CircuitBreakerEnsureEndEpoch
-        expr: count(delta(solana_circuit_breaker_level{account="web-prod", name=~"iot_mint|mobile_mint"}[25h]) < 0)
+        expr: delta(solana_circuit_breaker_level{account="web-prod", name=~"iot_mint|mobile_mint"}[25h]) <= 0
         labels:
           severity: critical
         annotations:
