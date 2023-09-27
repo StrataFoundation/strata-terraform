@@ -23,7 +23,7 @@ groups:
           description: 'SOL Balance has reached critical threshold of 1. Currently - ({{ $value }}) SOL'
 
       - alert: SolanaBalanceThreasholdLazySigner
-        expr: solana_account_balance{type="sol",name="lazy_signer",account="web-prod"} < 100
+        expr: solana_account_balance{type="sol",name="lazy_signer",account="web-prod"} < 50
         labels:
           severity: warning
         annotations:
@@ -31,7 +31,7 @@ groups:
           account: '{{ $labels.account }}'
           name: '{{ $labels.name }}'
           address: '{{ $labels.address }}'
-          description: 'SOL balance has reached warning threshold of 100. Currently - ({{ $value }}) Sol'
+          description: 'SOL balance has reached warning threshold of 50. Currently - ({{ $value }}) Sol'
 
       - alert: SolanaBalanceThreasholdOracle
         expr: solana_account_balance{type="sol",name="oracle",account="web-prod"} < 20
