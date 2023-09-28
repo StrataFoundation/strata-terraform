@@ -125,6 +125,10 @@ module "rds" {
   oidc_provider_arn = module.eks[0].oidc_provider_arn
   eks_cluster_name  = var.cluster_name
 
+  # Snapshot restore
+  deploy_from_snapshot = var.deploy_from_snapshot
+  snapshot_identifier  = var.private_snapshot_identifier
+
   # Networking & Security
   vpc_id                 = module.vpc.vpc_id
   ec2_bastion_private_ip = var.ec2_bastion_private_ip
@@ -175,6 +179,10 @@ module "rds_public" {
   # Networking & Security
   vpc_id               = module.vpc.vpc_id
   public_subnet_ids    = module.vpc.public_subnets
+
+  # Snapshot restore
+  deploy_from_snapshot = var.deploy_from_snapshot
+  snapshot_identifier  = var.public_snapshot_identifier
 }
 
 # ***************************************

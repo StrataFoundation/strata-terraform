@@ -170,6 +170,18 @@ variable "rds_multi_az" {
   default     = true
 }
 
+variable "deploy_from_snapshot" {
+  description = "Deploy RDS from snapshot"
+  type        = bool
+  default     = false
+}
+
+variable "snapshot_identifier" {
+  description = "Snapshot identifier for restoration e.g., rds:production-2015-06-26-06-05"
+  type        = string
+  default     = ""
+}
+
 # --- Bastion variables ------------------------------------------------
 variable "ec2_bastion_private_ip" {
   description = "Private IP address to assign to Bastion"
