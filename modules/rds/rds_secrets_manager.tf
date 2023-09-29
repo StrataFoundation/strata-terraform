@@ -8,7 +8,7 @@ resource "random_password" "oracle_pg_admin_password" {
 
 # Initialize AWS Secret Manager entry for the RDS postgres oracle_admin credentials
 resource "aws_secretsmanager_secret" "oracle_pg_credentials" {
-  name                     = "oracle-pg-credentials"
+  name                     = "oracle-pg-credentials-2"
   description              = "Admin credentials for Oracle PostgreSQL database"
 }
 
