@@ -20,6 +20,9 @@ resource "aws_db_instance" "public_monitoring_rds" {
   iam_database_authentication_enabled = var.iam_database_authentication_enabled
   publicly_accessible                 = true
 
+  # Restore from snapshot 
+  snapshot_identifier  = var.deploy_from_snapshot ? var.snapshot_identifier : null
+
   # Hardware, Storage & Backup
   storage_type              = var.rds_storage_type
   allocated_storage         = var.rds_storage_size 
