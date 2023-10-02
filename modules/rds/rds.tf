@@ -19,6 +19,9 @@ resource "aws_db_instance" "oracle_rds" {
   vpc_security_group_ids              = concat([aws_security_group.rds_security_group.id], var.vpc_security_group_ids)
   iam_database_authentication_enabled = var.iam_database_authentication_enabled
 
+  # Restore from snapshot 
+  snapshot_identifier  = var.deploy_from_snapshot ? var.snapshot_identifier : null
+
   # Hardware, Storage & Backup
   storage_type              = var.rds_storage_type
   allocated_storage         = var.rds_storage_size 

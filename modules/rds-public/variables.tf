@@ -130,3 +130,15 @@ variable "oidc_provider_arn" {
   type        = string
   default     = ""
 }
+
+variable "deploy_from_snapshot" {
+  description = "Deploy RDS from snapshot"
+  type        = bool
+  default     = false
+}
+
+variable "snapshot_identifier" {
+  description = "Snapshot identifier for restoration e.g., rds:production-2015-06-26-06-05"
+  type        = string
+  default     = ""
+}
