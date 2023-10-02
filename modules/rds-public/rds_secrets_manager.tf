@@ -13,7 +13,7 @@ resource "random_password" "public_monitoring_pg_admin_password" {
 # Secrets Manager
 # ***************************************
 resource "aws_secretsmanager_secret" "public_monitoring_pg_credentials" {
-  name                     = "public-monitoring-pg-credentials-2"
+  name                     = var.stage == "sdlc" ? "public-monitoring-pg-credentials-2" : "public-monitoring-pg-credentials"
   description              = "Admin credentials for Public Monitoring PostgreSQL database"
 }
 
