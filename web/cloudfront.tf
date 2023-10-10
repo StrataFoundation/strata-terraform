@@ -5,8 +5,8 @@ resource "aws_cloudfront_distribution" "lb_distribution" {
   http_version    = "http3"
 
   origin {
-    domain_name = data.lb.dns_name
-    origin_id   = data.lb.dns_name
+    domain_name = data.aws_lb.lb.dns_name
+    origin_id   = data.laws_lb.b.dns_name
 
     custom_origin_config {
       http_port                = 80
