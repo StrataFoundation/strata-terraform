@@ -2,7 +2,7 @@ resource "aws_cloudfront_distribution" "metadata_distribution" {
   enabled         = true
   is_ipv6_enabled = true
   aliases         = var.cf_origin_aliases
-  http_version    = "http3"
+  http_version    = "http2and3"
 
   origin {
     domain_name = data.aws_lb.lb.dns_name
