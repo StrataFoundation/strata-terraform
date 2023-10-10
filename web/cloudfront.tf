@@ -1,4 +1,4 @@
-resource "aws_cloudfront_distribution" "lb_distribution" {
+resource "aws_cloudfront_distribution" "metadata_distribution" {
   enabled         = true
   is_ipv6_enabled = true
   aliases         = var.cf_origin_aliases
