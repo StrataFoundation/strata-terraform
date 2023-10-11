@@ -23,7 +23,6 @@ resource "aws_cloudfront_distribution" "metadata_distribution" {
     cached_methods           = ["GET", "HEAD", "OPTIONS"]
     target_origin_id         = data.aws_lb.lb.dns_name
     viewer_protocol_policy   = "redirect-to-https"
-    origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3" // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html#managed-origin-request-policy-all-viewer
     min_ttl                  = 31536000 // 365 days
     max_ttl                  = 31536000 
     default_ttl              = 31536000 
