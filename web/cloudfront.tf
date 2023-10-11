@@ -23,8 +23,8 @@ resource "aws_cloudfront_distribution" "metadata_distribution" {
     cached_methods           = ["GET", "HEAD", "OPTIONS"]
     target_origin_id         = data.aws_lb.lb.dns_name
     viewer_protocol_policy   = "redirect-to-https"
-    cache_policy_id          = "658327ea-f89d-4fab-a63d-7e88639e58f6" // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html#managed-cache-caching-optimized
     origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3" // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html#managed-origin-request-policy-all-viewer
+    cache_policy_id          = aws_cloudfront_cache_policy.metadata_distribution_cache_policy.id
   }
 
   viewer_certificate {
@@ -33,9 +33,33 @@ resource "aws_cloudfront_distribution" "metadata_distribution" {
     minimum_protocol_version = "TLSv1.2_2021"
   }
 
-    restrictions {
-      geo_restriction {
-        restriction_type = "none"
-      }
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
     }
+  }
+
+  depends_on = [aws_cloudfront_cache_policy.metadata_distribution_cache_policy]
+}
+
+resource "aws_cloudfront_cache_policy" "metadata_distribution_cache_policy" {
+  name        = "metadata-cache-policy"
+  comment     = "Cache policy for entities.nft.test-helium.com"
+  default_ttl = 31536000 // 1 year
+  max_ttl     = 31536000
+  min_ttl     = 31536000
+
+  parameters_in_cache_key_and_forwarded_to_origin {
+    cookies_config {
+      cookie_behavior = "none"
+    }
+    headers_config {
+      header_behavior = "none"
+    }
+    query_strings_config {
+      query_string_behavior = "none"
+    } 
+    enable_accept_encoding_brotli = true
+    enable_accept_encoding_gzip   = true
+  }
 }
