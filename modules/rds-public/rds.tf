@@ -38,7 +38,7 @@ resource "aws_db_instance" "public_monitoring_rds" {
 # RDS - Read Replica
 # ***************************************
 resource "aws_db_instance" "public_monitoring_rds_read_replica" {
-  count = var.rds_read_replica ? 1 : 0
+  count = var.rds_public_read_replica ? 1 : 0
 
   # Replica ID
   replicate_source_db = aws_db_instance.public_monitoring_rds.identifier
