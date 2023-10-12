@@ -65,7 +65,7 @@ resource "aws_cloudfront_cache_policy" "metadata_distribution_cache_policy" {
 }
 
 resource "aws_iam_role" "invalidation_role" {
-  name        = "Invalidation-Role"
+  name        = "invalidation-role"
   description = "IAM Role for a K8s pod to assume to invalidate CloudFront cache and access public monitoring RDS via the monitoring user"
 
   assume_role_policy = jsonencode({
@@ -80,7 +80,7 @@ resource "aws_iam_role" "invalidation_role" {
         }
         Condition = {
           StringEquals = {
-            "${module.eks[0].oidc_provider}:sub" = "system:serviceaccount:helium:public-monitoring-rds-access-and-cloudfront-invalidation"
+            "${module.eks[0].oidc_provider}:sub" = "system:serviceaccount:helium:invalidation-role"
           }
         }
       },

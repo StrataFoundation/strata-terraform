@@ -14,6 +14,10 @@ data "aws_iam_role" "public_monitoring_rds_access_role" {
   name = "public-monitoring-rds-access-role" 
 }
 
+data "aws_iam_role" "invalidation_role" {
+  name = "invalidation-role" 
+}
+
 data "aws_security_group" "rds_access_security_group" {
   name = "rds-access-security-group"
 }
