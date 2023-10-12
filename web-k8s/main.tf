@@ -93,15 +93,15 @@ resource "kubernetes_service_account" "public_monitoring_rds_monitoring_user_acc
   }
 }
 
-# resource "kubernetes_service_account" "invalidation_role" {
-#   metadata {
-#     name        = "invalidation-role"
-#     namespace   = "helium"
-#     annotations = {
-#       "eks.amazonaws.com/role-arn" = data.aws_iam_role.invalidation_role.arn,
-#     }
-#   }
-# }
+resource "kubernetes_service_account" "invalidation_role" {
+  metadata {
+    name        = "invalidation-role"
+    namespace   = "helium"
+    annotations = {
+      "eks.amazonaws.com/role-arn" = data.aws_iam_role.invalidation_role.arn,
+    }
+  }
+}
 
 resource "kubectl_manifest" "rds-access-security-group-policy" {
     yaml_body = <<YAML
