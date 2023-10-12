@@ -176,6 +176,12 @@ variable "public_snapshot_identifier" {
   default     = ""
 }
 
+variable "rds_public_read_replica" {
+  description = "Create read replica of primary public DB"
+  type        = bool
+  default     = false
+}
+
 # --- Bastion variables ------------------------------------------------
 variable "ec2_bastion_private_ip" {
   description = "Private IP address to assign to Bastion"
