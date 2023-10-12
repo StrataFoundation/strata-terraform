@@ -63,3 +63,53 @@ resource "aws_cloudfront_cache_policy" "metadata_distribution_cache_policy" {
     enable_accept_encoding_gzip   = true
   }
 }
+
+resource "aws_iam_role" "invalidation_role" {
+  name        = "Invalidation-Role"
+  description = "IAM Role for a K8s pod to assume to invalidate CloudFront cache and access public monitoring RDS via the monitoring user"
+
+  assume_role_policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRoleWithWebIdentity"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Federated = "${module.eks[0].oidc_provider_arn}"
+        }
+        Condition = {
+          StringEquals = {
+            "${module.eks[0].oidc_provider}:sub" = "system:serviceaccount:helium:public-monitoring-rds-access-and-cloudfront-invalidation"
+          }
+        }
+      },
+    ]
+  })
+}
+
+resource "aws_iam_policy" "cloudfront_invalidation_policy" {
+  name   = "cloudfront-invalidation-policy" 
+  policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [
+      {
+        Action   = [
+          "cloudfront:CreateInvalidation"
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "cloudfront_invalidation_policy_attachment" {
+  role       = aws_iam_role.invalidation_role.id
+  policy_arn = aws_iam_policy.cloudfront_invalidation_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "public_monitoring_rds_access_policy_attachment" {
+  role       = aws_iam_role.invalidation_role.id
+  policy_arn = data.aws_iam_policy.public_monitoring_rds_access_policy.arn
+}

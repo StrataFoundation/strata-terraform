@@ -7,24 +7,6 @@ resource "aws_iam_role" "rds_monitoring_user_access_role" {
   name        = "public-monitoring-rds-access-role"
   description = "IAM Role for a K8s pod to assume to access the public monitoring RDS via the monitoring user"
 
-  inline_policy {
-    name   = "public-monitoring-rds-access-policy"
-    policy = jsonencode({
-      Version   = "2012-10-17"
-      Statement = [
-        {
-          Action   = [
-            "rds-db:connect"
-          ]
-          Effect   = "Allow"
-          Resource = [
-            "arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.public_monitoring_rds.resource_id}/monitoring"
-          ]
-        },
-      ]
-    })
-  }
-
   assume_role_policy = jsonencode({
     Version   = "2012-10-17"
     Statement = [
@@ -43,4 +25,27 @@ resource "aws_iam_role" "rds_monitoring_user_access_role" {
       },
     ]
   })
+}
+
+resource "aws_iam_policy" "public_monitoring_rds_access_policy" {
+  name   = "public-monitoring-rds-access-policy" 
+  policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [
+      {
+        Action   = [
+          "rds-db:connect"
+        ]
+        Effect   = "Allow"
+        Resource = [
+          "arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.public_monitoring_rds.resource_id}/monitoring"
+        ]
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "public_monitoring_rds_access_policy_attachment" {
+  role       = aws_iam_role.rds_monitoring_user_access_role.id
+  policy_arn = aws_iam_policy.public_monitoring_rds_access_policy.arn
 }
