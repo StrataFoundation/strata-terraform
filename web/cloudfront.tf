@@ -111,5 +111,5 @@ resource "aws_iam_role_policy_attachment" "cloudfront_invalidation_policy_attach
 
 resource "aws_iam_role_policy_attachment" "public_monitoring_rds_access_policy_attachment" {
   role       = aws_iam_role.invalidation_role.id
-  policy_arn = data.aws_iam_policy.public_monitoring_rds_access_policy.arn
+  policy_arn = module.rds_public[0].public_monitoring_rds_read_replica_access_policy_arn
 }
