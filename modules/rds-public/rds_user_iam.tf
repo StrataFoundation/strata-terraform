@@ -45,6 +45,26 @@ resource "aws_iam_policy" "public_monitoring_rds_access_policy" {
   })
 }
 
+resource "aws_iam_policy" "public_monitoring_rds_read_replica_access_policy" {
+  count = var.rds_public_read_replica ? 1 : 0
+
+  name   = "public-monitoring-rds-read-replica-access-policy" 
+  policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [
+      {
+        Action   = [
+          "rds-db:connect"
+        ]
+        Effect   = "Allow"
+        Resource = [
+          "arn:aws:rds-db:${var.aws_region}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_db_instance.public_monitoring_rds_read_replica[0].resource_id}/monitoring"
+        ]
+      },
+    ]
+  })
+}
+
 resource "aws_iam_role_policy_attachment" "public_monitoring_rds_access_policy_attachment" {
   role       = aws_iam_role.rds_monitoring_user_access_role.id
   policy_arn = aws_iam_policy.public_monitoring_rds_access_policy.arn
