@@ -3,5 +3,5 @@ output "public_rds_access_security_group_id" {
 }
 
 output "public_monitoring_rds_read_replica_access_policy_arn" {
-  value = var.rds_public_read_replica ? aws_iam_policy.public_monitoring_rds_read_replica_access_policy.arn : null
+  value = var.rds_public_read_replica ? aws_iam_policy.public_monitoring_rds_read_replica_access_policy[0].arn : null
 }
