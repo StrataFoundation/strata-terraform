@@ -27,6 +27,30 @@ resource "aws_iam_role" "rds_monitoring_user_access_role" {
   })
 }
 
+resource "aws_iam_role" "rds_read_replica_monitoring_user_access_role" {
+  name        = "public-monitoring-rds-read-replica-access-role"
+  description = "IAM Role for a K8s pod to assume to access the public monitoring RDS read replica via the monitoring user"
+
+  assume_role_policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRoleWithWebIdentity"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Federated = "${var.oidc_provider_arn}"
+        }
+        Condition = {
+          StringEquals = {
+            "${var.oidc_provider}:sub" = "system:serviceaccount:helium:public-monitoring-rds-read-replica-monitoring-user-access"
+          }
+        }
+      },
+    ]
+  })
+}
+
 resource "aws_iam_policy" "public_monitoring_rds_access_policy" {
   name   = "public-monitoring-rds-access-policy" 
   policy = jsonencode({
@@ -68,4 +92,9 @@ resource "aws_iam_policy" "public_monitoring_rds_read_replica_access_policy" {
 resource "aws_iam_role_policy_attachment" "public_monitoring_rds_access_policy_attachment" {
   role       = aws_iam_role.rds_monitoring_user_access_role.id
   policy_arn = aws_iam_policy.public_monitoring_rds_access_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "public_monitoring_rds_read_replica_access_policy_attachment" {
+  role       = aws_iam_role.rds_read_replica_monitoring_user_access_role.id
+  policy_arn = aws_iam_policy.public_monitoring_rds_read_replica_access_policy.arn
 }
