@@ -93,6 +93,16 @@ resource "kubernetes_service_account" "public_monitoring_rds_monitoring_user_acc
   }
 }
 
+resource "kubernetes_service_account" "public_monitoring_rds_read_replica_monitoring_user_access" {
+  metadata {
+    name        = "public-monitoring-rds-read-replica-monitoring-user-access"
+    namespace   = "helium"
+    annotations = {
+      "eks.amazonaws.com/role-arn" = data.aws_iam_role.public_monitoring_rds_read_replica_access_role.arn,
+    }
+  }
+}
+
 resource "kubernetes_service_account" "invalidation_role" {
   metadata {
     name        = "invalidation-role"
