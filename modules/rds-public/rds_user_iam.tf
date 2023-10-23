@@ -96,5 +96,5 @@ resource "aws_iam_role_policy_attachment" "public_monitoring_rds_access_policy_a
 
 resource "aws_iam_role_policy_attachment" "public_monitoring_rds_read_replica_access_policy_attachment" {
   role       = aws_iam_role.rds_read_replica_monitoring_user_access_role.id
-  policy_arn = aws_iam_policy.public_monitoring_rds_read_replica_access_policy.arn
+  policy_arn = aws_iam_policy.public_monitoring_rds_read_replica_access_policy[0].arn
 }
