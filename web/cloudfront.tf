@@ -27,6 +27,26 @@ resource "aws_cloudfront_distribution" "metadata_distribution" {
     cache_policy_id          = aws_cloudfront_cache_policy.metadata_distribution_cache_policy.id
   }
 
+  ordered_cache_behavior {
+    path_pattern             = "/v2/wallet/*"
+    allowed_methods          = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods           = ["GET", "HEAD", "OPTIONS"]
+    target_origin_id         = data.aws_lb.lb.dns_name
+    viewer_protocol_policy   = "redirect-to-https"
+    origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3" // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html#managed-origin-request-policy-all-viewer
+    cache_policy_id          = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad" // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html#managed-cache-policy-caching-disabled
+  }
+
+  ordered_cache_behavior {
+    path_pattern             = "/v2/hotspots"
+    allowed_methods          = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods           = ["GET", "HEAD", "OPTIONS"]
+    target_origin_id         = data.aws_lb.lb.dns_name
+    viewer_protocol_policy   = "redirect-to-https"
+    origin_request_policy_id = "216adef6-5c7f-47e4-b989-5492eafa07d3" // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html#managed-origin-request-policy-all-viewer
+    cache_policy_id          = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad" // https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html#managed-cache-policy-caching-disabled
+  }
+
   viewer_certificate {
     acm_certificate_arn      = var.cert_arn
     ssl_support_method       = "sni-only"
