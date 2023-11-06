@@ -19,7 +19,7 @@ resource "aws_cloudfront_distribution" "metadata_distribution" {
   }
 
   default_cache_behavior {
-    allowed_methods          = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    allowed_methods          = ["GET", "HEAD", "OPTIONS"]
     cached_methods           = ["GET", "HEAD", "OPTIONS"]
     target_origin_id         = data.aws_lb.lb.dns_name
     viewer_protocol_policy   = "redirect-to-https"
@@ -29,7 +29,7 @@ resource "aws_cloudfront_distribution" "metadata_distribution" {
 
   ordered_cache_behavior {
     path_pattern             = "/v2/wallet/*"
-    allowed_methods          = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    allowed_methods          = ["GET", "HEAD", "OPTIONS"]
     cached_methods           = ["GET", "HEAD", "OPTIONS"]
     target_origin_id         = data.aws_lb.lb.dns_name
     viewer_protocol_policy   = "redirect-to-https"
@@ -38,7 +38,7 @@ resource "aws_cloudfront_distribution" "metadata_distribution" {
   }
 
   ordered_cache_behavior {
-    path_pattern             = "/v2/hotspots"
+    path_pattern             = "/v2/hotspots/pagination-metadata"
     allowed_methods          = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods           = ["GET", "HEAD", "OPTIONS"]
     target_origin_id         = data.aws_lb.lb.dns_name
@@ -77,7 +77,7 @@ resource "aws_cloudfront_cache_policy" "metadata_distribution_cache_policy" {
       header_behavior = "none"
     }
     query_strings_config {
-      query_string_behavior = "none"
+      query_string_behavior = "all"
     } 
     enable_accept_encoding_brotli = true
     enable_accept_encoding_gzip   = true
