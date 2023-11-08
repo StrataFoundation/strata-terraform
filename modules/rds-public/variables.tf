@@ -113,6 +113,12 @@ variable "rds_max_storage_size" {
   default     = 1000
 }
 
+variable "rds_public_read_replica" {
+  description = "Create read replica of primary public DB"
+  type        = bool
+  default     = false
+}
+
 variable "public_subnet_ids" {
   description = "List of database subnet IDs"
   type        = list(string)
@@ -141,4 +147,10 @@ variable "snapshot_identifier" {
   description = "Snapshot identifier for restoration e.g., rds:production-2015-06-26-06-05"
   type        = string
   default     = ""
+}
+
+variable "cloudwatch_alarm_action_arns" {
+  description = "CloudWatch Alarm Action ARNs to report CloudWatch Alarms"
+  type        = list(string)
+  default     = []
 }

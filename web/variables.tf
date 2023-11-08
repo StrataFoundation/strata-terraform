@@ -176,6 +176,12 @@ variable "public_snapshot_identifier" {
   default     = ""
 }
 
+variable "rds_public_read_replica" {
+  description = "Create read replica of primary public DB"
+  type        = bool
+  default     = false
+}
+
 # --- Bastion variables ------------------------------------------------
 variable "ec2_bastion_private_ip" {
   description = "Private IP address to assign to Bastion"
@@ -248,6 +254,27 @@ variable "nova_mobile_vpc_private_subnet_cidr" {
 # --- Slack ------------------------------------------------
 variable "slack_webhook_url" {
   description = "Slack Webhook URL for RDS alerting."
+  type        = string
+  default     = ""
+}
+
+# --- Load Balancer ------------------------------------------------
+variable "lb_name" {
+  description = "Name of load balancer serving as CloudFront origin"
+  type        = string
+  default     = ""
+}
+
+# --- CloudFront ------------------------------------------------
+
+variable "cf_origin_aliases" {
+  description = "List of CNAMEs for CloudFront distribution"
+  type        = list(string)
+  default     = []
+}
+
+variable "cert_arn" {
+  description = "ARN of the AWS Certificate Manager certificate that you wish to use with this distribution. The ACM certificate must be in US-EAST-1."
   type        = string
   default     = ""
 }

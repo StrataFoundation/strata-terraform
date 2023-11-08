@@ -157,10 +157,11 @@ module "rds_public" {
   aws_region = var.aws_region
 
   # RDS
-  rds_instance_type    = var.rds_instance_type
-  rds_storage_type     = var.rds_storage_type
-  rds_storage_size     = var.rds_storage_size
-  rds_max_storage_size = var.rds_max_storage_size
+  rds_instance_type       = var.rds_instance_type
+  rds_storage_type        = var.rds_storage_type
+  rds_storage_size        = var.rds_storage_size
+  rds_max_storage_size    = var.rds_max_storage_size
+  rds_public_read_replica = var.rds_public_read_replica
 
   # Db
   db_name           = "monitoring"
@@ -183,6 +184,9 @@ module "rds_public" {
   # Snapshot restore
   deploy_from_snapshot = var.deploy_from_snapshot
   snapshot_identifier  = var.public_snapshot_identifier
+
+  # Monitoring
+  cloudwatch_alarm_action_arns = [module.notify_slack.slack_topic_arn]
 }
 
 # ***************************************
