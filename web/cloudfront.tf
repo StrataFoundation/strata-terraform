@@ -67,7 +67,7 @@ resource "aws_cloudfront_cache_policy" "metadata_distribution_cache_policy" {
   comment     = "Cache policy for entities.nft.test-helium.com"
   default_ttl = 31536000 // 1 year
   max_ttl     = 31536000
-  min_ttl     = 31536000
+  min_ttl     = 0 // So response headers of Cache-Control no-cache will work
 
   parameters_in_cache_key_and_forwarded_to_origin {
     cookies_config {
