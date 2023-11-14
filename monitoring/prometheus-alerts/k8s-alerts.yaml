@@ -1,8 +1,20 @@
 groups:
   - name: k8s-alerts
     rules:
-      - alert: KubernetesPodCrashLoopBackOff
-        expr: increase(kube_pod_container_status_restarts_total[10m]) > 3
+      - alert: KubernetesProdPodCrashLoopBackOff
+        expr: increase(kube_pod_container_status_restarts_total{account=~".*prod"}[10m]) > 3
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          title: KubernetesPodCrashLoopBackOff
+          account: '{{ $labels.account }}'
+          instance: '{{ $labels.instance }}'
+          pod: '{{ $labels.pod }}'
+          container: '{{ $labels.container }}'
+          description: "Pod `{{ $labels.pod }}` is in `CrashLoopBackOff`"
+      - alert: KubernetesSdlcPodCrashLoopBackOff
+        expr: increase(kube_pod_container_status_restarts_total{account=~".*sdlc"}[5m]) > 3
         for: 1m
         labels:
           severity: critical
@@ -223,8 +235,7 @@ groups:
           title: KubernetesHpaScaleCapability
           account: '{{ $labels.account }}'
           instance: '{{ $labels.instance }}'
-          pod: '{{ $labels.pod }}'
-          container: '{{ $labels.container }}'
+          pod: '{{ $labels.horizontalpodautoscaler }}'
           description: "The maximum number of desired Pods has been hit."
       - alert: KubernetesHpaUnderutilized
         expr: max(quantile_over_time(0.5, kube_horizontalpodautoscaler_status_desired_replicas[1d]) == kube_horizontalpodautoscaler_spec_min_replicas) by (account, horizontalpodautoscaler) > 3
