@@ -2,7 +2,7 @@ groups:
   - name: k8s-alerts
     rules:
       - alert: KubernetesProdPodCrashLoopBackOff
-        expr: increase(kube_pod_container_status_restarts_total{account=~".*prod"}[10m]) > 3
+        expr: increase(kube_pod_container_status_restarts_total{account=~".*prod"}[10m]) > 2
         for: 1m
         labels:
           severity: critical
