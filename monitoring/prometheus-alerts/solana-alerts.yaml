@@ -52,7 +52,7 @@ groups:
           title: 'End Epoch Never Moved Circuit Breaker'
           account: '{{ $labels.account }}'
           name: '{{ $labels.name }}'
-          description: 'Circuit Breaker has not increased within the last 25hrs. Ensure End Epoch was successful'
+          description: 'Circuit Breaker has not increased. Ensure End Epoch was successful'
 
       - alert: CircuitBreakerCatchAllGreaterThan50
         expr: solana_circuit_breaker_level{account="web-prod"} / solana_circuit_breaker_limit{account="web-prod"} * 100 > 50 and solana_circuit_breaker_level{account="web-prod"} / solana_circuit_breaker_limit{account="web-prod"} * 100 < 75
