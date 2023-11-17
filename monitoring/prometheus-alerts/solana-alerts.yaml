@@ -45,7 +45,8 @@ groups:
           description: 'SOL Balance has reached warning threshold of 20. Currently - ({{ $value }}) SOL'
 
       - alert: CircuitBreakerEnsureEndEpoch
-        expr: absent(solana_circuit_breaker_level{account="web-prod", name=~"iot_mint|mobile_mint"} / solana_circuit_breaker_limit{account="web-prod", name=~"iot_mint|mobile_mint"} > 0.08) and ON() hour() == 0
+        expr: (solana_circuit_breaker_level{account="web-prod", name=~"iot_mint|mobile_mint"} / solana_circuit_breaker_limit{account="web-prod", name=~"iot_mint|mobile_mint"} < 0.08) and ON() hour() == 0
+        for: 5m
         labels:
           severity: critical
         annotations:
