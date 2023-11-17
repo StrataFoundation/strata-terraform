@@ -9,9 +9,13 @@ alertmanager_config: |
     repeat_interval: 1h
     routes:
       - receiver: 'prometheus-sns'
-        repeat_interval: 25m
+        repeat_interval: 15m
         matchers:
-        - alertname="CircuitBreakerEnsureEndEpoch"
+        - alertname="EnsureEndEpoch"
+      - receiver: 'prometheus-sns'
+        repeat_interval: 24h
+        matchers:
+        - alertname=~"CircuitBreaker.*"
       - receiver: 'oracle-sns'
         matchers:
         - alertname=~"Kubernetes.*"

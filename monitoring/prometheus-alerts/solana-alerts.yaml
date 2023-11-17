@@ -44,7 +44,7 @@ groups:
           address: '{{ $labels.address }}'
           description: 'SOL Balance has reached warning threshold of 20. Currently - ({{ $value }}) SOL'
 
-      - alert: CircuitBreakerEnsureEndEpoch
+      - alert: EnsureEndEpoch
         expr: (solana_circuit_breaker_level{account="web-prod", name=~"iot_mint|mobile_mint"} / solana_circuit_breaker_limit{account="web-prod", name=~"iot_mint|mobile_mint"} < 0.08) and ON() hour() == 0
         for: 5m
         labels:
@@ -53,7 +53,7 @@ groups:
           title: 'End Epoch Never Moved Circuit Breaker'
           account: '{{ $labels.account }}'
           name: '{{ $labels.name }}'
-          description: 'Circuit Breaker has not increased. Ensure End Epoch was successful'
+          description: 'Ensure End Epoch was successful, Circuit Breaker has not increased.'
 
       - alert: CircuitBreakerCatchAllGreaterThan50
         expr: solana_circuit_breaker_level{account="web-prod"} / solana_circuit_breaker_limit{account="web-prod"} * 100 > 50 and solana_circuit_breaker_level{account="web-prod"} / solana_circuit_breaker_limit{account="web-prod"} * 100 < 75
