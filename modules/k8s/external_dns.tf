@@ -113,5 +113,6 @@ spec:
         - --registry=txt
         - --log-level=debug
         - --txt-owner-id=${var.zone_id}
+        - --annotation-filter="external-dns.alpha.kubernetes.io/exclude notin (true)"
   YAML
 }
