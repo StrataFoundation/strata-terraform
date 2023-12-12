@@ -79,7 +79,7 @@ resource "helm_release" "prometheus" {
   // add here with the restrictive regex convention used below
   set {
     name = "server.remoteWrite[0].write_relabel_configs[1].regex"
-    value = "(?i)(solana_.*|cluster_autoscaler.*|container_.*|kube_horizontalpodautoscaler.*|machine_.*|kube_pod_.*|kube_node_.*|kube_persistentvolume.*|kubelet_volume_.*|node_*|integrity_check)"
+    value = "(?i)(helium_.*|solana_.*|cluster_autoscaler.*|container_.*|kube_horizontalpodautoscaler.*|machine_.*|kube_pod_.*|kube_node_.*|kube_persistentvolume.*|kubelet_volume_.*|node_*|integrity_check)"
   }
 
   set {
