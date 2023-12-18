@@ -232,7 +232,7 @@ resource "aws_sns_topic_subscription" "nova_target" {
 # Budget
 # ***************************************
 resource "aws_budgets_budget" "account" {
-  name              = "${var.env}-${var.stage}: Monthly Cost Budget"
+  name              = "${var.env}-${var.stage} monthly cost budget"
   budget_type       = "COST"
   limit_amount      = var.budget_amount
   limit_unit        = "USD"

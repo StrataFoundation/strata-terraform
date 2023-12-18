@@ -304,7 +304,7 @@ module "notify_slack" {
 # Budget
 # ***************************************
 resource "aws_budgets_budget" "account" {
-  name              = ": Monthly Cost Budget"
+  name              = "monitoring monthly cost budget"
   budget_type       = "COST"
   limit_amount      = var.budget_amount
   limit_unit        = "USD"
