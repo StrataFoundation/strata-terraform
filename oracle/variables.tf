@@ -263,3 +263,16 @@ variable "slack_webhook_url" {
   type        = string
   default     = ""
 }
+
+# --- Budget ------------------------------------------------
+variable "budget_amount" {
+  description = "Montly budget amount"
+  type        = string
+  default     = ""
+}
+
+variable "budget_email_list" {
+  description = "Montly budget amount"
+  type        = list(string)
+  default     = []
+}
