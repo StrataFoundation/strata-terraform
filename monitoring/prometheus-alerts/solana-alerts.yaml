@@ -23,7 +23,7 @@ groups:
           description: 'SOL Balance has reached critical threshold of 1. Currently - ({{ $value }}) SOL'
 
       - alert: SolanaBalanceThreasholdLazySigner
-        expr: solana_account_balance{type="sol",name="lazy_signer",account="web-prod"} < 50
+        expr: solana_account_balance{type="sol",name="lazy_signer",account="web-prod"} < 20
         labels:
           severity: warning
         annotations:
@@ -31,7 +31,7 @@ groups:
           account: '{{ $labels.account }}'
           name: '{{ $labels.name }}'
           address: '{{ $labels.address }}'
-          description: 'SOL balance has reached warning threshold of 50. Currently - ({{ $value }}) Sol'
+          description: 'SOL balance has reached warning threshold of 20. Currently - ({{ $value }}) Sol'
 
       - alert: SolanaBalanceThreasholdOracle
         expr: solana_account_balance{type="sol",name="oracle",account="web-prod"} < 20
@@ -44,16 +44,16 @@ groups:
           address: '{{ $labels.address }}'
           description: 'SOL Balance has reached warning threshold of 20. Currently - ({{ $value }}) SOL'
 
-      - alert: CircuitBreakerEnsureEndEpoch
-        expr: solana_circuit_breaker_level{account="web-prod", name=~"iot_mint|mobile_mint"} < solana_circuit_breaker_level{account="web-prod", name=~"iot_mint|mobile_mint"} offset 1h
-        for: 25h
+      - alert: EnsureEndEpoch
+        expr: (solana_circuit_breaker_level{account="web-prod", name=~"iot_mint|mobile_mint"} / solana_circuit_breaker_limit{account="web-prod", name=~"iot_mint|mobile_mint"} < 0.08) and ON() hour() == 0
+        for: 5m
         labels:
           severity: critical
         annotations:
           title: 'End Epoch Never Moved Circuit Breaker'
           account: '{{ $labels.account }}'
           name: '{{ $labels.name }}'
-          description: 'Circuit Breaker has not increased within the last 25hrs. Ensure End Epoch was successful'
+          description: 'Ensure End Epoch was successful, Circuit Breaker has not increased.'
 
       - alert: CircuitBreakerCatchAllGreaterThan50
         expr: solana_circuit_breaker_level{account="web-prod"} / solana_circuit_breaker_limit{account="web-prod"} * 100 > 50 and solana_circuit_breaker_level{account="web-prod"} / solana_circuit_breaker_limit{account="web-prod"} * 100 < 75
