@@ -279,7 +279,7 @@ variable "cert_arn" {
   default     = ""
 }
 
-# --- Budget ------------------------------------------------
+# --- Budget & Cost Anomaly ------------------------------------------------
 variable "budget_amount" {
   description = "Montly budget amount"
   type        = string
@@ -290,4 +290,16 @@ variable "budget_email_list" {
   description = "Montly budget amount"
   type        = list(string)
   default     = []
+}
+
+variable "raise_amount_percent" {
+  description = "The precentage increase in montly spend to trigger the billing anomaly detector"
+  type        = string
+  default     = "15"
+}
+
+variable "raise_amount_absolute" {
+  description = "The absolute increase in USD to trigger the billing anomaly detector"
+  type        = string
+  default     = "500"
 }
