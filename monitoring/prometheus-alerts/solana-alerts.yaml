@@ -12,7 +12,7 @@ groups:
           description: 'Integrity Check Corrected {{ $value }} Records'
 
       - alert: SolanaBalanceThreasholdCatchAll
-        expr: solana_account_balance{type="sol",account="web-prod",is_maker="false"} < 1
+        expr: solana_account_balance{type="sol",account="web-prod",is_maker="false"} < 0.1
         labels:
           severity: critical
         annotations:
@@ -20,7 +20,7 @@ groups:
           account: '{{ $labels.account }}'
           name: '{{ $labels.name }}'
           address: '{{ $labels.address }}'
-          description: 'SOL Balance has reached critical threshold of 1. Currently - ({{ $value }}) SOL'
+          description: 'SOL Balance has reached critical threshold of 0.1. Currently - ({{ $value }}) SOL'
 
       - alert: SolanaBalanceThreasholdLazySigner
         expr: solana_account_balance{type="sol",name="lazy_signer",account="web-prod"} < 20
